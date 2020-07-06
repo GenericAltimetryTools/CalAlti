@@ -8,7 +8,7 @@ clear;
 clc
 format long
 
-filepath='..\data\JA3_GPN_2PdP156_012_20200503_185841_20200503_195454.nc';
+filepath='..\data\JA3_GPN_2PdP156_012_20200503_185841_20200503_195454.nc'; % Here is the NC file location.
 nc=netcdf.open(filepath,'NC_NOWRITE');
 [numdims, numvars, numglobalatts, unlimdimID] = netcdf.inq(nc);% Determine numbers of the variable
 

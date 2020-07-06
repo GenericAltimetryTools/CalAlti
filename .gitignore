@@ -1,2 +1,5 @@
 *.dat
 output/
+tg_xinxizx/
+*.asv
+test/s3a_check/
