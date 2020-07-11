@@ -37,21 +37,13 @@ quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num);%plot the output data
 s3a_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc);% 
 grad(lat_gps,lon_gps)
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
-% the bias between TG and the SA.
-[bias2]=tg_pca_ssh(sat,fre,loc);% 
+% the bias between TG and the SA. Aplly the tide correction, reference
+% ellipsoid correction, geoid correction.
+[bias2]=tg_pca_ssh(sat,fre,loc);% calculate bias
+[bias]=filter_bias(sat,bias2);% filter and save to (example: ..\test\s3a_check\s3a_bias.txt)
+last_bias_save(sat);% output more parameters.
 
-tmpp=bias2(:,2);
-ttt=bias2(:,1);
-[tmpp,ttt]=three_sigma_delete(tmpp,ttt);
-bias2=[ttt tmpp];
-% [bias2]=qly_short_tg_pca_ssh(sat);% 计算TG在PCA时刻的SSH，并计算测高绝对偏差
-plot_bias(bias2,sat)
-% 趋势分析
-% [P]=trend_bias(bias2,sat);
-% [ymd]=sec2ydm(sat);% 时间转换，为了使用GMT绘制bias时间序列
-% ！！！！！！！！！！！！！！！！！！
-% last_bias_save(sat);% 临时子程序，保存bias最终结果，含有时间
-% ！！！！！！！！！！！！！！！！！！
-save s3a_bias.txt bias2 -ASCII % 保存结果数据
-[P]=trend_bias(bias2,sat,min_cir,max_cir);
-% 绘图,并且统计
+% Step 6 Just plot bias
+plot_bias(bias,sat)
+[P]=trend_bias(bias,sat,min_cir,max_cir);% Add trend analysis
+

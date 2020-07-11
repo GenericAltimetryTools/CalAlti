@@ -2,4 +2,9 @@
 output/
 tg_xinxizx/
 *.asv
-test/s3a_check/
+test/s3a_check/*.d
+test/s3a_check/*.dat
+test/s3a_check/*.txt
+test/s3a_check/*.kml
+tide/omap/*.nao
+*.exe

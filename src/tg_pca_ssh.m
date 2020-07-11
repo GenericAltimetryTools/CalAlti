@@ -1,20 +1,22 @@
 % This Fuction  aims to calculate SSH of Tide Gauge at the PCA time of
 % satellite altimetry. Then the bias of SA could be easily estimated by
-% make SSH difference between tide gauge and SA. 
+% make SSH difference between tide gauge and SA (after adding corrections) 
 % The SA time unit is second, and the reference time for SA is 2000-1-1
 % 00:00:00.
-% The tide gauge data is applied from China Oceanic Information Network.
+% The tide gauge data is provided from China Oceanic Information Network.
 % Here the QianLiYan TG data is the input data, which spans from
-% 2011-2018. The output of the tide model of NAO, a fortran program, is 
-% used here for correcting tide
-% difference between different location. 
+% 2011-2018. 
+% The output of the tide model of NAO, a fortran program, is used here for
+% correcting tide difference between different location. 
+
 % This program is wrote by YangLei at FIO,MNR of China.
 
-% 读取千里岩验潮站数据
-% 读取高度计过境时间PCA_tim，单位为s，参考时间是2000-1-1 00:00:00
-% 确定PCA_tim时刻的验潮站SSH
-% 读取潮汐改正文件，注意有多个。
-% 保存文件
+% Basic steps:
+% 1,Read TG data
+% 2,Read PCA time of the satellite altimter (unit s, refer to 2000-1-1 00:00:00)
+% 3,Determine the SSH of tide gauge station at the PCA time.(interpolate)
+% 4,Read tide correction from NAO model.
+% 5,Save result.
 
 function [bias2]=tg_pca_ssh(sat,fre,loc)
     if strcmp(loc,'cst') || strcmp(loc,'cst009')
@@ -22,7 +24,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         filename = 'J:\成山头验潮\CST_sort_clean.DD'; 
     elseif strcmp(loc,'qly')
         disp('qly')
-        filename = 'J:\千里岩潮汐\QLY_2011_2018_clean.txt';
+        filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
     elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw')
         filename = 'J:\芷锚湾潮汐\ZMW_sort_clean.DD';
     end
@@ -76,7 +78,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 		elseif sat==4
 			load .\ja3_check\pca_ssh.txt;
         elseif sat==5
-            load .\s3a_check\pca_ssh.txt;
+            load ..\test\s3a_check\pca_ssh.txt;
     end
 	
     
@@ -116,7 +118,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             % to set the smooth algrithm. like the span and methods
             tt=tm2(loct-12:loct+12);
             t_pca=pca_tim(i);
-            tg_pca_ssh(i)=interp1(tt,ssh_tg3,t_pca,'cubic');
+            tg_pca_ssh(i)=interp1(tt,ssh_tg3,t_pca,'PCHIP');
         end
     end
     disp('Finish interpolation of TG SSH at PCA')
@@ -170,7 +172,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             mss_correction=-(jason_mss-tg_mss);
 
         elseif sat==5
-            mss=load ('.\qianliyan_tg_cal\s3a_2019_dtu18_qly.dat');% 注意替换，jason-2.dat是对应的2013-2014，jason2_2011是对应的2011-2012.
+            mss=load ('..\test\s3a_check\dtu18_qly.dat');% 注意替换，jason-2.dat是对应的2013-2014，jason2_2011是对应的2011-2012.
             s3a_mss=mss;
             tg_mss=s3a_mss(1,3);
             s3a_mss=s3a_mss(2:length(s3a_mss),3);
@@ -292,8 +294,8 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     disp(['mean_tg_dif(cm):',num2str(mean_tg_dif)]);
     disp('Finish NAO file loading and correction') 
     disp('Begain calculate the bias of SA by adding NAO and MSS correction')
-    disp('The parameters size are:')
-    whos
+%     disp('The parameters size are:')
+%     whos
     
     if sat==5
         bias=ssh_ali-(tg_pca_ssh')+mss_correction-tg_dif/100;

@@ -13,7 +13,7 @@ function grad(lat_gps,lon_gps)
     
     % The input data is the DTU MSS model. Please download it from DTU
     % site.
-    gmt('grdtrack ..\test\s3a_check\coor.d -GC:\Users\yangleir\Documents\dtu\qly.nc >  ..\test\s3a_check\ja3_all_dtu18_zmw.dat')
+    gmt('grdtrack ..\test\s3a_check\coor.d -GC:\Users\yangleir\Documents\dtu\qly.nc >  ..\test\s3a_check\dtu18_qly.dat')
     gmt('gmt2kml  ..\test\s3a_check\coor.d -Gred+f -Fs >  ..\test\s3a_check\mypoints.kml')
 
     fclose('all');
