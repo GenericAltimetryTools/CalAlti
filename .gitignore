@@ -7,4 +7,5 @@ test/s3a_check/*.dat
 test/s3a_check/*.txt
 test/s3a_check/*.kml
 tide/omap/*.nao
+tide/*.out
 *.exe
