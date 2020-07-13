@@ -90,7 +90,7 @@ elseif sat==1 || sat==4
     
     %  保存趋势信息
     temp21=[x1',f'];
-    save hy2_trend.txt temp21 -ascii
+    save ..\test\ja2_check\ja2_trend.txt temp21 -ascii
 end
 
 return

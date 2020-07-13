@@ -9,3 +9,4 @@ test/s3a_check/*.kml
 tide/omap/*.nao
 tide/*.out
 *.exe
+gmt.history

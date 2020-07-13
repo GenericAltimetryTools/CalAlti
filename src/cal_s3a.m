@@ -31,11 +31,11 @@ if fre==1
     tg_cal_read_s3a_hi(pass_num,min_cir,max_cir,min_lat,max_lat);% read 40Hz SSH
     % TBD
 end
-quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num);%plot the output data
+quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num,sat);%plot the output data
 % Step 4: calculate the PCA point and interpolate the SSH at the PCA.
 % Calculate the MSS difference
 s3a_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc);% 
-grad(lat_gps,lon_gps)
+grad(lat_gps,lon_gps,sat)
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
 % the bias between TG and the SA. Aplly the tide correction, reference
 % ellipsoid correction, geoid correction.

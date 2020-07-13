@@ -70,7 +70,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     disp('Finish time reference transform of real TG data')
     
     if sat==1
-            load .\ja2_check\pca_ssh.txt;
+            load ..\test\ja2_check\pca_ssh.txt;
 		elseif sat==2
             load .\saral_check\pca_ssh.txt;
         elseif sat==3
@@ -136,7 +136,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     % points. Thus, make the subtraction and get the MSS correction. 
     if strcmp(loc,'qly')
         if sat==1
-            mss=load ('.\qianliyan_tg_cal\jason2_2011_2017_dtu18.dat');
+            mss=load ('..\test\ja2_check\dtu18_qly.dat');
             jason2_mss=mss;
             tg_mss=jason2_mss(1,3);
             jason_mss=jason2_mss(2:length(jason2_mss),3);

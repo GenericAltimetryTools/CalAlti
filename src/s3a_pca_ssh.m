@@ -6,8 +6,9 @@ function s3a_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc)
 % lat_gps=36.2667;% Location of QLY
 % lon_gps=121.3850;
 fid4=fopen('..\test\s3a_check\pca_ssh.txt','w');
+    temp='..\test\s3a_check\';
     for i=min_cir:max_cir
-            temp='..\test\s3a_check\';
+
             temp1=check_circle(i);% 调用函数，判断circle的位数。
             temp2=num2str(temp1);
             temp3=temp2(3:5);% 组成三位数的字符串。

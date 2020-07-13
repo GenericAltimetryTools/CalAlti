@@ -14,11 +14,11 @@ function last_bias_save(sat)
         bias_last=b(:,2);
     end
     if sat==1
-        load .\ja2_check\pca_ssh.txt;
-        load .\jason_2_bias_new_2011_2017.txt;
-        fid5 = fopen('bias_last_ja2.txt','w');
-        bias_circ=jason_2_bias_new_2011_2017(:,1);
-        bias_last=jason_2_bias_new_2011_2017(:,2);
+        load ..\test\ja2_check\pca_ssh.txt;
+        b=load ('..\test\ja2_check\ja2_bias.txt');
+        fid5 = fopen('..\test\ja2_check\bias_last_ja2.txt','w');
+        bias_circ=b(:,1);
+        bias_last=b(:,2);
     end
     if sat==4
         load .\ja3_check\pca_ssh.txt;

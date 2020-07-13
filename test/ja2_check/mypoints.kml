@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<Style id="st-14876-0">
+			<IconStyle>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
+				</Icon>
+				<scale>1</scale>
+				<color>ff0000ff</color>
+			</IconStyle>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>ff0000ff</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+			<LabelStyle>
+				<scale>1</scale>
+				<color>bfffffff</color>
+			</LabelStyle>
+		</Style>
+		<Folder>
+			<name>coor.d</name>
+			<Folder>
+				<name>Point Set 0</name>
+				<Placemark>
+					<name>Point 0</name>
+					<styleUrl>#st-14876-0</styleUrl>
+					<Point>
+						<coordinates>
+						121.3853,36.2672,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 1</name>
+					<styleUrl>#st-14876-0</styleUrl>
+					<Point>
+						<coordinates>
+						121.363399,36.28095,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 2</name>
+					<styleUrl>#st-14876-0</styleUrl>
+					<Point>
+						<coordinates>
+						121.364555,36.280226,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 3</name>
+					<styleUrl>#st-14876-0</styleUrl>
+					<Point>
+						<coordinates>
+						121.367357,36.278467,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 4</name>
+					<styleUrl>#st-14876-0</styleUrl>
+					<Point>
+						<coordinates>
+						121.370761,36.276331,0
+						</coordinates>
+					</Point>
+				</Placemark>
+			</Folder>
+		</Folder>
+	</Document>
+</kml>

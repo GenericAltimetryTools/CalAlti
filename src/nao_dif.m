@@ -13,13 +13,13 @@ function [tg_dif]=nao_dif(sat,loc)
         end
 
         if sat==1
-            load .\qianliyan_tg_cal\ja2.nao2011_2017 % 注意变换文件，对应不同的时期
+            load ..\test\ja2_check\ja2.nao2011_2017 % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
     %         no tide data.        
-            load .\ja2_check\pca_ssh.txt;
-            load .\qianliyan_tg_cal\qly.nao2011_2017
-            load .\qianliyan_tg_cal\tg_FES2014.qly_ja2pca_2011_2017
+            load ..\test\ja2_check\pca_ssh.txt;
+            load ..\test\qly.nao2011_2017
+%             load .\qianliyan_tg_cal\tg_FES2014.qly_ja2pca_2011_2017
             disp('loading qianliyan ja2 tide model')
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm

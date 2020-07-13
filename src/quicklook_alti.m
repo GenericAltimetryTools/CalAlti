@@ -1,10 +1,20 @@
 % Plot the altimeter data and have a quick look of the data
-function quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num)
+function quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num,sat)
 % ###############################################
 % draw figure for statistic 
-
-load ..\test\s3a_check\ponits_circle.txt
-load  ..\test\s3a_check\ponits_number.txt
+if sat==5
+    disp('------Sa3----')
+    load ..\test\s3a_check\ponits_circle.txt
+    load  ..\test\s3a_check\ponits_number.txt
+    fid4=fopen('..\test\s3a_check\statistic.txt','w');
+    temp='..\test\s3a_check\';
+elseif sat==1
+    disp('------Jason-2----')
+    load ..\test\ja2_check\ponits_circle.txt
+    load  ..\test\ja2_check\ponits_number.txt
+    fid4=fopen('..\test\ja2_check\statistic.txt','w');
+    temp='..\test\ja2_check\';
+end
 
 latitude=ponits_circle(:,1);
 points=ponits_circle(:,2);
@@ -30,14 +40,13 @@ hold off
 % 绘图SSH每周期观测值，以及均值
 
 a(1:(max_cir-min_cir+1))=0;% 存储SSH
-fid4=fopen('..\test\s3a_check\statistic.txt','w');
 
 figure(2);
 hold on
 for i=min_cir:max_cir
 % for i= [200] % 只处理一个周期的一个pass数据，例如i [200] 表示200周期
 
-        temp='..\test\s3a_check\';
+        
         temp1=check_circle(i);% 调用函数，判断circle的位数。
         temp2=num2str(temp1);
         temp3=temp2(3:5);% 组成三位数的字符串。
@@ -75,7 +84,8 @@ hold off
 
 % clear all
 figure (3)
-load ..\test\s3a_check\statistic.txt
+temp5= strcat(temp,'statistic.txt');
+load (temp5)
 plot(statistic(:,1),statistic(:,2),'-o');
 xlabel('cycle bumber')
 ylabel('MSSH/mm')
