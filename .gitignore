@@ -2,10 +2,10 @@
 output/
 tg_xinxizx/
 *.asv
-test/s3a_check/*.d
-test/s3a_check/*.dat
-test/s3a_check/*.txt
-test/s3a_check/*.kml
+test/*/*.d
+test/*/*.dat
+test/*/*.txt
+test/*/*.kml
 tide/omap/*.nao
 tide/*.out
 *.exe
