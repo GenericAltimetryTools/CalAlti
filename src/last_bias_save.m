@@ -21,11 +21,11 @@ function last_bias_save(sat)
         bias_last=b(:,2);
     end
     if sat==4
-        load .\ja3_check\pca_ssh.txt;
-        load .\jason_3_bias_new_2016_2017.txt;
-        fid5 = fopen('bias_last_ja3.txt','w');
-        bias_circ=jason_3_bias_new_2016_2017(:,1);
-        bias_last=jason_3_bias_new_2016_2017(:,2);
+        load ..\test\ja3_check\pca_ssh.txt;
+        b=load ('..\test\ja3_check\ja3_bias.txt');
+        fid5 = fopen('..\test\ja3_check\bias_last_ja3.txt','w');
+        bias_circ=b(:,1);
+        bias_last=b(:,2);
     end
     
     if sat==2
@@ -53,7 +53,7 @@ function last_bias_save(sat)
         for j=1:tmp3
             if circ(i)==bias_circ(j)
                 z=z+1;
-                fprintf(fid5,'%10.5f %10.5f %10.5f %10.5f %10d %5d %5d %5d %5d %5d %5d \n',lat(i),lon(i),bias_circ(j),bias_last(j),sect(i),ymd(i,1),ymd(i,2),ymd(i,3),ymd(i,4),ymd(i,5),ymd(i,6));
+                fprintf(fid5,'%10.5f %10.5f %10.5f %10.5f %10.0f %5d %5d %5d %5d %5d %5d \n',lat(i),lon(i),bias_circ(j),bias_last(j),sect(i),ymd(i,1),ymd(i,2),ymd(i,3),ymd(i,4),ymd(i,5),ymd(i,6));
             end
         end
     end    

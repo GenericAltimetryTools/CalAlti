@@ -35,9 +35,9 @@ function [tg_dif]=nao_dif(sat,loc)
         end
 
         if sat==4
-            load .\qianliyan_tg_cal\ja3.nao2015_2019 % jason-3和Jason-2可以共用一个潮汐预报文件
-            load .\ja3_check\pca_ssh.txt;
-            load .\qianliyan_tg_cal\qly.nao2015_2019 % Input of the model tide at QLY
+            load ..\test\ja3_check\ja3.nao2015_2019 % jason-3和Jason-2可以共用一个潮汐预报文件
+            load ..\test\ja3_check\pca_ssh.txt;
+            load  ..\test\qly.nao2015_2019 % Input of the model tide at QLY
             % 注意变换文件，对应不同的时期,qly.nao2015_2017,qly.nao2013
 
             sat_day=ja3(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
@@ -153,9 +153,7 @@ function [tg_dif]=nao_dif(sat,loc)
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
             sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
-       end  
-       
-      
+       end    
    end
    
    if strcmp(loc,'qly')

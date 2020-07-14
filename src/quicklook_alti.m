@@ -14,6 +14,12 @@ elseif sat==1
     load  ..\test\ja2_check\ponits_number.txt
     fid4=fopen('..\test\ja2_check\statistic.txt','w');
     temp='..\test\ja2_check\';
+elseif sat==4
+    disp('------Jason-3----')
+    load ..\test\ja3_check\ponits_circle.txt
+    load  ..\test\ja3_check\ponits_number.txt
+    fid4=fopen('..\test\ja3_check\statistic.txt','w');
+    temp='..\test\ja3_check\';
 end
 
 latitude=ponits_circle(:,1);

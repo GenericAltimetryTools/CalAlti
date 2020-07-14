@@ -76,7 +76,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         elseif sat==3
             load .\hy2_check\pca_ssh.txt;
 		elseif sat==4
-			load .\ja3_check\pca_ssh.txt;
+			load ..\test\ja3_check\pca_ssh.txt;
         elseif sat==5
             load ..\test\s3a_check\pca_ssh.txt;
     end
@@ -165,7 +165,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             mss_correction=-(saral_mss-tg_mss);
 
         elseif sat==4
-            ja3 = load ('.\qianliyan_tg_cal\jason3_2016_2018_dtu18.dat');% Ja3.
+            ja3 = load ('..\test\ja3_check\dtu18_qly.dat');% Ja3.
             jason3_mss=ja3;
             tg_mss=jason3_mss(1,3);
             jason_mss=jason3_mss(2:length(jason3_mss),3);

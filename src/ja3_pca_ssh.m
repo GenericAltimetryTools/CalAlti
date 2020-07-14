@@ -4,10 +4,11 @@ function ja3_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc)
 
 % lat_gps=36.2667;% 千里岩验潮站的坐标
 % lon_gps=121.3850;
-fid4=fopen('.\ja3_check\pca_ssh.txt','w');
+fid4=fopen('..\test\ja3_check\pca_ssh.txt','w');
+temp='..\test\ja3_check\';
     for i=min_cir:max_cir
         i
-            temp='.\ja3_check\';
+           
             temp1=check_circle(i);% 调用函数，判断circle的位数。
             temp2=num2str(temp1);
             temp3=temp2(3:5);% 组成三位数的字符串。
@@ -25,13 +26,13 @@ fid4=fopen('.\ja3_check\pca_ssh.txt','w');
                 if strcmp(loc,'zmw')
 %                     [lat3,lon3,tim_pca]=pca(temp4,lat_gps,lon_gps); % 调用函数，计算PCA
                     lat3=39.8046; % 这个数值和Jason-2的数据质量有关系，可以适当的调整。
-                    pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'cubic');
+                    pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');
                     tim_pca=interp1(temp6(:,2),temp6(:,3),lat3,'liner');
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'liner');
                     fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ssh,i);% 保存
                 else 
                     [lat3,lon3,tim_pca]=pca(temp4,lat_gps,lon_gps); % 调用函数，计算PCA
-                    pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'cubic');
+                    pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');
                     fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ssh,i);% 保存
 
                 end
@@ -40,8 +41,10 @@ fid4=fopen('.\ja3_check\pca_ssh.txt','w');
         end
         
     end 
-    workdir;
-    cd .\qianliyan_tg_cal
-    !grad
-    workdir;
+%     workdir;
+%     cd .\qianliyan_tg_cal
+%     !grad
+%     workdir;
+disp('Finish!')
+fclose('all');
 return

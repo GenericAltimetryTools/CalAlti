@@ -10,6 +10,8 @@ function plot_bias(bias2,sat)
 		xlabel('HY-2 cycles')
 		elseif sat==5
 		xlabel('S3A cycles')
+        elseif sat==4
+		xlabel('Jason-3 cycles')
 	end
     
 	

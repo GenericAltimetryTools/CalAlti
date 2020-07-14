@@ -33,8 +33,14 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
         otherwise
           disp('Unknown location.')
     end
+    
     if exist('..\test\ja2_check\','dir')==0
         disp('creat new dir to save the temp files') 
         mkdir('..\test\ja2_check\');
+    end
+    
+    if exist('..\test\ja3_check\','dir')==0
+        disp('creat new dir to save the temp files') 
+        mkdir('..\test\ja3_check\');
     end
 return

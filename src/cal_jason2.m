@@ -14,7 +14,7 @@ format long
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
 min_cir=92;% 92,165,239,
-max_cir=95;% 165,239,303
+max_cir=303;% 165,239,303
 loc = 'qly';% Here can choose the qly and zmw
 sat=1; % 1 = Jason-2
 fre=1; % 1=1Hz

@@ -1,33 +1,33 @@
 % ###############################################
-% Read the 1Hz Jason-2 data (GDR)
-% output the SSH around the CAL site
-
-function tg_cal_read_jason(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0)
-fid3 = fopen('..\test\ja2_check\ponits_number.txt','w'); % contains the number of valid data points
-fid1 = fopen('..\test\ja2_check\ponits_circle.txt','w'); % contains the latitude and the cycle No.
+function tg_cal_read_jason3(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0)
+fid3 = fopen('..\test\ja3_check\ponits_number.txt','w');
+fid1 = fopen('..\test\ja3_check\ponits_circle.txt','w');
 
 % ###############################################
 % First loop directories
+
 temp1=num2str(pass_num);
 dir_nm=strcat(dir_0,temp1,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
 temp=size(dir_nm);
 namelist = ls(fullfile(dir_nm,'*.nc'))% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
+
 for nm=1:length(namelist)
-    
+%     dir_0='J:\Jason3\cycle_';
 %     temp1=check_circle(nm);% 调用函数，判断circle的位数。
 %     temp2=num2str(temp1);
 %     temp3=temp2(3:5);% 组成三位数的字符串。
-%     dir_nm=strcat(dir_0,pass_num,temp3,'\') % 输出文件夹名称
-%     % Then get the specified pass name, such as the pass 147 which is
-%     % needed for checking out.
-%     % 
-%     % Get all nc file names in present dir. 'Fullfile' is a internal 
-%     % function.
+%     dir_nm=strcat(dir_0,temp3,'\') % 输出文件夹名称
+    % Then get the specified pass name, such as the pass 147 which is
+    % needed for checking out.
+    % 
+    % Get all nc file names in present dir. 'Fullfile' is a internal 
+    % function.
 %     namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
-
-%      for n=1:file_num
+%     temp=size(namelist);
+%     file_num=temp(1);
+%     for n=1:file_num
         t1=str2double(namelist(nm,13:15))
         if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
             filepath=strcat(dir_nm,namelist(nm,1:54));
@@ -38,12 +38,8 @@ for nm=1:length(namelist)
             alt=netcdf.getVar(nc,58);%10-3m
             r_ku=netcdf.getVar(nc,61);%10-3m
             dry=netcdf.getVar(nc,82);%10-4m
-            if pass_num==138
-                wet=netcdf.getVar(nc,83);%10-4m model
-            else
-                wet=netcdf.getVar(nc,84);%10-4m
-            end 
-            
+            wet_m=netcdf.getVar(nc,83);%10-4m
+            wet=netcdf.getVar(nc,84);%10-4m
             ino=netcdf.getVar(nc,85);%10-4m
             ssb=netcdf.getVar(nc,88);% sea state bias,10-4m
             inv=netcdf.getVar(nc,148);%inv_bar_corr ,10-4m
@@ -54,7 +50,7 @@ for nm=1:length(namelist)
             olt=netcdf.getVar(nc,154); %pole tide,10-4m
             mss=netcdf.getVar(nc,144); %mean_sea_surface ,10-4m
 
-            % for filtering
+            % 下面的字段是数据筛选所用
             surf_t=netcdf.getVar(nc,7); %surface_type
             rain_f=netcdf.getVar(nc,48);%rain_flag 
             ice_f=netcdf.getVar(nc,50);%rain_flag 
@@ -68,8 +64,9 @@ for nm=1:length(namelist)
             off_nd_ag=netcdf.getVar(nc,136);
             bath=netcdf.getVar(nc,147);%
             
+            %关闭netcdf文件
             netcdf.close(nc)
-            outfile=strcat('..\test\ja2_check\',namelist(nm,13:19),'.dat');% 只取周期和pass编号
+            outfile=strcat('..\test\ja3_check\',namelist(nm,13:19),'.dat');% 只取周期和pass编号
             fid2 = fopen(outfile,'w');
             k=0;
             for i=1:length(lon)
@@ -104,12 +101,12 @@ for nm=1:length(namelist)
         end
 %     end
 end 
-fclose('all');
-% % ###############################################
-% % draw figure for statistic 
+
+% ###############################################
+% draw figure for statistic 
 % 
-% load ..\test\ja2_check\ponits_circle.txt
-% load  ..\test\ja2_check\ponits_number.txt
+% load .\ja3_check\ponits_circle.txt
+% load .\ja3_check\ponits_number.txt
 % 
 % latitude=ponits_circle(:,1);
 % points=ponits_circle(:,2);
@@ -141,14 +138,14 @@ fclose('all');
 % % 绘图SSH每周期观测值，以及均值
 % 
 % a(1:(max_cir-min_cir+1))=0;% 存储SSH
-% fid4=fopen('..\test\ja2_check\statistic.txt','w');
+% fid4=fopen('.\ja3_check\statistic.txt','w');
 % 
 % figure(2);
 % hold on
 % for i=min_cir:max_cir
 % % for i= [200] % 只处理一个周期的一个pass数据，例如i [200] 表示200周期
 % 
-%         temp='..\test\ja2_check\';
+%         temp='.\ja3_check\';
 %         temp1=check_circle(i);% 调用函数，判断circle的位数。
 %         temp2=num2str(temp1);
 %         temp3=temp2(3:5);% 组成三位数的字符串。
@@ -186,7 +183,7 @@ fclose('all');
 % 
 % % clear all
 % figure (3)
-% load ..\test\ja2_check\statistic.txt
+% load .\ja3_check\statistic.txt
 % plot(statistic(:,1),statistic(:,2),'-o');
 % xlabel('周期')
 % ylabel('MSSH/mm')
