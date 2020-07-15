@@ -13,9 +13,14 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
-min_cir=92;% 92,165,239,
+loc = 'zmw';% Here can choose the qly and zmw
+if strcmp(loc,'zmw')
+    min_cir=114;% 92,165,239,
+    % over the zmw, the tide data only begin at circle 114.
+elseif strcmp(loc,'qly')
+    min_cir=92;% over the qly, the tide data begin at circle 92.
+end
 max_cir=303;% 165,239,303
-loc = 'qly';% Here can choose the qly and zmw
 sat=1; % 1 = Jason-2
 fre=1; % 1=1Hz
 
@@ -38,6 +43,7 @@ grad(lat_gps,lon_gps,sat)
 % 下面的程序再进行优化，加强程序的易用性。现在的问题是，每次换卫星，还要手动更换潮汐改正等文件。
 % =========================================================================
 [bias2]=tg_pca_ssh(sat,fre,loc);% 计算TG在PCA时刻的SSH，并计算测高绝对偏差
+plot(bias2(:,1),bias2(:,2));
 [bias]=filter_bias(sat,bias2);% filter and save to (example: ..\test\s3a_check\s3a_bias.txt)
 last_bias_save(sat);% output more parameters.
 % =========================================================================

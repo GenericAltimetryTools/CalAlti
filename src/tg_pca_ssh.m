@@ -26,7 +26,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         disp('qly')
         filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
     elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw')
-        filename = 'J:\ÜÆÃªÍå³±Ï«\ZMW_sort_clean.DD';
+        filename = '..\tg_xinxizx\zmw\ZMW_sort_clean.DD';
     end
     
     
@@ -59,7 +59,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         ssh=tmp000(:,2)/100+10.632;% 10.632 is the parameter of height reference 
     % transform from TG local to WGS-84.
     elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436')
-        ssh=tmp000(:,2)/100-0.108;% 10.632 is the parameter of height reference 
+        ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
     end
     
@@ -225,7 +225,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         end
     elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')
         if sat==1
-            mss=load ('.\qianliyan_tg_cal\jason2_2011_2017_dtu18_zmw.dat');
+            mss=load ('..\test\ja2_check\dtu18_qly.dat');
             jason2_mss=mss;
             tg_mss=jason2_mss(1,3);
             jason_mss=jason2_mss(2:length(jason2_mss),3);
@@ -254,7 +254,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             mss_correction=-(saral_mss-tg_mss);
 
         elseif sat==4
-            ja3 = load ('.\qianliyan_tg_cal\ja3_all_dtu18_zmw.dat');% Ja3.
+            ja3 = load ('..\test\ja3_check\dtu18_qly.dat');% Ja3.
             jason3_mss=ja3;
             tg_mss=jason3_mss(1,3);
             jason_mss=jason3_mss(2:length(jason3_mss),3);
@@ -310,7 +310,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 
     disp('Finish bias calculation')
     
-    tmpp=bias;
+    tmpp=bias; % bias
     ttt=pca_ssh(:,5); % cycle number
     tim2=pca_ssh(:,3); % time in seconds
     

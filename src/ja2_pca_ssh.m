@@ -28,7 +28,9 @@ fid4=fopen('..\test\ja2_check\pca_ssh.txt','w');
                     pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');
                     tim_pca=interp1(temp6(:,2),temp6(:,3),lat3,'liner');
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'liner');
-                    fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ssh,i);% 保存
+                    if isnan(tim_pca)==0
+                        fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ssh,i);% 保存
+                    end
                 else 
                     [lat3,lon3,tim_pca]=pca(temp4,lat_gps,lon_gps); % 调用函数，计算PCA
                     pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');

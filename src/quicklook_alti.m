@@ -80,12 +80,7 @@ end
 fclose(fid4);
 
 xlim([min_lat/1E6 max_lat/1E6])
-% plot ([36.7 36.7],[-500 0],'LineWidth',2)
-% plot ([36.3 36.3],[-500 0],'LineWidth',2)
-% plot ([34.4 34.4],[-500 0],'LineWidth',2)
-% text(36.3,min_y+10,'\leftarrow Ç§ÀïÑÒ','FontSize',10)
-% text(36.4,min_y+5,'´óÂ½\rightarrow ','FontSize',10)
-% text(34.4,min_y+5,'\leftarrow ´óÂ½','FontSize',10)
+
 hold off
 
 % clear all

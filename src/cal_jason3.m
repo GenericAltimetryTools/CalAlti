@@ -15,7 +15,7 @@ format long
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
 min_cir=0;% 165
 max_cir=106;% 239
-loc = 'qly';
+loc = 'zmw';% Here can choose the qly and zmw
 sat=4;% 4==jason-3
 fre=1;%表示选择的高度计数据类型，高频为20 or 40，低频为1.
 

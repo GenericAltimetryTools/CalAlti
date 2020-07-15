@@ -11,4 +11,5 @@ tmpp(n,1)=NaN;
 tmpp(n)=NaN;
 ttt(any(isnan(tmpp), 2),:) = [];
 tmpp(any(isnan(tmpp), 2),:) = [];%Delete NaN
+
 return

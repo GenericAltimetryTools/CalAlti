@@ -24,7 +24,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           lon_gps=122.6968;
           
         case 'zmw' % zhimaowan
-          disp('zhimaowan')
+          disp('Your CAL site is: zhimaowan')
           min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=41000000; % 
           pass_num=138;% define the pass number    

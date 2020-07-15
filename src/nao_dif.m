@@ -102,12 +102,12 @@ function [tg_dif]=nao_dif(sat,loc)
         end
    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')
        if sat==1
-            load .\qianliyan_tg_cal\ja2.nao_zmw_2011_2019_25km % 注意变换文件，对应不同的时期
+            load ..\test\ja2_check\ja2.nao_zmw_2011_2019_25km % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
-    %         no tide data.        
-            load .\ja2_check\pca_ssh.txt;
-            load .\qianliyan_tg_cal\zmw.nao_2011_2019_
+    %         no tide data.
+            load ..\test\ja2_check\pca_ssh.txt;
+            load ..\test\zmw.nao_2011_2019_
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
        end
@@ -128,12 +128,12 @@ function [tg_dif]=nao_dif(sat,loc)
             sat_tg=saral(:,2); % 预报潮汐tide，单位cm
        end  
       if sat==4
-            load .\qianliyan_tg_cal\ja2.nao_zmw_2011_2019_25km % 注意变换文件，对应不同的时期
+            load ..\test\ja2_check\ja2.nao_zmw_2011_2019_25km % Jason3 is same with Jason-2 at zmw
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
     %         no tide data.        
-            load .\ja3_check\pca_ssh.txt;
-            load .\qianliyan_tg_cal\zmw.nao_2011_2019_
+            load ..\test\ja3_check\pca_ssh.txt;
+            load ..\test\zmw.nao_2011_2019_
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
       end 
