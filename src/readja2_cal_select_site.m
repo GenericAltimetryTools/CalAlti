@@ -16,12 +16,20 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           pass_num=153;% define the pass number
           
         case 'cst' % 成山头
-          disp('chenshantou')
+          disp('Your CAL site is: chengshantou')
           min_lat=37640000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=39000000; % 
           pass_num=153;% define the pass number
           lat_gps=37.3897;% 成山头验潮站的坐标
           lon_gps=122.6968;
+          
+        case 'sdyt' % shandong YanTai
+          disp('Your CAL site is: shandong yantai')
+          min_lat=37500000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=40000000; % 
+          pass_num=138;% define the pass number
+          lat_gps=3.7482596e+01;% 成山头验潮站的坐标
+          lon_gps=1.2143555e+02;
           
         case 'zmw' % zhimaowan
           disp('Your CAL site is: zhimaowan')

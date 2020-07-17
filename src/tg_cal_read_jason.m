@@ -10,7 +10,7 @@ fid1 = fopen('..\test\ja2_check\ponits_circle.txt','w'); % contains the latitude
 % First loop directories
 temp1=num2str(pass_num);
 dir_nm=strcat(dir_0,temp1,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
-temp=size(dir_nm);
+% temp=size(dir_nm);
 namelist = ls(fullfile(dir_nm,'*.nc'))% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);

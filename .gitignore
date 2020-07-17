@@ -6,6 +6,7 @@ test/*/*.d
 test/*/*.dat
 test/*/*.txt
 test/*/*.kml
+test/
 tide/omap/*.nao
 tide/*.out
 *.exe
