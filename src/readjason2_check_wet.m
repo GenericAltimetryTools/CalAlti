@@ -25,8 +25,11 @@ fid1 = fopen('..\test\ja2_check\ponits_circle.txt','w');
 % ###############################################
 % ###############################################
 % First loop directories
-temp1=num2str(pass_num);
-dir_nm=strcat(dir_0,temp1,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
+% temp1=num2str(pass_num);
+temp1=check_circle(pass_num);% 调用函数，判断circle的位数。
+temp2=num2str(temp1);
+temp3=temp2(3:5);% 组成三位数的字符串。
+dir_nm=strcat(dir_0,temp3,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
 namelist = ls(fullfile(dir_nm,'*.nc'))% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
@@ -50,19 +53,19 @@ for nm=1:length(namelist)
             lat=netcdf.getVar(nc,3);%10-6度
             lon=netcdf.getVar(nc,4);%10-6度
             time=netcdf.getVar(nc,0);%10-6度
-            alt=netcdf.getVar(nc,58);%10-3m
-            r_ku=netcdf.getVar(nc,61);%10-3m
-            dry=netcdf.getVar(nc,82);%10-4m
+%             alt=netcdf.getVar(nc,58);%10-3m
+%             r_ku=netcdf.getVar(nc,61);%10-3m
+%             dry=netcdf.getVar(nc,82);%10-4m
             wet_m=netcdf.getVar(nc,83);%10-4m
             wet=netcdf.getVar(nc,84);%10-4m
-            ino=netcdf.getVar(nc,85);%10-4m
-            ssb=netcdf.getVar(nc,88);% sea state bias,10-4m
-            inv=netcdf.getVar(nc,148);%inv_bar_corr ,10-4m
-            hff=netcdf.getVar(nc,149);%hf_fluctuations_corr  ,10-4m
-            ots=netcdf.getVar(nc,150);%ocean tide sole1,10-4m
-            set=netcdf.getVar(nc,156);%solid earth tide,10-4m
-            pt=netcdf.getVar(nc,157); %pole tide,10-4m
-            mss=netcdf.getVar(nc,144); %mean_sea_surface ,10-4m
+%             ino=netcdf.getVar(nc,85);%10-4m
+%             ssb=netcdf.getVar(nc,88);% sea state bias,10-4m
+%             inv=netcdf.getVar(nc,148);%inv_bar_corr ,10-4m
+%             hff=netcdf.getVar(nc,149);%hf_fluctuations_corr  ,10-4m
+%             ots=netcdf.getVar(nc,150);%ocean tide sole1,10-4m
+%             set=netcdf.getVar(nc,156);%solid earth tide,10-4m
+%             pt=netcdf.getVar(nc,157); %pole tide,10-4m
+%             mss=netcdf.getVar(nc,144); %mean_sea_surface ,10-4m
 
             %关闭netcdf文件
             netcdf.close(nc)

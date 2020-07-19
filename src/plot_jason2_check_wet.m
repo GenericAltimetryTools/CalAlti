@@ -89,9 +89,9 @@ statistic(any(isnan(statistic), 2),:) = [];%把NaN的行去掉
 save ..\test\ja2_check\ja2_wet_m_model.txt statistic -ascii
 
 
-plot(statistic(:,1),statistic(:,2),'-o',statistic(:,1),statistic(:,3),'-ro');
+plot(statistic(:,1),-statistic(:,2),'-o',statistic(:,1),statistic(:,3),'-ro');
 disp('mean of radiometer and model wet dely')
-mean (statistic(:,2))
+-mean (statistic(:,2)) % Be attention the -. Nagetive means shorter.
 disp('STD of radiometer and model wet dely')
 mean (statistic(:,3))
 

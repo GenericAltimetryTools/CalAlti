@@ -12,7 +12,7 @@ format long
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
 min_cir=55;% 92,165,239,55,
 max_cir=303;% 165,239,303,303
-loc = 'sdyt';%成山头轨迹为
+loc = 'hisy';%成山头轨迹为
 sat=1;
 %=========================================================================
 % Step 2: select the CAL site

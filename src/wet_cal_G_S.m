@@ -5,12 +5,17 @@ function [bias2]=wet_cal_G_S(sat,loc)
 
     if strcmp(loc,'sdyt')
         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
+    elseif strcmp(loc,'fjpt')
+        gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
+    elseif strcmp(loc,'hisy')
+        gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
     end
 
     tmp000=gnss_wet;
     y_0=floor(tmp000(:,1));
     da=tmp000(:,1)-y_0;
     z_delay=tmp000(:,3);  
+    z_delay_sigma=tmp000(:,4);  
     % time to second
 
     for i=2000:2030
@@ -29,6 +34,7 @@ function [bias2]=wet_cal_G_S(sat,loc)
 	
     if sat==1
             load ..\test\ja2_check\pca_wet.txt;
+            load ..\test\ja2_check\pca_wet_model.txt;
 		elseif sat==2
             load .\saral_check\pca_wet.txt;
         elseif sat==3
@@ -43,7 +49,8 @@ function [bias2]=wet_cal_G_S(sat,loc)
 %     the time transform. It should be the first data time of the satellite wet
 %     delay.
 
-    w_ali=pca_wet(:,4);
+    w_ali=pca_wet(:,4);% radiometer wet delay. It is nagetive value
+    w_ali_model=pca_wet_model(:,4);% model wet delay. Nagetive value
     b=length(w_ali); % radiomater
     c=length(tm2); %G NSS
     tmp3(1:b)=0;
@@ -61,7 +68,8 @@ function [bias2]=wet_cal_G_S(sat,loc)
     end
     
     % 下面是拟合
-    tg_pca_ssh(1:b)=0;% 保存TG的PCA wet delay值
+%     tg_pca_ssh(1:b)=0;% 保存TG的PCA wet delay值
+    k=1;
     for i=1:b
         if tmp3(i)~=0
             loct=tmp3(i);
@@ -69,16 +77,25 @@ function [bias2]=wet_cal_G_S(sat,loc)
 %             ssh_tg3=smooth(ssh_tg2,2,'rlowess');
             tt=tm2(loct-1:loct+1);
             t_pca=pca_tim(i);
-            tg_pca_ssh(i)=interp1(tt,ssh_tg2,t_pca,'linear');
+%             if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
+            if z_delay_sigma(loct)<10 && abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据    
+                tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest');
+                w_ali2(k)=w_ali(i);
+                w_ali2_model(k)=w_ali_model(i);
+                ttt(k)=pca_wet(i,5);
+                tim2(k)=pca_wet(i,3);
+                 k=k+1;
+            end
+            
         end
+       
     end
     
   
-    bias=-w_ali-(tg_pca_ssh');% 
+    bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
+    bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
     
-    tmpp=bias;
-    ttt=pca_wet(:,5);
-    tim2=pca_wet(:,3);
-    bias2=[ttt tmpp tim2];
+%     tmpp=bias;
+    bias2=[ttt' bias' tim2' bias_model'];
 
 return

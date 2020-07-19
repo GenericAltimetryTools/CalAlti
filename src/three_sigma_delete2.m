@@ -12,4 +12,5 @@ tmpp(n)=NaN;
 ttt(any(isnan(tmpp), 2),:) = [];
 tim2(any(isnan(tmpp), 2),:) = [];
 tmpp(any(isnan(tmpp), 2),:) = [];%把NaN的行去掉
+
 return
