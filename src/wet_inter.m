@@ -1,6 +1,6 @@
 % 计算固定纬度的辐射计大气湿延迟差值、时间差值
 % interpolation of  the wet delay to the fixed point.
-function wet_inter(min_cir,max_cir,pass_num,loc)
+function wet_inter(min_cir,max_cir,pass_num,loc,sat)
 if   strcmp(loc,'cst')
     lat3=37.7;% 此处的纬度大概距离陆地20km，辐射计收到的陆地干扰较小，且距离站点近。
 elseif  strcmp(loc,'sdyt')
@@ -13,14 +13,22 @@ end
 
 % date_yj=[2010 1 1 0 0 0];% 
 % t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
-fid4=fopen('..\test\ja2_check\pca_wet.txt','w');
-fid5=fopen('..\test\ja2_check\pca_wet_model.txt','w');
+if sat==1
+    fid4=fopen('..\test\ja2_check\pca_wet.txt','w');
+    fid5=fopen('..\test\ja2_check\pca_wet_model.txt','w');
+    temp='..\test\ja2_check\';
+elseif sat==4
+    fid4=fopen('..\test\ja3_check\pca_wet.txt','w');
+    fid5=fopen('..\test\ja3_check\pca_wet_model.txt','w');
+    temp='..\test\ja3_check\';
+end
+
     temp11=check_circle(pass_num);% 调用函数，判断circle的位数。
     temp21=num2str(temp11);
     temp31=temp21(3:5);% 组成三位数的字符串。
     for i=min_cir:max_cir
 %         i;
-            temp='..\test\ja2_check\';
+            
             temp1=check_circle(i);% 调用函数，判断circle的位数。
             temp2=num2str(temp1);
             temp3=temp2(3:5);% 组成三位数的字符串。
@@ -28,7 +36,7 @@ fid5=fopen('..\test\ja2_check\pca_wet_model.txt','w');
 
             
             tmp=strcat('_',temp31);
-            temp4= strcat(temp,temp3,tmp,'.txt')
+            temp4= strcat(temp,temp3,tmp,'.txt');
             temp5= strcat('X',temp3,tmp);
             
         if exist(temp4,'file')

@@ -18,10 +18,14 @@
 % cd C:\Users\yl\Documents\matlab\;
 % format long
 % tic;
-function readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0)
-fid3 = fopen('..\test\ja2_check\ponits_number.txt','w');
-fid1 = fopen('..\test\ja2_check\ponits_circle.txt','w');
-
+function readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat)
+if sat==1
+    fid3 = fopen('..\test\ja2_check\ponits_number.txt','w');
+    fid1 = fopen('..\test\ja2_check\ponits_circle.txt','w');
+elseif sat==4
+    fid3 = fopen('..\test\ja3_check\ponits_number.txt','w');
+    fid1 = fopen('..\test\ja3_check\ponits_circle.txt','w');
+end
 % ###############################################
 % ###############################################
 % First loop directories
@@ -69,7 +73,12 @@ for nm=1:length(namelist)
 
             %关闭netcdf文件
             netcdf.close(nc)
-            outfile=strcat('..\test\ja2_check\',namelist(nm,13:19),'.txt');% 只取周期和pass编号
+            if sat==1
+                outfile=strcat('..\test\ja2_check\',namelist(nm,13:19),'.txt');% 只取周期和pass编号
+            elseif sat==4
+                outfile=strcat('..\test\ja3_check\',namelist(nm,13:19),'.txt');% 只取周期和pass编号
+            end
+            
             fid2 = fopen(outfile,'w');
             k=0;
             for i=1:length(lon)

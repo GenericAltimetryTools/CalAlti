@@ -35,9 +35,13 @@ function wet_filter_save(bias2,sat,min_cir,max_cir)
     %=====================================================================
 
     % plot_bias(bias2,sat)
-
+if sat==1
     save ..\test\ja2_check\jason_2_bias_wet_new.txt bias2 -ASCII % 保存结果数据
     save ..\test\ja2_check\jason_2_bias_wet_model_new.txt bias2_model -ASCII % 保存结果数据
+elseif sat==4
+    save ..\test\ja3_check\jason_3_bias_wet_new.txt bias2 -ASCII % 保存结果数据
+    save ..\test\ja3_check\jason_3_bias_wet_model_new.txt bias2_model -ASCII % 保存结果数据
+end
     % 趋势分析
     [P]=trend_bias(bias2_radio,sat,min_cir,max_cir);
     [P]=trend_bias(bias2_model,sat,min_cir,max_cir);

@@ -41,6 +41,7 @@ function [bias2]=wet_cal_G_S(sat,loc)
             load .\hy2_check\pca_wet.txt;
 		elseif sat==4
 			load ..\test\ja3_check\pca_wet.txt;
+            load ..\test\ja3_check\pca_wet_model.txt;
     end
 	
     

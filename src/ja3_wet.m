@@ -9,11 +9,12 @@ format long
 % Step 1 preparations
 %=========================================================================
 % Please modify these parameters according to your requirement
-dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
-min_cir=55;% 92,165,239,55,
-max_cir=303;% 165,239,303,303
-loc = 'hisy';%成山头轨迹为
-sat=1;
+dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
+min_cir=0;% 165
+max_cir=144;% 239
+loc = 'hisy';% Here can choose the qly and zmw
+sat=4;% 4==jason-3
+
 %=========================================================================
 % Step 2: select the CAL site
 [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc);% 选择地点千里岩
