@@ -52,6 +52,28 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           pass_num=77;% define the pass number
           lat_gps=1.8235778e+01;% GNSS的坐标
           lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
+
+       case 'yong' % shandong YanTai
+          disp('Your CAL site is: Yong xing dao P153')
+          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=18000000; % 
+          
+%           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
+%           max_lat=17500000; %           
+          pass_num=153;% define the pass number
+          lat_gps=1.6834028e+01;% GNSS的坐标
+          lon_gps=1.1233533e+02;%  
+
+       case 'yong2' % shandong YanTai
+          disp('Your CAL site is: Yong xing dao P114')
+          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=19000000; % 
+          
+%           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
+%           max_lat=17500000; %           
+          pass_num=114;% define the pass number
+          lat_gps=1.6834028e+01;% GNSS的坐标
+          lon_gps=1.1233533e+02;%  
           
         case 'zmw' % zhimaowan
           disp('Your CAL site is: zhimaowan')

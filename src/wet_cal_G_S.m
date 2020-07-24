@@ -5,10 +5,16 @@ function [bias2]=wet_cal_G_S(sat,loc)
 
     if strcmp(loc,'sdyt')
         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
+        z_delta=15;
     elseif strcmp(loc,'fjpt')
         gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
+        z_delta=15;
     elseif strcmp(loc,'hisy')
         gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
+        z_delta=15;
+    elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
+        gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
+        z_delta=20;
     end
 
     tmp000=gnss_wet;
@@ -79,24 +85,28 @@ function [bias2]=wet_cal_G_S(sat,loc)
             tt=tm2(loct-1:loct+1);
             t_pca=pca_tim(i);
 %             if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
-            if z_delay_sigma(loct)<10 && abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据    
+            if z_delay_sigma(loct)<z_delta && abs(ssh_tg2(3)-ssh_tg2(1))<z_delta% 去除短时间变化快的数据  
                 tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest');
                 w_ali2(k)=w_ali(i);
                 w_ali2_model(k)=w_ali_model(i);
                 ttt(k)=pca_wet(i,5);
                 tim2(k)=pca_wet(i,3);
-                 k=k+1;
+                 k=k+1
             end
             
         end
        
     end
     
-  
+  if k>1
     bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
-    
-%     tmpp=bias;
     bias2=[ttt' bias' tim2' bias_model'];
+  else
+%       disp('no data fullfill the requirement')
+      error('no data fullfill the requirement,please check the input data')
+  end
+%     tmpp=bias;
+
 
 return

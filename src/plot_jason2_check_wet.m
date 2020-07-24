@@ -29,7 +29,9 @@ i;
         tmp=strcat('_',t3);
         temp4= strcat(temp,temp3,tmp,'.txt');
         temp5= strcat('X',temp3,tmp);
-    if exist(temp4,'file')
+        s=dir(temp4);
+    if exist(temp4,'file') && s.bytes~=0
+%         temp4;
         load (temp4)
         temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
         latitude=temp6(:,2);

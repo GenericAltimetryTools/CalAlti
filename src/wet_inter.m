@@ -9,6 +9,10 @@ elseif  strcmp(loc,'fjpt')
     lat3=25.1; % 25km far from the mainland
 elseif  strcmp(loc,'hisy')
     lat3=18; % 25km far from the mainland
+elseif  strcmp(loc,'yong')
+    lat3=17.0; % 25km far from the mainland    
+elseif  strcmp(loc,'yong2')
+    lat3=16.75; % 25km far from the mainland        
 end 
 
 % date_yj=[2010 1 1 0 0 0];% 
@@ -45,7 +49,7 @@ end
             temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
             aa=size(temp6);
             
-            if aa(1)>20 % 表示有效点数大于20个，占总数的一半。这个值可以更具总数多少修改。
+            if aa(1)>10 % 表示有效点数大于20个，占总数的一半。这个值可以更具总数多少修改。
                 pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'pchip');
                 pca_wet_model=interp1(temp6(:,2),temp6(:,4),lat3,'pchip');
                 lon3=interp1(temp6(:,2),temp6(:,1),lat3,'pchip');

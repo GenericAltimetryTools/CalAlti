@@ -34,7 +34,7 @@ temp1=check_circle(pass_num);% 调用函数，判断circle的位数。
 temp2=num2str(temp1);
 temp3=temp2(3:5);% 组成三位数的字符串。
 dir_nm=strcat(dir_0,temp3,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
-namelist = ls(fullfile(dir_nm,'*.nc'))% 这里ls可以和dir替换
+namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
 
@@ -50,8 +50,9 @@ for nm=1:length(namelist)
 %     file_num=temp(1);
     
 %     for n=1:file_num
-        t1=str2double(namelist(nm,13:15))
+        t1=str2double(namelist(nm,13:15));
         if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
+            t1
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
             lat=netcdf.getVar(nc,3);%10-6度
