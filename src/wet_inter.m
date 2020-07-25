@@ -1,19 +1,45 @@
 % 计算固定纬度的辐射计大气湿延迟差值、时间差值
 % interpolation of  the wet delay to the fixed point.
 function wet_inter(min_cir,max_cir,pass_num,loc,sat)
-if   strcmp(loc,'cst')
-    lat3=37.7;% 此处的纬度大概距离陆地20km，辐射计收到的陆地干扰较小，且距离站点近。
-elseif  strcmp(loc,'sdyt')
-    lat3=37.833333; % 25km far from the mainland
-elseif  strcmp(loc,'fjpt')
-    lat3=25.1; % 25km far from the mainland
-elseif  strcmp(loc,'hisy')
-    lat3=18; % 25km far from the mainland
-elseif  strcmp(loc,'yong')
-    lat3=17.0; % 25km far from the mainland    
-elseif  strcmp(loc,'yong2')
-    lat3=16.75; % 25km far from the mainland        
-end 
+if sat==1 || sat==4
+    if   strcmp(loc,'cst')
+        lat3=37.7;% 此处的纬度大概距离陆地20km，辐射计收到的陆地干扰较小，且距离站点近。
+    elseif  strcmp(loc,'sdyt')
+        lat3=37.833333; % 25km far from the mainland
+    elseif  strcmp(loc,'fjpt')
+        lat3=25.1; % 25km far from the mainland
+    elseif  strcmp(loc,'hisy')
+        lat3=18; % 25km far from the mainland
+    elseif  strcmp(loc,'yong')
+        lat3=17.0; % 25km far from the mainland    
+    elseif  strcmp(loc,'yong2')
+        lat3=16.75; % 25km far from the mainland   
+        
+    end 
+end
+
+if sat==3
+    if  strcmp(loc,'sdyt')
+        lat3=37.75; % 25km far from the mainland
+    elseif  strcmp(loc,'fjpt')
+        lat3=25.7; % 25km far from the mainland
+    elseif  strcmp(loc,'hisy')
+        lat3=18; % 25km far from the mainland
+    elseif  strcmp(loc,'hisy2')
+        lat3=17.9; % 25km far from the mainland        
+    elseif  strcmp(loc,'yong')
+        lat3=17.0; % 25km far from the mainland    
+    elseif  strcmp(loc,'yong2')
+        lat3=16.75; % 25km far from the mainland  
+    elseif  strcmp(loc,'sdrc') || strcmp(loc,'sdrc2')
+        lat3=37.1; % 25km far from the mainland      
+    elseif  strcmp(loc,'sdqd')
+        lat3=35.9; % 25km far from the mainland     
+    elseif  strcmp(loc,'gdst')
+        lat3=23.0; % 25km far from the mainland     
+        
+    end 
+end
 
 % date_yj=[2010 1 1 0 0 0];% 
 % t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
@@ -25,18 +51,31 @@ elseif sat==4
     fid4=fopen('..\test\ja3_check\pca_wet.txt','w');
     fid5=fopen('..\test\ja3_check\pca_wet_model.txt','w');
     temp='..\test\ja3_check\';
+elseif sat==3
+    fid4=fopen('..\test\hy2_check\pca_wet.txt','w');
+    fid5=fopen('..\test\hy2_check\pca_wet_model.txt','w');
+    temp='..\test\hy2_check\';
 end
 
     temp11=check_circle(pass_num);% 调用函数，判断circle的位数。
     temp21=num2str(temp11);
-    temp31=temp21(3:5);% 组成三位数的字符串。
+    
+    if sat==3
+        temp31=temp21(2:5);% 组成三位数的字符串。
+    else
+        temp31=temp21(3:5);% 组成三位数的字符串。
+    end
+    
     for i=min_cir:max_cir
 %         i;
             
             temp1=check_circle(i);% 调用函数，判断circle的位数。
             temp2=num2str(temp1);
-            temp3=temp2(3:5);% 组成三位数的字符串。
-            
+            if sat==3
+                temp3=temp2(2:5);% 组成三位数的字符串。
+            else
+                temp3=temp2(3:5);% 组成三位数的字符串。
+            end
 
             
             tmp=strcat('_',temp31);

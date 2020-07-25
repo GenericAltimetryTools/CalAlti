@@ -5,16 +5,25 @@ function [bias2]=wet_cal_G_S(sat,loc)
 
     if strcmp(loc,'sdyt')
         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
-        z_delta=15;
+        z_delta=15;% This is a  threshold value  to remove the fast changing data.
     elseif strcmp(loc,'fjpt')
         gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
         z_delta=15;
-    elseif strcmp(loc,'hisy')
+    elseif strcmp(loc,'hisy') || strcmp(loc,'hisy2')
         gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
         z_delta=15;
     elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
         gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
         z_delta=20;
+    elseif strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
+        gnss_wet=load ('..\test\gnss_wet\troSDRC.d3'); 
+        z_delta=20;   
+    elseif strcmp(loc,'sdqd')
+        gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
+        z_delta=20;           
+    elseif strcmp(loc,'gdst')
+        gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
+        z_delta=20;          
     end
 
     tmp000=gnss_wet;
@@ -44,7 +53,8 @@ function [bias2]=wet_cal_G_S(sat,loc)
 		elseif sat==2
             load .\saral_check\pca_wet.txt;
         elseif sat==3
-            load .\hy2_check\pca_wet.txt;
+            load ..\test\hy2_check\pca_wet.txt;
+            load ..\test\hy2_check\pca_wet_model.txt;
 		elseif sat==4
 			load ..\test\ja3_check\pca_wet.txt;
             load ..\test\ja3_check\pca_wet_model.txt;
@@ -91,7 +101,7 @@ function [bias2]=wet_cal_G_S(sat,loc)
                 w_ali2_model(k)=w_ali_model(i);
                 ttt(k)=pca_wet(i,5);
                 tim2(k)=pca_wet(i,3);
-                 k=k+1
+                 k=k+1;
             end
             
         end
