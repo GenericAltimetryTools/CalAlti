@@ -45,8 +45,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
        case 'hisy' % shandong YanTai
           disp('Your CAL site is: Hainan sanya')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18200000; % 
-          
+%           max_lat=18200000; % 
+          max_lat=17900000; % 
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
           pass_num=77;% define the pass number

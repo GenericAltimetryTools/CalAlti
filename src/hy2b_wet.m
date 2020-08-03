@@ -12,7 +12,7 @@ format long
 dir_0='C:\Users\yangleir\Downloads\hy2b\IDR_2M\';% data directory 
 min_cir=7;% 7
 max_cir=46;% 46
-loc = 'sdrc2';% please select from hisy hisy2  sdqd sdyt sdrc sdrc2 yong yong2 fjpt gdst
+loc = 'yong';% please select from hisy hisy2  sdqd sdyt sdrc sdrc2 yong yong2 fjpt gdst
 sat=3;% 3=hy2b
 %=========================================================================
 % Step 2: select the CAL site
@@ -27,5 +27,7 @@ wet_inter(min_cir,max_cir,pass_num,loc,sat);
 [bias2]=wet_cal_G_S(sat,loc);
 % Step5: Save
 wet_filter_save(bias2,sat,min_cir,max_cir)
-
+% Step6: Analysis the spatial inluence
+dis_0=0;% This is the distance from the first point.
+[spa]=spatial_dec(pass_num,min_cir,max_cir,sat,dis_0);
 % finish

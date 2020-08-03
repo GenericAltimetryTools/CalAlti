@@ -9,7 +9,7 @@ if sat==1 || sat==4
     elseif  strcmp(loc,'fjpt')
         lat3=25.1; % 25km far from the mainland
     elseif  strcmp(loc,'hisy')
-        lat3=18; % 25km far from the mainland
+        lat3=17.9; % 35km far from the mainland
     elseif  strcmp(loc,'yong')
         lat3=17.0; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
@@ -24,7 +24,7 @@ if sat==3
     elseif  strcmp(loc,'fjpt')
         lat3=25.7; % 25km far from the mainland
     elseif  strcmp(loc,'hisy')
-        lat3=18; % 25km far from the mainland
+        lat3=17.9; % 25km far from the mainland
     elseif  strcmp(loc,'hisy2')
         lat3=17.9; % 25km far from the mainland        
     elseif  strcmp(loc,'yong')

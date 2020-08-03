@@ -105,7 +105,9 @@ elseif  sat==4
     disp(['The trend of bias (a*x+b) is m/y:',num2str(trend_year)])
     % [Y,delta]=polyconf(P,x,S);%给出回归Y的95%的置信区间为[Y-delta，Y+delta]
 %             if sat==4
-                x1=min_cir:1:max_cir;
+                x1=x(1):1:x(end);
+                
+                
 %             else
 %                 x1=min_cir:10:max_cir;
 %             end

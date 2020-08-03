@@ -12,8 +12,10 @@ format long
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
 min_cir=55;% 92,165,239,55,
 max_cir=303;% 165,239,303,303
-loc = 'hisy';%成山头轨迹为
+loc = 'yong';%成山头轨迹为
 sat=1;
+oldpath = path;
+path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 %=========================================================================
 % Step 2: select the CAL site
 [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc);% 选择地点千里岩
@@ -27,5 +29,7 @@ wet_inter(min_cir,max_cir,pass_num,loc,sat);
 [bias2]=wet_cal_G_S(sat,loc);
 % Step5: Save
 wet_filter_save(bias2,sat,min_cir,max_cir)
-
+% Step6: Analysis the spatial inluence
+dis_0=0;% This is the distance from the first point.
+[spa]=spatial_dec(pass_num,min_cir,max_cir,sat,dis_0);
 % finish

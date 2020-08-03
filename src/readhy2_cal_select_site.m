@@ -59,7 +59,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           
         case 'sdrc' % shandong YanTai
           disp('Your CAL site is: shandong rongcheng P181')
-          min_lat=36000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=34000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=37300000; % 
 %           min_lat=30000000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=36000000; % 

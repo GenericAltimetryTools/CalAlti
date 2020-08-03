@@ -10,8 +10,8 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-min_cir=0;% 165
-max_cir=144;% 239
+min_cir=0;% 
+max_cir=158;% 
 loc = 'hisy';% Here can choose the qly and zmw
 sat=4;% 4==jason-3
 
@@ -28,5 +28,7 @@ wet_inter(min_cir,max_cir,pass_num,loc,sat);
 [bias2]=wet_cal_G_S(sat,loc);
 % Step5: Save
 wet_filter_save(bias2,sat,min_cir,max_cir)
-
+% Step6: Analysis the spatial inluence
+dis_0=0;% This is the distance from the first point.
+[spa]=spatial_dec(pass_num,min_cir,max_cir,sat,dis_0);
 % finish
