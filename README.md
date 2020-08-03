@@ -1,7 +1,7 @@
 # CalAlti(Calibration of the satellite altimeters)
 
--CalAlt can calibrate Satellite Altimeters (Jason2/3, Sentinel-3A/B and HY-2A/B) using the in situ tide gauge data (not provide here) as well as auxiliary models. If you want the in situ data, please contact me.
--CalAlt can validate the satellite radiometer data by GNSS wet path delay.
+- CalAlt can calibrate Satellite Altimeters (Jason2/3, Sentinel-3A/B and HY-2A/B) using the in situ tide gauge data (not provide here) as well as auxiliary models. If you want the in situ data, please contact me.
+- CalAlt can validate the satellite radiometer data by GNSS wet path delay.
 
 CalAlt is developed and maintained by [The First Institute of Oceanography](http://www.fio.org.cn/), MNR, China.
 
