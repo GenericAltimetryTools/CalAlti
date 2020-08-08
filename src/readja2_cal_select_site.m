@@ -1,3 +1,5 @@
+% Jason2 and Jason-3 are the same
+
 function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
 
     switch lower(loc)
@@ -35,7 +37,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
       case 'fjpt' % shandong YanTai
           disp('Your CAL site is: Fujian pingtan')
           min_lat=24000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=25300000; % 
+          max_lat=25100000; % 
 %           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=25000000; % 
           pass_num=164;% define the pass number
@@ -45,8 +47,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
        case 'hisy' % shandong YanTai
           disp('Your CAL site is: Hainan sanya')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
-%           max_lat=18200000; % 
-          max_lat=17900000; % 
+          max_lat=18200000; % 
+%           max_lat=17900000; % 
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
           pass_num=77;% define the pass number

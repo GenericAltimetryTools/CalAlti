@@ -1,5 +1,6 @@
 % ###############################################
 % draw figure for statistic 
+% Jason-2 and Jason-3
 function plot_jason2_check_wet(pass_num,min_cir,max_cir,sat)
 
 min_y=0;%Y轴范围的初始值，后面有判断改变此值
@@ -103,10 +104,14 @@ elseif sat==4
 end
 
 plot(statistic(:,1),-statistic(:,2),'-o',statistic(:,1),statistic(:,3),'-ro');
-disp('mean of radiometer and model wet dely')
--mean (statistic(:,2)) % Be attention the -. Nagetive means shorter.
-disp('STD of radiometer and model wet dely')
-mean (statistic(:,3))
+
+tmpp=-mean (statistic(:,2)); % Be attention the -. Nagetive means shorter.
+Q=['mean of radiometer and model wet dely is:', num2str(tmpp)];
+disp(Q);
+
+tmpp=mean (statistic(:,3));
+Q=['STD of radiometer and model wet dely is:', num2str(tmpp)];
+disp(Q);
 
 xlabel('周期')
 ylabel('辐射计-Model的湿延迟/mm')

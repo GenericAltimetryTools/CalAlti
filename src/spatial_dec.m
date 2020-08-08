@@ -134,13 +134,6 @@ out=[longitude_s(1:m-3)' ;latitude_s(1:m-3)';tmp;tmp3]';
 % out=sortrows(out,2);
 input=flipud(out); % sort the data by increasing distance
 
-if sat==1
-    save ..\test\ja2_check\distance.txt out -ASCII % 保存结果数据
-elseif sat==4
-    save ..\test\ja3_check\distance.txt out -ASCII % 保存结果数据
-elseif sat==3
-    save ..\test\hy2_check\distance.txt out -ASCII % 保存结果数据    
-end
 
 % Call the GMT to calculate the distance to the first point.
 lat=latitude_s(m);
@@ -160,6 +153,19 @@ dis = gmt (order,input);
 
 % Fit the data set by the formula proposed in 1. Wang, J.; Zhang, J.; Fan, C.; Wang, J. Validation of the “HY-2” altimeter wet tropospheric path delay correction based on radiosonde data. Acta Oceanol. Sin. 2014, 33, 48–53, doi:10.1007/s13131-014-0473-y.
 
-spa=fit_dis(dis,m,dis_0);
+spa=fit_dis(dis,m,dis_0,sat);
+
+% estimate the distance to the coastline. Only the first point was
+% processed.
+% lat_boundary_min=min([latitude_s;lat_gps])-0.1;
+% 
+% lat_gps,lon_gps,
+% lat=latitude_s(m);
+% lon=longitude_s(m);
+% 
+% gmt grdmath
+% gmt grdtrack
+
+
 
 return

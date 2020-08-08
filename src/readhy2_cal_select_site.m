@@ -102,7 +102,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           
        case 'yong' % shandong YanTai
           disp('Your CAL site is:Yongxing Dao')
-          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=18000000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大

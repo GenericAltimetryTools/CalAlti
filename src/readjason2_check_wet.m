@@ -18,6 +18,7 @@
 % cd C:\Users\yl\Documents\matlab\;
 % format long
 % tic;
+% Jason-2 and Jason-3 are the same
 function readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat)
 if sat==1
     fid3 = fopen('..\test\ja2_check\ponits_number.txt','w');
@@ -52,7 +53,8 @@ for nm=1:length(namelist)
 %     for n=1:file_num
         t1=str2double(namelist(nm,13:15));
         if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
-            t1
+            Q=['Jason cycle:',num2str(t1)];
+            disp(Q);
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
             lat=netcdf.getVar(nc,3);%10-6¶È
