@@ -108,8 +108,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
           pass_num=265;% define the pass number
-          lat_gps=1.8235778e+01;% GNSS的坐标
-          lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
+          lat_gps=1.6834028e+01;% GNSS的坐标
+          lon_gps=1.1233533e+02;%  
 
        case 'fjpt' % shandong YanTai
           disp('Your CAL site is:Fujian Pintan')
@@ -119,8 +119,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
           pass_num=209;% define the pass number
-          lat_gps=1.8235778e+01;% GNSS的坐标
-          lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
+          lat_gps=2.5502154e+01;% GNSS的坐标
+          lon_gps=1.1976872e+02;% 1.1976872e+02 2.5502154e+01
      
        case 'gdst' % shandong YanTai
           disp('Your CAL site is:Guandong ShanTou')

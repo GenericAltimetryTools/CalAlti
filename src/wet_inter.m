@@ -70,6 +70,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         
         % compare
         [bias2,sig_g]=wet_cal_G_S(sat,loc);
+        % three sigma0 edit.
         [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir);
 %         sig_bias_r_g(ii)=bias_std;
         

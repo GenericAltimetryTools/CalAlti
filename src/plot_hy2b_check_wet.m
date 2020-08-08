@@ -104,10 +104,14 @@ elseif sat==4
 end
 
 plot(statistic(:,1),-statistic(:,2),'-o',statistic(:,1),statistic(:,3),'-ro');
-disp('mean of radiometer and model wet dely')
--mean (statistic(:,2)) % Be attention the -. Nagetive means shorter.
-disp('STD of radiometer and model wet dely')
-mean (statistic(:,3))
+tmpp=-mean (statistic(:,2)); % Be attention the -. Nagetive means shorter.
+Q=['mean of radiometer and model wet dely is:', num2str(tmpp)];
+disp(Q);
+
+tmpp=mean (statistic(:,3));
+Q=['STD of radiometer and model wet dely is:', num2str(tmpp)];
+disp(Q);
+
 % tmp=0;k=0;
 % for i=1:size(statistic(:,3))
 %     if statistic(i,3)<30

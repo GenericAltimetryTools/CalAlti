@@ -8,8 +8,11 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 % choose the satellite ID and GNSS sites
-sat=4; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
-loc = 'sdyt';% choose from sdyt,fjpt,hist,yong for Jason. And plus sdrc,sdqd for HY-2B
+sat=3; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
+loc = 'gdst';% choose from sdyt,fjpt,hist,yong for Jason. 
+% And sdyt,sdrc,sdrc2,sdqd,fjpt,hisy,hisy2,yong, for HY-2B
+% Please first run the `yong`, because it will be set as a reference to
+% calculate the `sig_s` (spatial influence).
 
 % call sub program
 if sat==1
@@ -19,5 +22,6 @@ elseif sat==4
     dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
     ja3_wet(sat,loc,dir_0)
 elseif sat==3
+    dir_0='C:\Users\yangleir\Downloads\hy2b\IDR_2M\';% data directory 
     hy2b_wet(sat,loc,dir_0)
 end

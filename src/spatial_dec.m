@@ -3,6 +3,7 @@
 % ###############################################
 function spa=spatial_dec(pass_num,min_cir,max_cir,sat,dis_0)
 
+% choose the dir
 if sat==1
     temp='..\test\ja2_check\';
     std_thr=20;
@@ -14,6 +15,7 @@ elseif sat==3
     std_thr=100;
 end
 
+% make plot
 figure(50);
 hold on
 
