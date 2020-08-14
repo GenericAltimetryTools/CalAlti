@@ -2,6 +2,7 @@
 
 - CalAlt can calibrate Satellite Altimeters (Jason2/3, Sentinel-3A/B and HY-2A/B) using the in situ tide gauge data (not provide here) as well as auxiliary models. If you want the in situ data, please contact me.
 - CalAlt can validate the satellite radiometer data by GNSS wet path delay.
+- The crossover point analysis were wrote in GMT script by calling the x2sys tools.
 
 CalAlt is developed and maintained by [The First Institute of Oceanography](http://www.fio.org.cn/), MNR, China.
 
@@ -12,6 +13,7 @@ This program has been tested under Matlab 2018b Window. Download the zip and run
 Some functions call the [GMT](https://github.com/GenericMappingTools/gmt), which is a very good software for geodetic data processing. The GMT will do the following job:
 - track DTU MSS model of Netcdf format using `grdtrack`.
 - calculate distance on the earth surface using `mapproject`.
+- crossover point analysis using `x2sys`.
 
 
 ## Citation
@@ -26,5 +28,5 @@ Contributions are welcome and appreciated.
 
 ## Acknowledgment
 
-
+This research was funded by the National Natural Science Foundation of China (41806214).
 

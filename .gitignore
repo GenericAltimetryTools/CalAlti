@@ -14,3 +14,5 @@ tide/*.out
 gmt.history
 crossover/hy2b.txt
 crossover/*.ps
+crossover/*.png
+crossover/*.conf
