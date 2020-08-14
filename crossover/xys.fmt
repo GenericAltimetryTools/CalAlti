@@ -1,0 +1,13 @@
+# This file applies to plain 3-column ascii files with no header record.
+#
+#---------------------------------------------------------------------
+# ASCII		# The input file is ascii
+# SKIP 0		# The number of header records to skip
+# GEO		# Data are geographic
+#---------------------------------------------------------------------
+#name	type	NaN	NaN-proxy	scale	offset	oformat
+lon	a	N		0		1	0	-
+lat	a	N		0		1	0	-
+tim a	N		0		1	0	-
+SSH a	N		0		1	0	-
+SLA a	N		0		1	0	-

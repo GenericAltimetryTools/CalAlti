@@ -7,7 +7,10 @@ test/*/*.dat
 test/*/*.txt
 test/*/*.kml
 test/
+src/statis.m
 tide/omap/*.nao
 tide/*.out
 *.exe
 gmt.history
+crossover/hy2b.txt
+crossover/*.ps

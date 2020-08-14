@@ -9,7 +9,7 @@ path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 % choose the satellite ID and GNSS sites
 sat=3; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
-loc = 'gdst';% choose from sdyt,fjpt,hist,yong for Jason. 
+loc = 'hisy2';% choose from sdyt,fjpt,hist,yong for Jason. 
 % And sdyt,sdrc,sdrc2,sdqd,fjpt,hisy,hisy2,yong, for HY-2B
 % Please first run the `yong`, because it will be set as a reference to
 % calculate the `sig_s` (spatial influence).
