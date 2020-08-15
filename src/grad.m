@@ -14,7 +14,7 @@ if sat==5
     
     % The input data is the DTU MSS model. Please download it from DTU
     % site.
-    gmt('grdtrack ..\test\s3a_check\coor.d -GC:\Users\yangleir\Documents\dtu\qly.nc >  ..\test\s3a_check\dtu18_qly.dat')
+    gmt('grdtrack ..\test\s3a_check\coor.d -G..\mss\qly.nc >  ..\test\s3a_check\dtu18_qly.dat')
     gmt('gmt2kml  ..\test\s3a_check\coor.d -Gred+f -Fs >  ..\test\s3a_check\mypoints.kml')
     
 elseif sat==1
@@ -31,7 +31,7 @@ elseif sat==1
     
     % The input data is the DTU MSS model. Please download it from DTU
     % site.
-    gmt('grdtrack ..\test\ja2_check\coor.d -GC:\Users\yangleir\Documents\dtu\qly.nc >  ..\test\ja2_check\dtu18_qly.dat')
+    gmt('grdtrack ..\test\ja2_check\coor.d -G..\mss\qly.nc >  ..\test\ja2_check\dtu18_qly.dat')
     gmt('gmt2kml  ..\test\ja2_check\coor.d -Gred+f -Fs >  ..\test\ja2_check\mypoints.kml')
 elseif sat==4
     disp('------ja3----')
@@ -47,7 +47,7 @@ elseif sat==4
     
     % The input data is the DTU MSS model. Please download it from DTU
     % site.
-    gmt('grdtrack ..\test\ja3_check\coor.d -GC:\Users\yangleir\Documents\dtu\qly.nc >  ..\test\ja3_check\dtu18_qly.dat')
+    gmt('grdtrack ..\test\ja3_check\coor.d -G..\mss\qly.nc >  ..\test\ja3_check\dtu18_qly.dat')
     gmt('gmt2kml  ..\test\ja3_check\coor.d -Gred+f -Fs >  ..\test\ja3_check\mypoints.kml')
 end
 
