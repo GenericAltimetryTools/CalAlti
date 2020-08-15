@@ -8,6 +8,8 @@ test/*/*.txt
 test/*/*.kml
 test/
 src/statis.m
+src/add_noise.m
+src/*.asv
 tide/omap/*.nao
 tide/*.out
 *.exe
