@@ -18,3 +18,10 @@ crossover/hy2b.txt
 crossover/*.ps
 crossover/*.png
 crossover/*.conf
+doc/*.log
+doc/*.aux
+doc/*.gz
+doc/*.lof
+doc/*.out
+doc/*.toc
+doc/*.pdf
