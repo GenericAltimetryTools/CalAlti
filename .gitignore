@@ -10,6 +10,9 @@ test/
 src/statis.m
 src/add_noise.m
 src/*.asv
+src/*.ps
+src/gmt.*
+src/*.png
 tide/omap/*.nao
 tide/*.out
 *.exe

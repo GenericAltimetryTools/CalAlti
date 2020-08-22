@@ -25,7 +25,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           lat_gps=37.3897;% 成山头验潮站的坐标
           lon_gps=122.6968;
           
-        case 'sdyt' % shandong YanTai
+        case 'sdyt' % 
           disp('Your CAL site is: shandong yantai')
           min_lat=37500000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
@@ -34,7 +34,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           pass_num=138;% define the pass number
           lat_gps=3.7482596e+01;% 成山头验潮站的坐标
           lon_gps=1.2143555e+02;
-      case 'fjpt' % shandong YanTai
+      case 'fjpt' % 
           disp('Your CAL site is: Fujian pingtan')
           min_lat=24000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=25100000; % 
@@ -44,7 +44,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           lat_gps=2.5502154e+01;% GNSS的坐标
           lon_gps=1.1976872e+02;% 1.1976872e+02 2.5502154e+01
           
-       case 'hisy' % shandong YanTai
+       case 'hisy' % 
           disp('Your CAL site is: Hainan sanya')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=18200000; % 
@@ -55,7 +55,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           lat_gps=1.8235778e+01;% GNSS的坐标
           lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
 
-       case 'yong' % shandong YanTai
+       case 'yong' % 
           disp('Your CAL site is: Yong xing dao P153')
           min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=18000000; % 
@@ -66,7 +66,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           lat_gps=1.6834028e+01;% GNSS的坐标
           lon_gps=1.1233533e+02;%  
 
-       case 'yong2' % shandong YanTai
+       case 'yong2' % 
           disp('Your CAL site is: Yong xing dao P114')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=19000000; % 
@@ -84,6 +84,15 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readja2_cal_select_site(loc)
           pass_num=138;% define the pass number    
           lat_gps=40.0094;% 芷锚湾验潮站的坐标
           lon_gps=119.9200;    
+
+        case 'zhws' % 
+          disp('Your CAL site is: zhuhai wanshan')
+          min_lat=21000000; % 
+          max_lat=22200000; % 
+          pass_num=153;% define the pass number    
+          lat_gps=21.9949;% GNSS的坐标
+          lon_gps=114.1479;%
+          
         otherwise
           disp('Unknown location.')
     end

@@ -8,7 +8,7 @@ function hy2b_wet(sat,loc,dir_0)
 %=========================================================================
 % Please modify these parameters according to your requirement
 min_cir=7;% 7
-max_cir=46;% 46
+max_cir=48;% 46
 
 %=========================================================================
 % Step 2: select the CAL site

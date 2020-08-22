@@ -7,7 +7,7 @@ function ja2_wet(sat,loc,dir_0)
 %=========================================================================
 % Please modify these parameters according to your requirement
 
-min_cir=55;% 92,165,239,55,
+min_cir=56;% 92,165,239,55,
 max_cir=303;% 165,239,303,303
 
 %=========================================================================
@@ -17,6 +17,7 @@ max_cir=303;% 165,239,303,303
 readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
 plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
+plot_gmt(pass_num,min_cir,max_cir,sat);
 % Step 4: interpolation of  the wet delay to the fixed point and compare the GNSS and radiometer.
 % Then save the results.
 [bias_std,bias2,sig_g,dist]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat);

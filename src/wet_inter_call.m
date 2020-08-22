@@ -22,7 +22,9 @@ if sat==1 || sat==4 %Jason2,3
         lat3=17.0; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
         lat3=16.75; % 25km far from the mainland   
-        
+    else
+        disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
+        error('Please check the GNSS wet PD file for this site');        
     end 
 end
 
@@ -45,7 +47,9 @@ if sat==3 % HY-2B
         lat3=35.6; % 25km far from the mainland     
     elseif  strcmp(loc,'gdst') % This is not good due to land influnece
         lat3=23.0; % 25km far from the mainland     
-        
+    else
+        disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
+        error('Please check the GNSS wet PD file for this site');
     end 
 end
 

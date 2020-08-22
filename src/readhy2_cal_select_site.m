@@ -1,3 +1,11 @@
+% Pay attention that the pass number between HY-2A and HY2-B are not same.
+% The pass number of 2b shifted 172. For example, the passnumber 215 of 2A
+% is refered to 001 (215+172-386) of 2B. The 001 of 2A refered to 173 (1+
+% 172) of 2B. The 203A --->375B.
+
+% This is a function to determine the passnumber,CAL site location for HY-2.
+% Author:Yang Lei
+% 2020-0822
 function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
 
     switch lower(loc)
@@ -132,6 +140,17 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           pass_num=224;% define the pass number
           lat_gps=2.3417880e+01;% GNSS的坐标
           lon_gps=1.1660307e+02;% 1.1660307e+02 2.3417880e+01
+          
+       case 'zhws' % zhuhai wanshan CAL site
+          disp('Your CAL site is:Zhu Hai Wan Shan')
+          min_lat=21000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=22200000; % 
+          
+%           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
+%           max_lat=17500000; %           
+          pass_num=375;% define the pass number
+          lat_gps=21.9949;% GNSS的坐标
+          lon_gps=114.1479;% 1.1660307e+02 2.3417880e+01
           
         otherwise
           disp('Unknown location.')
