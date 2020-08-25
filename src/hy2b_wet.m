@@ -18,7 +18,7 @@ readhy2b_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
 plot_hy2b_check_wet(pass_num,min_cir,max_cir,sat);
 % Step 4: interpolation of  the wet delay to the fixed point.
-[bias_std,bias2,sig_g,dist]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat);
+[bias_std,~,sig_g,dist]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat);
 
 % Step5: Analysis the spatial inluence
 dis_0=dist.data(3);% This is the distance from the first point.

@@ -2,6 +2,13 @@
 % interpolation of  the wet delay to the fixed point.
 function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps)
 
+% ------------------------------------------------------------------------
+% `dis` is distance from GNSS site to the comparison point. It is
+% calculated by GMT.
+% `sig_g` is the uncertainty of GNSS wet output from GAMIT. I do not use it.
+% Instead I use 5mm as the uncertainty for the GNSS wet. Here  `sig_g` is a
+% value for precision of inner coincidence.
+% ------------------------------------------------------------------------
 %     lat3=lat_compare;
 
     temp11=check_circle(pass_num);% 调用函数，判断circle的位数。
@@ -13,8 +20,10 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         temp31=temp21(3:5);% 组成三位数的字符串。
     end
     
-    % loop the `lat3`, save the STD of bias to matrix.
-    tmp=length(lat_compare);
+% loop the `lat3`, save the STD of bias to matrix.
+% Here the loop is set to 1. Means no loop.
+% loop is not a good method to get the best validation location. I use the slope method instead. 
+    tmp=length(lat_compare); % here `tmp=1`.
 %     sig_bias_r_g=[];
     
     for ii=1:tmp
@@ -34,6 +43,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
             temp='..\test\hy2_check\';
         end  
         
+        % get the wet PD at the comparison point by `pchip` interpolation
         for i=min_cir:max_cir
     %         i;
                 temp1=check_circle(i);% 调用函数，判断circle的位数。
@@ -60,17 +70,19 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                     tim_pca=interp1(temp6(:,2),temp6(:,5),lat3,'pchip');
     %                 tmp=datestr(tim_pca/86400+datenum('2000-01-1 00:00:00'))%
     %                 trasform the seconds to normal data format
-                    fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet,i);% 保存
-                    fprintf(fid5,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet_model,i);% 保存
+                    fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet,i);% save wet_R pd at PCA
+                    fprintf(fid5,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet_model,i);%  save wet_model pd at PCA
                 end
 
             end
 
         end 
         
-        % compare
+        % compare and get the orignal bais may contain abnormal values
         [bias2,sig_g]=wet_cal_G_S(sat,loc);
-        % three sigma0 edit.
+        % three sigma0 editting to remove the abnormal values. Save data to
+        % file. Also give the trend estimation for both radiometer and
+        % model.
         [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir);
 %         sig_bias_r_g(ii)=bias_std;
         

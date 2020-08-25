@@ -6,9 +6,11 @@
 
 function [bias2,sig_g]=wet_cal_G_S(sat,loc)
 
+% `z_delta` is a  threshold value  to remove the fast changing data. Unit
+% is `mm`. It is not the same for each site and given by subjectively.
     if strcmp(loc,'sdyt')
         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
-        z_delta=15;% This is a  threshold value  to remove the fast changing data.
+        z_delta=15;
     elseif strcmp(loc,'fjpt')
         gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
         z_delta=15;
@@ -93,9 +95,12 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
             tt=tm2(loct-1:loct+1);
             t_pca=pca_tim(i);
             
-            if abs(tm2(loct)-t_pca) < 3600 && abs(tm2(loct+1)-t_pca) < 3600
+            % 3600 is time of seconds. This is to ensure the GNSS data are
+            % aviable near the satellite pca time before and after 1 hour.
+            if abs(tm2(loct)-t_pca) < 3600 && abs(tm2(loct+1)-t_pca) < 3600 
                 % Check the GNSS data around the PCA time. Data should be
                 % exited in 1 hour before and after satellite passing.
+                
     %             if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
                 if z_delay_sigma(loct)<z_delta && abs(ssh_tg2(3)-ssh_tg2(1))<z_delta  % 去除短时间变化快的数据  
                     tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time
@@ -113,6 +118,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
         end
     end
     
+% =========================================================================    
+  % Get the bais between GNSS and radiometer or model.
   if k>1
     bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
@@ -121,7 +128,9 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
 %       disp('no data fullfill the requirement')
       error('no data fullfill the requirement,please check the input data')
   end
-    sig_g=mean(sig_pd);
+% =========================================================================   
+
+    sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT software.
     Q=['The average uncertainty of the GNSS wet PD is:', num2str(sig_g)];
     disp(Q);
 

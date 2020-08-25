@@ -40,11 +40,11 @@ clear;
 clc;
 format long
 
-filepath='D:\aviso_hy2_c2_l2p\version_02_00\cycle_0070\global_sla_l2p_ntc_h2_C0070_P0001_20140524T015934_20140524T025140_20180712T072334.nc'; % Here is the NC file location.
+filepath='C:\Users\yangleir\Downloads\hy2b\IDR_2M\0007\H2B_OPER_IDR_2MC_0007_0001_20190121T200307_20190121T205522.nc'; % Here is the NC file location.
 nc=netcdf.open(filepath,'NC_NOWRITE');
 [numdims, numvars, numglobalatts, unlimdimID] = netcdf.inq(nc);% Determine numbers of the variable
 
-fid1 = fopen('..\test\hy2a_l2p.txt', 'w'); % open the empty file to write out the data
+fid1 = fopen('..\test\hy2b_IDR_008.txt', 'w'); % open the empty file to write out the data
 
 for i=0:numvars-1
     [varname, xtype, varDimIDs, varAtts] = netcdf.inqVar(nc,i);

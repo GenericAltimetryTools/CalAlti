@@ -7,7 +7,7 @@ function spa=fit_dis(dis,m,dis_0,sat)
     myfit = fit(x,y,myfittype,'StartPoint',[1 1 200]);
     figure (121)
     plot(myfit,x,y);hold on 
-    errorbar(x,y,dis.data(1:m-3,4),'o')
+%     errorbar(x,y,dis.data(1:m-3,4),'o'); % add error bar
     % 
     spa=myfit.a - myfit.b*exp(-dis_0/myfit.c);
     myfit_value=myfit.a - myfit.b*exp(-x/myfit.c);

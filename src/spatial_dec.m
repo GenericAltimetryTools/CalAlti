@@ -134,7 +134,7 @@ tmp3=std(wet_rmse_out,1);
 % plot(tmp)
 out=[longitude_s(1:m-3)' ;latitude_s(1:m-3)';tmp;tmp3]';
 % out=sortrows(out,2);
-input=flipud(out); % sort the data by increasing distance
+input=flipud(out); % sort the altimeter data by increasing distance
 
 
 % Call the GMT to calculate the distance to the first point.
