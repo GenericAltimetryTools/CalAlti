@@ -55,8 +55,9 @@ for cir=12:13
 % Plot the HY-2B passes 
 plot_gmt_pass(cir,sat);
 
-% clear_temp(sat);
+
 end
 
-
+% clear the temporary files
+clear_temp(sat);
 

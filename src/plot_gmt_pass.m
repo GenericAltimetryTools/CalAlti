@@ -23,7 +23,7 @@ namelist = ls(fullfile(temp,str));% 这里ls可以和dir替换
 len=size(namelist);
 
 % call GMT
-psname=[' wetg',num2str(cir),'.ps'];
+psname=[' ../temp/wetg',num2str(cir),'.ps'];
 bound=' -R0/360/-85/85';
 order=['pscoast',bound,' -Jj1:250000000 -Dl -A10000/0/1 -Slightblue  -K -P >',psname];
 gmt(order); 

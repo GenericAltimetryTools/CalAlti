@@ -7,22 +7,30 @@
 function plot_gmt(pass_num,min_cir,max_cir,sat)
 
 if sat==1
-%     fid4=fopen('..\test\ja2_check\statistic.txt','w');
     temp='..\test\ja2_check\';
 elseif sat==4
-%     fid4=fopen('..\test\ja3_check\statistic.txt','w');
     temp='..\test\ja3_check\';
+elseif sat==3
+    temp='..\test\hy2_check\';    
 end
 
 % Find the best pass. (data not missed)
 for i=min_cir:max_cir
         temp1=check_circle(i);% 调用函数，判断circle的位数。
         temp2=num2str(temp1);
-        temp3=temp2(3:5);% 组成三位数的字符串。
+        if sat==3
+            temp3=temp2(2:5);% 组成三位数的字符串。
+        else
+            temp3=temp2(3:5);% 组成三位数的字符串。
+        end        
         t1=check_circle(pass_num);
         t2=num2str(t1);
-        t3=t2(3:5);% 组成三位数的字符串。
-        tmp=strcat('_',t3);
+        if sat==3
+            temp31=t2(2:5);% 组成三位数的字符串。
+        else
+            temp31=t2(3:5);% 组成三位数的字符串。
+        end        
+        tmp=strcat('_',temp31);
         temp4= strcat(temp,temp3,tmp,'.txt');
         temp5= strcat('X',temp3,tmp);
         s=dir(temp4);
@@ -31,7 +39,7 @@ for i=min_cir:max_cir
         disp(temp4);
         load (temp4)
         temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
-        lent(i)=length(temp6(:,3));
+        lent(i)=length(temp6(:,3));% As for HY-2B, many radiometer measurements were lost and matix values are 0.
     end
     
 end 
@@ -40,11 +48,21 @@ end
 i=location; % The best circle.
 temp1=check_circle(i);% 调用函数，判断circle的位数。
 temp2=num2str(temp1);
-temp3=temp2(3:5);% 组成三位数的字符串。
+if sat==3
+    temp3=temp2(2:5);% 组成三位数的字符串。
+else
+    temp3=temp2(3:5);% 组成三位数的字符串。
+end
+% temp3=temp2(3:5);% 组成三位数的字符串。
 t1=check_circle(pass_num);
 t2=num2str(t1);
-t3=t2(3:5);% 组成三位数的字符串。
-tmp=strcat('_',t3);
+% t3=t2(3:5);% 组成三位数的字符串。
+if sat==3
+    temp31=t2(2:5);% 组成三位数的字符串。
+else
+    temp31=t2(3:5);% 组成三位数的字符串。
+end
+tmp=strcat('_',temp31);
 temp4= strcat(temp,temp3,tmp,'.txt');
 temp5= strcat('X',temp3,tmp);
 load (temp4);
@@ -66,11 +84,21 @@ for i=min_cir:max_cir
         
         temp1=check_circle(i);% 调用函数，判断circle的位数。
         temp2=num2str(temp1);
-        temp3=temp2(3:5);% 组成三位数的字符串。
+        if sat==3
+            temp3=temp2(2:5);% 组成三位数的字符串。
+        else
+            temp3=temp2(3:5);% 组成三位数的字符串。
+        end
+%         temp3=temp2(3:5);% 组成三位数的字符串。
         t1=check_circle(pass_num);
         t2=num2str(t1);
-        t3=t2(3:5);% 组成三位数的字符串。
-        tmp=strcat('_',t3);
+        if sat==3
+            temp31=t2(2:5);% 组成三位数的字符串。
+        else
+            temp31=t2(3:5);% 组成三位数的字符串。
+        end        
+%         t3=t2(3:5);% 组成三位数的字符串。
+        tmp=strcat('_',temp31);
         temp4= strcat(temp,temp3,tmp,'.txt');
         temp5= strcat('X',temp3,tmp);
         s=dir(temp4);
@@ -113,7 +141,7 @@ for i=min_cir:max_cir
             mi_lat=(bounds(3))-1;
             ma_lat=(bounds(4))+1;
             bound=['-R',num2str(mi_lon),'/',num2str(ma_lon),'/',num2str(mi_lat),'/',num2str(ma_lat)];
-            order=['pscoast ',bound,' -Jm122/37/1:3000000  -Bga -BSWen -Df -Gnavy -K > test.ps'];
+            order=['pscoast ',bound,' -Jm122/37/1:3000000  -Bga -BSWen -Df -Gnavy -K > ../temp/test.ps'];
             gmt(order);  
             
             
@@ -122,7 +150,7 @@ for i=min_cir:max_cir
         if errors<150
             slope_mean(k,:)=slope_inter;
             k=k+1;
-            gmt('pswiggle  -R -J  -Z50 -Wthinnest,red -O -K -t70 >> test.ps ', slope)
+            gmt('pswiggle  -R -J  -Z50 -Wthinnest,red -O -K -t70 >> ../temp/test.ps ', slope)
         end     
 
     end 
@@ -131,8 +159,8 @@ end
 s=mean(slope_mean,1);
 slopes=[s_lon s_lat s'];
 
-gmt('psxy -J -R -W1.67c,black -O -K -t70 >> test.ps',full_pass(:,1:3)) % The diameter is 50km based on the projection scalor.
-order='psxy  -J -R -Sc0.2c -Gblack -O  -K >> test.ps';
+gmt('psxy -J -R -W1.67c,black -O -K -t70 >> ../temp/test.ps',full_pass(:,1:3)) % The diameter is 50km based on the projection scalor.
+order='psxy  -J -R -Sc0.2c -Gblack -O  -K >> ../temp/test.ps';
 % cpt = gmt('makecpt -Crainbow -E24', wet_full);
 gmt(order,full_pass(:,1:3));   
 order=['grdmath ',bound,' -A10000/0/4 -Dl -I2m LDISTG = ../temp/dist_to_gshhg_hn2.nc'];
@@ -143,12 +171,12 @@ gmt('grdlandmask -R -Dl -I0.5m -N1/-1 -G../temp/land_mask.nc');
 gmt('grdmath ../temp/file2_hn2.nc ../temp/land_mask.nc MUL = ../temp/file.nc ')
 
 out35=gmt('grdcontour ../temp/file.nc -R -C50, -D'); % plot the 35 and 50km line
-gmt('psxy -R -J -W4p,green  -K -O >> test.ps',out35.data)
+gmt('psxy -R -J -W4p,green  -K -O >> ../temp/test.ps',out35.data)
 % gps=[lon_gps lat_gps];
-gmt('psxy ../test/gnss_wet/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> test.ps');
+gmt('psxy ../test/gnss_wet/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ../temp/test.ps');
 % !gawk "{print $1, $2, $3}" ../test/gnss_wet/points_latlon.txt >../test/gnss_wet/points_latlon.txt2 
-gmt('pstext  ../test/gnss_wet/points_latlon.txt2 -R -J -F+f7p,black+jTL -O -K -Gwhite -D0.2/0.1 >> test.ps')
-gmt('pswiggle  -R -J  -Z50 -W2p,yellow  -O  >> test.ps ', slopes)
+gmt('pstext  ../test/gnss_wet/points_latlon.txt2 -R -J -F+f7p,black+jTL -O -K -Gwhite -D0.2/0.1 >> ../temp/test.ps')
+gmt('pswiggle  -R -J  -Z50 -W2p,yellow  -O  >> ../temp/test.ps ', slopes)
 % gmt('pswiggle  -R -J  -Z10 -W2p,green  -O  >> test.ps ', wet_ful_f_plot)
-gmt('psconvert test.ps -P -Tf -A')
+gmt('psconvert ../temp/test.ps -P -Tf -A')
 return
