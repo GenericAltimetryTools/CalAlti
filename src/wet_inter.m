@@ -24,7 +24,9 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
 % Here the loop is set to 1. Means no loop.
 % loop is not a good method to get the best validation location. I use the slope method instead. 
     tmp=length(lat_compare); % here `tmp=1`.
-%     sig_bias_r_g=[];
+    sig_bias_r_g=[];
+    mea_bias_r_g=[];
+    dis_bias_r_g=[];
     
     for ii=1:tmp
         lat3=lat_compare(ii);
@@ -83,8 +85,9 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.
-        [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir);
-%         sig_bias_r_g(ii)=bias_std;
+        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir);
+        sig_bias_r_g(ii)=bias_std;
+        mea_bias_r_g(ii)=bias_mean;        
         
         input=[lon_gps lat_gps];
         order=strcat('mapproject -G',num2str(lon3),'/',num2str(lat3),'+i+uk -fg');
@@ -93,11 +96,12 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         Q=['finish interp at latitude:', num2str(lat3),'; distance to GNSS site:',num2str(dis.data(3))];
         disp(Q);
         fclose('all');
-        
+        dis_bias_r_g(ii)=dis.data(3);
     end
     
     % test 
-%     figure (234)
-%     plot(sig_bias_r_g)
+    figure (234)
+    plot(dis_bias_r_g,sig_bias_r_g);hold on
+    plot(dis_bias_r_g,mea_bias_r_g);hold off
 
 return

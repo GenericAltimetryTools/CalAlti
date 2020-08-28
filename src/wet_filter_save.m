@@ -2,7 +2,7 @@
 % -Plot 
 % -Save to file
 
-function [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir)
+function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir)
 
     tmpp=bias2(:,2);
     ttt=bias2(:,1);
@@ -19,6 +19,7 @@ function [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir)
 
     bias_mean=mean (bias2_radio(:,2));
     bias_std=std(bias2_radio(:,2));
+%     bias_std=rms(bias2_radio(:,2));    
     Q=['wet PD of radiometer-gnss:',' Mean: ', num2str(bias_mean),' STD:',num2str(bias_std)];
     disp(Q);
     %=====================================================================
@@ -34,7 +35,8 @@ function [bias_std]=wet_filter_save(bias2,sat,min_cir,max_cir)
 
     % plot(bias2(:,1),bias2(:,2),'+')
     bias_mean_m=mean (bias2_model(:,2));
-    bias_std_m=std(bias2_model(:,2));
+    bias_std_m=std(bias2_model(:,2));% std
+%     bias_std_m=rms(bias2_model(:,2));% rms. Choose `std` or `rms`?
     Q=['wet PD of model-gnss:',' Mean: ', num2str(bias_mean_m),' STD:',num2str(bias_std_m),'  No:',num2str(length(bias_model))];
     disp(Q);
     %=====================================================================

@@ -17,7 +17,8 @@ if sat==1 || sat==4 %Jason2,3
     elseif  strcmp(loc,'fjpt')
         lat3=24.96; % 50km 
     elseif  strcmp(loc,'hisy')
-        lat3=17.75; % 35km far from the mainland
+%         lat3=17.75; % 35km far from the mainland
+        lat3=17.2:0.05:18.1; % Loop to test my guess. The lowest RMS is not the beginning of the land contamination.   
     elseif  strcmp(loc,'yong')
         lat3=17.0; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
