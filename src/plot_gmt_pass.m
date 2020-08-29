@@ -39,4 +39,7 @@ order=['pscoast',bound,' -J -Dl -A10000/0/1 -Bag -BSWEN+t"HY-2B pass" -Glightyel
 gmt(order); 
 gmt('psconvert', psname, ' -Tf -A');
 
+% blockmean and surface 
+
+
 return

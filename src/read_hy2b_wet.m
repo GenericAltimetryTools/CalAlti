@@ -11,7 +11,7 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 sat=3;
 
-for cir=12:13
+for cir=21:47 % 21-47 cycles is one year. 201908-202008
 %     cir=17;% choose one cycle
     nm=cir;
     temp1=check_circle(nm);% 调用函数，判断circle的位数。
@@ -24,7 +24,7 @@ for cir=12:13
     len=len(1);
 
     for  n=1:len
-        q=['processing No.:',num2str(n),'/',num2str(len)];
+        q=['processing No.:',num2str( cir),': ',num2str(n),'/',num2str(len)];
         disp(q);
         t1=str2double(namelist(n,24:26));
 
@@ -45,7 +45,7 @@ for cir=12:13
 
         for i=1:length(lon)              
             if ((-5000<=wet(i)&&wet(i)<=-10))
-                fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,time(i));
+                fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f  %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,double(wet_m(i))/1E1-double(wet(i))/1E1,time(i));
             end
         end
         fclose(fid2);
@@ -53,11 +53,15 @@ for cir=12:13
     end
     
 % Plot the HY-2B passes 
-plot_gmt_pass(cir,sat);
-
+% plot_gmt_pass(cir,sat);
 
 end
 
-% clear the temporary files
-clear_temp(sat);
+plot_gmt_grid(sat);
+
+
+% clear the temporary files. Be careful. It will delete all the `txt` files
+% in the related directory.
+
+% clear_temp(sat);
 
