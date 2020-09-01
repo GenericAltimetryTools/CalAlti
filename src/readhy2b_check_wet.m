@@ -38,7 +38,7 @@ for nm=min_cir:max_cir
             time=netcdf.getVar(nc,0);%10-6¶È
 %             alt=netcdf.getVar(nc,44);%10-3m
 %             r_ku=netcdf.getVar(nc,47);%10-3m
-%             dry=netcdf.getVar(nc,61);%10-4m model dry
+            dry=netcdf.getVar(nc,61);%10-4m model dry
             wet=netcdf.getVar(nc,63);%10-4m,rad
             wet_m=netcdf.getVar(nc,62);%10-4m,medel
 %             ino=netcdf.getVar(nc,64);%10-4m,alt_ku
@@ -60,7 +60,7 @@ for nm=min_cir:max_cir
             
             for i=1:length(lon)              
                 if (((lat(i))<max_lat &&(lat(i))> min_lat)&& (-5000<=wet(i)&&wet(i)<=-10))
-                        fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,time(i));
+                        fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,time(i),double(dry(i))/1E1);
 %                         fprintf(fid1,'%12.6f %12d\n',double(lat(i))/1E6,nm);
 %                         k=k+1;% statistic of valid point number 
                 end

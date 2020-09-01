@@ -52,7 +52,7 @@ for nm=1:length(namelist)
     
 %     for n=1:file_num
         t1=str2double(namelist(nm,13:15));
-        if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
+        if ((t1>=min_cir) && (t1<=max_cir)) % here is pass which you need to output data;009;147
             Q=['Jason cycle:',num2str(t1)];
             disp(Q);
             filepath=strcat(dir_nm,namelist(nm,1:54));
@@ -62,7 +62,7 @@ for nm=1:length(namelist)
             time=netcdf.getVar(nc,0);%10-6¶È
 %             alt=netcdf.getVar(nc,58);%10-3m
 %             r_ku=netcdf.getVar(nc,61);%10-3m
-%             dry=netcdf.getVar(nc,82);%10-4m
+            dry=netcdf.getVar(nc,82);%10-4m
             wet_m=netcdf.getVar(nc,83);%10-4m
             wet=netcdf.getVar(nc,84);%10-4m
 %             ino=netcdf.getVar(nc,85);%10-4m
@@ -87,7 +87,7 @@ for nm=1:length(namelist)
             for i=1:length(lon)
                 
                if (((lat(i))<max_lat &&(lat(i))> min_lat)&& (-5000<=wet(i)&&wet(i)<=-10))
-                        fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,time(i));
+                        fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,double(wet(i))/1E1,double(wet_m(i))/1E1,time(i),double(dry(i))/1E1);
 %                         fprintf(fid1,'%12.6f %12d\n',double(lat(i))/1E6,nm);
 %                         k=k+1;% statistic of valid point number 
 %                         end

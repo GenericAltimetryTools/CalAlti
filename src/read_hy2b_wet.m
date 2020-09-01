@@ -11,7 +11,7 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 sat=3;
 
-for cir=21:47 % 21-47 cycles is one year. 201908-202008
+for cir=25:25 % 21-47 cycles is one year. 201908-202008
 %     cir=17;% choose one cycle
     nm=cir;
     temp1=check_circle(nm);% 调用函数，判断circle的位数。
@@ -57,7 +57,7 @@ for cir=21:47 % 21-47 cycles is one year. 201908-202008
 
 end
 
-plot_gmt_grid(sat);
+% plot_gmt_grid(sat);
 
 
 % clear the temporary files. Be careful. It will delete all the `txt` files

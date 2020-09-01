@@ -1,6 +1,6 @@
 % call wet_inter to find the minimum STD
 
-function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat)
+function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat,dry,h_gnss)
 
 % Define the comparison latitude, thus the comparison point. Here we do not
 % know the best distance for calibration. So we give a comparison extent to
@@ -11,18 +11,19 @@ if sat==1 || sat==4 %Jason2,3
     if   strcmp(loc,'cst')
         lat3=37.7;% 此处的纬度大概距离陆地20km，辐射计收到的陆地干扰较小，且距离站点近。
     elseif  strcmp(loc,'sdyt')
-        lat3=38.25; % 30km far from the mainland
-%         lat3=37.5:0.05:39.1; % It is just a test to loop the `lat3`. Slow
+%         lat3=38.25; % 30km far from the mainland
+        lat3=37.6:0.05:39.1; % It is just a test to loop the `lat3`. Slow
 %         and useless. So we would better set the `lat3` by hand.
     elseif  strcmp(loc,'fjpt')
-        lat3=24.96; % 50km 
+%         lat3=24.96; % 50km 
+         lat3=24.5:0.05:25.3;
     elseif  strcmp(loc,'hisy')
 %         lat3=17.75; % 35km far from the mainland
         lat3=17.2:0.05:18.2; % Loop to test my guess. The lowest RMS is not the beginning of the land contamination.   
     elseif  strcmp(loc,'yong')
-        lat3=17.0; % 25km far from the mainland    
+        lat3=16.5:0.05:17.5; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
-        lat3=16.75; % 25km far from the mainland   
+        lat3=16.1:0.05:17.1; % 25km far from the mainland   
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');        
@@ -41,7 +42,7 @@ if sat==3 % HY-2B
 %         lat3=17.9; % 25km far from the mainland
         lat3=17.2:0.05:18.2;        
     elseif  strcmp(loc,'yong')
-        lat3=17.0; % 25km far from the mainland    
+        lat3=16.5:0.05:17.5; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
         lat3=16.75; % 25km far from the mainland  
     elseif  strcmp(loc,'sdrc') || strcmp(loc,'sdrc2')
@@ -58,6 +59,6 @@ end
 
     lat_compare=lat3;
     % interp and compare. 
-    [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps);
+    [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss);
     
 return

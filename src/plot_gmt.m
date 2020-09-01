@@ -136,10 +136,10 @@ for i=min_cir:max_cir
             len_b=length(bound);
             bounds= strsplit(bound(3:len_b),'/');
             bounds=str2num(char(bounds));
-            mi_lon=bounds(1)-1;
-            ma_lon=(bounds(2))+1;
-            mi_lat=(bounds(3))-1;
-            ma_lat=(bounds(4))+1;
+            mi_lon=floor(bounds(1)-1);
+            ma_lon=ceil((bounds(2))+1);
+            mi_lat=floor((bounds(3))-1);
+            ma_lat=ceil((bounds(4))+1)-1;
             bound=['-R',num2str(mi_lon),'/',num2str(ma_lon),'/',num2str(mi_lat),'/',num2str(ma_lat)];
             order=['pscoast ',bound,' -Jm122/37/1:3000000  -Bga -BSWen -Df -Gnavy -K > ../temp/test.ps'];
             gmt(order);  
@@ -167,8 +167,8 @@ order=['grdmath ',bound,' -A10000/0/4 -Dl -I2m LDISTG = ../temp/dist_to_gshhg_hn
 gmt(order);
 
 gmt('grdsample ../temp/dist_to_gshhg_hn2.nc -R -I0.5m -G../temp/file2_hn2.nc')
-gmt('grdlandmask -R -Dl -I0.5m -N1/-1 -G../temp/land_mask.nc');
-gmt('grdmath ../temp/file2_hn2.nc ../temp/land_mask.nc MUL = ../temp/file.nc ')
+gmt('grdlandmask -R -Dl -A10000/0/4 -I0.5m -N1/-1 -G../temp/land_mask.nc');
+gmt('grdmath ../temp/file2_hn2.nc ../temp/land_mask.nc MUL = ../temp/file.nc' )
 
 out35=gmt('grdcontour ../temp/file.nc -R -C50, -D'); % plot the 35 and 50km line
 gmt('psxy -R -J -W4p,green  -K -O >> ../temp/test.ps',out35.data)

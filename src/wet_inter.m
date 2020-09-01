@@ -1,6 +1,6 @@
 % 计算固定纬度的辐射计大气湿延迟差值、时间差值
 % interpolation of  the wet delay to the fixed point.
-function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps)
+function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss)
 
 % ------------------------------------------------------------------------
 % `dis` is distance from GNSS site to the comparison point. It is
@@ -28,24 +28,29 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
     mea_bias_r_g=[];
     dis_bias_r_g=[];
     
+% loop the comparison location lat_compare. This is to check the land
+% comtamination where apprears.
     for ii=1:tmp
         lat3=lat_compare(ii);
         
         if sat==1
             fid4=fopen('..\test\ja2_check\pca_wet.txt','w');
             fid5=fopen('..\test\ja2_check\pca_wet_model.txt','w');
+            fid6=fopen('..\test\ja2_check\pca_ztd.txt','w');
             temp='..\test\ja2_check\';
         elseif sat==4
             fid4=fopen('..\test\ja3_check\pca_wet.txt','w');
             fid5=fopen('..\test\ja3_check\pca_wet_model.txt','w');
+            fid6=fopen('..\test\ja3_check\pca_ztd.txt','w');
             temp='..\test\ja3_check\';
         elseif sat==3
             fid4=fopen('..\test\hy2_check\pca_wet.txt','w');
             fid5=fopen('..\test\hy2_check\pca_wet_model.txt','w');
+            fid6=fopen('..\test\hy2_check\pca_ztd.txt','w');
             temp='..\test\hy2_check\';
         end  
         
-        % get the wet PD at the comparison point by `pchip` interpolation
+        % get the wet PD of radiometer at the comparison point by `pchip` interpolation
         for i=min_cir:max_cir
     %         i;
                 temp1=check_circle(i);% 调用函数，判断circle的位数。
@@ -66,22 +71,28 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                 aa=size(temp6);
 
                 if aa(1)>10 % 表示有效点数大于20个，占总数的一半。这个值可以更具总数多少修改。
-                    pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'pchip');
+                    pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'nearest');
                     pca_wet_model=interp1(temp6(:,2),temp6(:,4),lat3,'pchip');
+                    pca_dry=interp1(temp6(:,2),temp6(:,6),lat_gps,'pchip');
+                    pressure_gdr=pca_dry*(1-0.00266*cosd(2*lat_gps))/2.277; %m_dry=-2.277*pre/(1-0.0026*cosd(2*36)-(0.28*1e-6)*h); % Here negelact the Height effect. unit mm
+                    pca_dry_corrected=pressure_gdr*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*1e-6*h_gnss);
+                    pca_ztd=pca_wet+pca_dry_corrected;% This the ZTD. Toal PD.
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'pchip');
                     tim_pca=interp1(temp6(:,2),temp6(:,5),lat3,'pchip');
     %                 tmp=datestr(tim_pca/86400+datenum('2000-01-1 00:00:00'))%
     %                 trasform the seconds to normal data format
                     fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet,i);% save wet_R pd at PCA
                     fprintf(fid5,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_wet_model,i);%  save wet_model pd at PCA
+                    fprintf(fid6,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ztd,i);%  save wet_model pd at PCA
+
                 end
 
             end
 
         end 
         
-        % compare and get the orignal bais may contain abnormal values
-        [bias2,sig_g]=wet_cal_G_S(sat,loc);
+        % Compare and get the orignal bais between GNSS and radiometer. May contain abnormal values
+        [bias2,sig_g]=wet_cal_G_S(sat,loc,dry);
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.

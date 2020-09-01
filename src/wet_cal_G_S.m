@@ -4,7 +4,7 @@
 % '2008.000000000 2524.90 209.70 17.50'='Time total_PD wet_PD sig_PD'
 % -
 
-function [bias2,sig_g]=wet_cal_G_S(sat,loc)
+function [bias2,sig_g]=wet_cal_G_S(sat,loc,dry)
 
 % `z_delta` is a  threshold value  to remove the fast changing data. Unit
 % is `mm`. It is not the same for each site and given by subjectively.
@@ -31,11 +31,16 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
         z_delta=20;          
     end
 
-    tmp000=gnss_wet;
+    tmp000=gnss_wet; % The format is :`2008.000000000 2524.90 209.70 17.50`
+    % `time ZTD wet sig_td`.
+    
     y_0=floor(tmp000(:,1));
     da=tmp000(:,1)-y_0;
-    z_delay=tmp000(:,3);  % wet PD
-    z_delay_sigma=tmp000(:,4);  % sigma of the wet PD
+
+    z_delay=tmp000(:,3);  % ZTD of GNSS,including the dry. Format: 2519.00
+    ztd_delay=tmp000(:,2);  % wet PD of GNSS, excluding the dry. Format:240.60
+ 
+    z_delay_sigma=tmp000(:,4);  % sigma of the wet PD of GNSS.
     
     % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
     for i=2000:2030
@@ -45,6 +50,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
     sec=y_sec(y_0)'+da*366*24*60*60;
        
     g_w=z_delay; % GNSS wet PD
+    g_ztd=ztd_delay; % GNSS ZTD
+
     tm2=round(sec); % GNSS time in second
     
 % load the satellite radiometer wet PD according to `sat`. The file format
@@ -53,19 +60,24 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
     if sat==1
             pca_wet=load ('..\test\ja2_check\pca_wet.txt');
             pca_wet_model=load ('..\test\ja2_check\pca_wet_model.txt');
+            pca_ztd=load ('..\test\ja2_check\pca_ztd.txt');
 		elseif sat==2
             pca_wet=load ('..\test\saral_check\pca_wet.txt');
         elseif sat==3
             pca_wet=load ('..\test\hy2_check\pca_wet.txt');
             pca_wet_model=load ('..\test\hy2_check\pca_wet_model.txt');
+            pca_ztd=load ('..\test\hy2_check\pca_ztd.txt');         
 		elseif sat==4
 			pca_wet=load ('..\test\ja3_check\pca_wet.txt');
             pca_wet_model=load ('..\test\ja3_check\pca_wet_model.txt');
+            pca_ztd=load ('..\test\ja3_check\pca_ztd.txt');
+            
     end
     
 	pca_tim=round(pca_wet(:,3));% satellite time (s)
     w_ali=pca_wet(:,4);% radiometer wet delay. It is nagetive value
     w_ali_model=pca_wet_model(:,4);% model wet delay. Nagetive value
+    w_ali_ztd=pca_ztd(:,4);% ZTD = model wet delay + Dry model value. Nagetive value
     
     b=length(w_ali); % radiomater data length
     c=length(tm2); % GNSS data length
@@ -91,6 +103,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
         if tmp3(i)~=0 % 0 means no satellite passing that time
             loct=tmp3(i); % This is the location of data stored in GNSS file
             ssh_tg2=g_w(loct-1:loct+1);%  Three hours
+            ztd_gnss_subset=g_ztd(loct-1:loct+1);%  Three hours
 %             ssh_tg3=smooth(ssh_tg2,2,'rlowess');
             tt=tm2(loct-1:loct+1);
             t_pca=pca_tim(i);
@@ -104,11 +117,14 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
     %             if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
                 if z_delay_sigma(loct)<z_delta && abs(ssh_tg2(3)-ssh_tg2(1))<z_delta  % 去除短时间变化快的数据  
                     tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time
+                    tg_pca_ztd(k)=interp1(tt,ztd_gnss_subset,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time
+
                     % Here we can select the method of Interpolation. The
                     % nearest and the linear are nearly same, meaning that
                     % the wet pd variation in 1 hour period is small.
                     w_ali2(k)=w_ali(i); % radiometer wet PD at the PCA.
                     w_ali2_model(k)=w_ali_model(i); % model wet PD at the PCA.
+                    w_ali3(k)=w_ali_ztd(i); % ZTD at the PCA. Dry PD is the model value from GDR.
                     ttt(k)=pca_wet(i,5); % cycle number
                     tim2(k)=pca_wet(i,3); % time in sec
                     sig_pd(k)=z_delay_sigma(loct);% we do not interpolate it since it is nearly the same in 1 hour period.
@@ -121,7 +137,11 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc)
 % =========================================================================    
   % Get the bais between GNSS and radiometer or model.
   if k>1
-    bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
+      if dry==2
+        bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
+      elseif dry==1
+        bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long          
+      end
     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias2=[ttt' bias' tim2' bias_model' sig_pd']; % the `bias2` format is `cycle R-G(mm) time(s) M-G(mm) sigma_GNSS (mm)`
   else
