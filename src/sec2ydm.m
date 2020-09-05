@@ -14,6 +14,7 @@ function [ymd]=sec2ydm(sat)
     mean(lon)
     mean(lat)
     tmp=datestr(sect/86400+datenum('2000-01-1 00:00:00'));% 时间格式转换
+%     tmp=datestr(641301124/86400+datenum('2000-01-1 00:00:00'))
     ymd=datevec(tmp);
     tmp2=size(ymd);
 

@@ -1,11 +1,12 @@
 % 
 function last_bias_save(sat)
     if sat==3
-        load .\hy2_check\pca_ssh.txt;
-        fid5 = fopen('bias_last_hy2.txt','w');
-        load .\hy_2_bias.txt;
-        bias_circ=hy_2_bias(:,1);
-        bias_last=hy_2_bias(:,2);
+        load ..\test\hy2_check\pca_ssh.txt;
+        fid5 = fopen('..\test\hy2_checkbias_last_hy2.txt','w');
+%         load .\hy_2_bias.txt;
+        b=load ('..\test\hy2_check\hy2_bias.txt');
+        bias_circ=b(:,1);
+        bias_last=b(:,2);
     elseif sat==5
         load ..\test\s3a_check\pca_ssh.txt;
         fid5 = fopen('..\test\s3a_check\bias_last.txt','w');

@@ -4,7 +4,14 @@ function [bias]=filter_bias(sat,bias2,loc)
     tmpp=bias2(:,2);
     ttt=bias2(:,1);
 
-    if strcmp(loc,'zhws')
+    if strcmp(loc,'zhws') && sat==3
+       Locate=find(tmpp>100); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-50); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+    elseif strcmp(loc,'zhws') && sat==4
        Locate=find(tmpp>100); 
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
@@ -21,5 +28,7 @@ function [bias]=filter_bias(sat,bias2,loc)
         save ..\test\ja2_check\ja2_bias.txt bias -ASCII % save file
     elseif sat==4
         save ..\test\ja3_check\ja3_bias.txt bias -ASCII % save file
+    elseif sat==3
+        save ..\test\hy2_check\hy2_bias.txt bias -ASCII % save file        
     end
 return

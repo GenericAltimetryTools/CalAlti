@@ -20,6 +20,12 @@ elseif sat==4
     load  ..\test\ja3_check\ponits_number.txt
     fid4=fopen('..\test\ja3_check\statistic.txt','w');
     temp='..\test\ja3_check\';
+elseif sat==3
+    disp('------HY-2B----')
+    load ..\test\hy2_check\ponits_circle.txt
+    load  ..\test\hy2_check\ponits_number.txt
+    fid4=fopen('..\test\hy2_check\statistic.txt','w');
+    temp='..\test\hy2_check\';    
 end
 
 latitude=ponits_circle(:,1);
@@ -55,8 +61,15 @@ for i=min_cir:max_cir
         
         temp1=check_circle(i);% 调用函数，判断circle的位数。
         temp2=num2str(temp1);
-        temp3=temp2(3:5);% 组成三位数的字符串。
-        tmp=strcat('_',num2str(pass_num));
+        if sat==3
+            temp3=temp2(2:5);% 组成三位数的字符串。
+            tmp=strcat('_0',num2str(pass_num));
+        else
+            temp3=temp2(3:5);% 组成三位数的字符串。
+            tmp=strcat('_',num2str(pass_num));
+        end
+  
+
         temp4= strcat(temp,temp3,tmp,'.dat');
         temp5= strcat('X',temp3,tmp);
     if exist(temp4,'file')

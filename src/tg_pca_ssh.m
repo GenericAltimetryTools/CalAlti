@@ -27,15 +27,20 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
     elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw')
         filename = '..\tg_xinxizx\zmw\ZMW_sort_clean.DD';
-    elseif strcmp(loc,'zhws')
+    elseif strcmp(loc,'zhws') && sat==4
         disp('zhws')
         filename = '..\tide_zhws\tideWailingdingWharf.DD';
+    elseif strcmp(loc,'zhws')  && sat==3
+        disp('zhws')
+        filename = '..\tide_zhws\tideZhiwanWharf.DD';
     end
 
+
+    
     disp(['loading TG file:',filename])
     disp('loading........................................................')
     tg=load (filename);
-    
+%     figure(1000);plot(tg(:,3))
     % give time from tide gauge data
     if strcmp(loc,'qly') || strcmp(loc,'zmw') % unit is cm
         tmp000=tg;
@@ -76,8 +81,11 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436')
         ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
-    elseif strcmp(loc,'zhws')
-        ssh=tmp000(:,3)+2.7;% The tide data were already referred to the WGS-84 (processed by the provider)
+    elseif strcmp(loc,'zhws') && sat==4
+        ssh=tmp000(:,3)+2.8;% The tide data were already referred to the WGS-84 (processed by the provider)
+        % I find that the reference of the ZHWS site (WailingdingWharf) maybe wrong.
+    elseif strcmp(loc,'zhws') && sat==3
+        ssh=tmp000(:,3)+2.8;% The tide data were already referred to the WGS-84 (processed by the provider)
         % I find that the reference of the ZHWS site (WailingdingWharf) maybe wrong.
     end
     
@@ -87,6 +95,14 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     tm2=round(t3*86400);% This is the time (seconds) of the tide gauge data ，UTC+0 (same with altimeter)
     disp('Finish time reference transform of real TG data')
     
+%     % The zhws tide gauge data has the misorder. 
+%     if  strcmp(loc,'zhws') && sat==3
+%         tmppp=[tm2 ssh];
+%         tmpp=sort(tmppp,1); % For
+%         tm2=tmpp(:,1);
+%         ssh=tmpp(:,2);
+%     end
+    
     % Load the PCA of satellite altimeter data. Format is : lat lon second
     % ssh cycle
     if sat==1
@@ -94,7 +110,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 		elseif sat==2
             load .\saral_check\pca_ssh.txt;
         elseif sat==3
-            load .\hy2_check\pca_ssh.txt;
+            load ..\test\hy2_check\pca_ssh.txt;
 		elseif sat==4
 			load ..\test\ja3_check\pca_ssh.txt;
         elseif sat==5
@@ -104,6 +120,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     
 	pca_tim=round(pca_ssh(:,3));% This is time of SA, as Jason-2&3,etc,.
     ssh_ali=pca_ssh(:,4); % SSH of SA
+    cy=pca_ssh(:,5);% cycle
     b=length(ssh_ali); % SA len, the number of SA cycles
     c=length(ff); % TG len
     
@@ -118,7 +135,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         n=0;
         for j=1:c-1
             
-            if((pca_tim(i)<tm2(j+1)) && (pca_tim(i)>tm2(j)) && (abs((pca_tim(i)-tm2(j)))<3600) && (abs((pca_tim(i)-tm2(j+1)))<3600)  || (pca_tim(i)==tm2(j)))
+            if((pca_tim(i)<tm2(j+1)) && (pca_tim(i)>tm2(j)) && (abs((pca_tim(i)-tm2(j)))<5000) && (abs((pca_tim(i)-tm2(j+1)))<5000)  || (pca_tim(i)==tm2(j)))
             % Be sure that the tide gauge have valid data before and after
             % 1hour of SA passing. This will detect the tide gauge data
             % gap.
@@ -137,22 +154,26 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     tg_pca_ssh(1:b)=-9999;% 保存TG的PCA SSH值
     if strcmp(loc,'qly') || strcmp(loc,'zmw')
         len_tg=12; % means 120minute=2hour
-    elseif strcmp(loc,'zhws')
+    elseif strcmp(loc,'zhws') && sat==4
         len_tg=120/0.5; % data sample is 30 seconds. `120/0.5` = 2 hour
+    elseif strcmp(loc,'zhws') && sat==3
+        len_tg=20; % data sample is 4(6) min.    
     end
     
     for i=1:b
-        if tmp3(i)~=0
+        if tmp3(i)~=0 
+            cy(i)
             loct=tmp3(i); % location in matrix
             ssh_tg2=ssh(loct-len_tg:loct+len_tg); % TG 截取验潮站这一时间前后各2小时的数据，即前后各12个数据。
             ssh_tg3=smooth(ssh_tg2,4,'rlowess'); % Here should be carefull 
             % to set the smooth algrithm. Also the data length involved.
-            tt=tm2(loct-len_tg:loct+len_tg); % TG
+            tt=tm2(loct-len_tg:loct+len_tg); % TG time
             t_pca=pca_tim(i);% SA
             tg_pca_ssh(i)=interp1(tt,ssh_tg3,t_pca,'PCHIP');
 %             figure(23);plot(tt,ssh_tg3,tt,ssh_tg2);
         end
     end
+    
     disp('Finish interpolation of TG SSH at PCA')
     % test interp and smooth
     % plot(tt,ssh_tg2,'-bo',tt,ssh_tg3,'-rs',t_pca,tg_pca_ssh(b),'bs','MarkerSize',10)
@@ -299,9 +320,15 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             s3a_mss=s3a_mss(2:length(s3a_mss),3);
             mss_correction=-(s3a_mss-tg_mss);
         end
-     elseif strcmp(loc,'zhws')
+     elseif strcmp(loc,'zhws') 
            if sat==4
                 ja3 = load ('..\test\ja3_check\dtu18_zhws.dat');% Ja3.
+                jason3_mss=ja3;
+                tg_mss=jason3_mss(1,3);
+                jason_mss=jason3_mss(2:length(jason3_mss),3);
+                mss_correction=-(jason_mss-tg_mss);% cm
+           elseif sat==3
+                ja3 = load ('..\test\hy2_check\dtu18_zhws.dat');% Ja3.
                 jason3_mss=ja3;
                 tg_mss=jason3_mss(1,3);
                 jason_mss=jason3_mss(2:length(jason3_mss),3);

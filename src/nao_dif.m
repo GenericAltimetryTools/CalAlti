@@ -3,16 +3,20 @@
 %The input parameter is the sat and loc. The output is the tide difference
 %between PCA and tide station.
 function [tg_dif]=nao_dif(sat,loc)
-   if strcmp(loc,'qly')
-        if sat==3
+
+% The `if` and `elseif` programs are not easy to read. I will improve this
+% part later.
+
+   if strcmp(loc,'qly') && sat==3
+%         if 
             load .\qianliyan_tg_cal\hy2.nao2013
             load .\hy2_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\qly.nao2013
             sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
-        end
+%         end
 
-        if sat==1
+   elseif strcmp(loc,'qly') && sat==1
             load ..\test\ja2_check\ja2.nao2011_2017 % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -24,17 +28,17 @@ function [tg_dif]=nao_dif(sat,loc)
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
 %             sat_tg=tg_FES2014(:,2);
-        end
+%         end
 
-        if sat==2
+   elseif strcmp(loc,'qly') && sat==2
             load .\qianliyan_tg_cal\saral.nao2011_2017
             load .\saral_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\qly.nao2011_2017
             sat_day=saral(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=saral(:,2); % 预报潮汐tide，单位cm
-        end
+%         end
 
-        if sat==4
+    elseif strcmp(loc,'qly') && sat==4
             load ..\test\ja3_check\ja3.nao2015_2019 % jason-3和Jason-2可以共用一个潮汐预报文件
             load ..\test\ja3_check\pca_ssh.txt;
             load  ..\test\qly.nao2015_2019 % Input of the model tide at QLY
@@ -42,25 +46,25 @@ function [tg_dif]=nao_dif(sat,loc)
 
             sat_day=ja3(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja3(:,2); % 预报潮汐tide，单位cm
-        end
-        if sat==5
+       
+    elseif strcmp(loc,'qly') && sat==5
             load ..\test\s3a_check\s3a.nao2015_2019 % jason-3和Jason-2可以共用一个潮汐预报文件
             load ..\test\s3a_check\pca_ssh.txt;
             load ..\test\qly.nao2015_2019 % 注意变换文件，对应不同的时期,qly.nao2015_2017
             sat_day=s3a(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=s3a(:,2); % 预报潮汐tide，单位cm
-        end
-   elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
+        
+   elseif strcmp(loc,'cst') || strcmp(loc,'cst009') && sat==3
 %        disp('TBD')
-       if sat==3
+%        if 
             load .\qianliyan_tg_cal\hy2._cst_30km_fes
             load .\hy2_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\tg_FES2014.cst_saralpca_2011_2019;
             sat_day=hy2(:,1)-hy2(1,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
-        end
+%         end
 
-        if sat==1
+    elseif strcmp(loc,'cst') || strcmp(loc,'cst009') && sat==1
             load .\qianliyan_tg_cal\ja2.nao2011_2017 % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -69,9 +73,9 @@ function [tg_dif]=nao_dif(sat,loc)
             load .\qianliyan_tg_cal\qly.nao2011_2017
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
-        end
+        
 
-        if sat==2
+    elseif strcmp(loc,'cst') || strcmp(loc,'cst009') && sat==2
             load .\qianliyan_tg_cal\saral.cst_2011_2019
             load .\saral_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\cst.cst_2011_2019
@@ -82,9 +86,9 @@ function [tg_dif]=nao_dif(sat,loc)
             sat_day=saral(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
 %             sat_tg=saral(:,2); % 预报潮汐tide，单位cm
             sat_tg=tg_FES2014(:,2); % 预报潮汐tide，单位cm
-        end
+%         end
 
-        if sat==4
+    elseif strcmp(loc,'cst') || strcmp(loc,'cst009') && sat==4
             load .\qianliyan_tg_cal\ja3.nao2015_2019 % jason-3和Jason-2可以共用一个潮汐预报文件
             load .\ja3_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\qly.nao2015_2019 % Input of the model tide at QLY
@@ -92,16 +96,16 @@ function [tg_dif]=nao_dif(sat,loc)
 
             sat_day=ja3(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja3(:,2); % 预报潮汐tide，单位cm
-        end
-        if sat==5
+%         end
+    elseif strcmp(loc,'cst') || strcmp(loc,'cst009') && sat==5
             tide=load ('.\qianliyan_tg_cal\fes_cst_s3a.txt');
             load .\s3a_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\tg_FES2014.cst_saralpca_2011_2019;
             sat_day=tide(:,1)-tide(1,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=tide(:,3); % 预报潮汐tide，单位cm
-        end
-   elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')
-       if sat==1
+%         end
+    elseif (strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')) && sat==1
+%        if sat==1
             load ..\test\ja2_check\ja2.nao_zmw_2011_2019_25km % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -110,24 +114,24 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\zmw.nao_2011_2019_
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
-       end
-       if sat==2 && strcmp(loc,'zmw735')
+%        end
+       elseif sat==2 && strcmp(loc,'zmw735')
             load .\qianliyan_tg_cal\saral.nao_zmw_2011_2019_25km
             load .\saral_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
            
             sat_day=saral(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=saral(:,2); % 预报潮汐tide，单位cm
-       end 
-       if sat==2 && strcmp(loc,'zmw436')
+%        end 
+       elseif sat==2 && strcmp(loc,'zmw436')
             load .\qianliyan_tg_cal\saral.zmw_saral_436
             load .\saral_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
            
             sat_day=saral(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=saral(:,2); % 预报潮汐tide，单位cm
-       end  
-      if sat==4
+%        end  
+      elseif (strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')) && sat==4
             load ..\test\ja2_check\ja2.nao_zmw_2011_2019_25km % Jason3 is same with Jason-2 at zmw
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -136,8 +140,8 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\zmw.nao_2011_2019_
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
-      end 
-      if sat==5
+%       end 
+      elseif (strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')) && sat==5
             load .\qianliyan_tg_cal\s3a.zmw_s3a_25km % 注意变换文件，对应不同的时期
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -146,16 +150,16 @@ function [tg_dif]=nao_dif(sat,loc)
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
             sat_day=s3a(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=s3a(:,2); % 预报潮汐tide，单位cm
-      end       
-      if sat==3
+%       end       
+      elseif (strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')) && sat==3
             load .\qianliyan_tg_cal\hy2.zmw_hy2_pca
             load .\hy2_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
             sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
-      end    
-  elseif strcmp(loc,'zhws')
-       if sat==4
+%       end    
+      elseif strcmp(loc,'zhws') && sat==4
+%        if
             load ..\test\ja3_check\ja3.nao_zhws % Jason3 is same with Jason-2 at zmw
     %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
     %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
@@ -164,21 +168,35 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\zhws.nao_2019_2022
             sat_day=ja3(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja3(:,2); % 预报潮汐tide，单位cm
-       end
-  end
-   
+%        end
+      elseif strcmp(loc,'zhws') &&  sat==3
+            load ..\test\hy2_check\hy2.nao_zhws % Jason3 is same with Jason-2 at zmw
+    %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
+    %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
+    %         no tide data.        
+            load ..\test\hy2_check\pca_ssh.txt;
+            load ..\test\zhiwan.nao_2019_2022
+            sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
+            sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
+%        end
+    end
+  
    if strcmp(loc,'qly') % I only use the qly_tg to stand for the tg model value at tg station.
-       qly_tg=qly(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值
+        qly_tg=qly(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值
 %        qly_tg=tg_FES2014(:,1);
    elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
 %        qly_tg=cst(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值 
-       qly_tg=tg_FES2014(:,1);
+         qly_tg=tg_FES2014(:,1);
    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')
-       qly_tg=zmw(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值 
+        qly_tg=zmw(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值 
 %        qly_tg=tg_FES2014(:,1);
-   elseif strcmp(loc,'zhws')
-       qly_tg=zhws(:,2);%
+   elseif strcmp(loc,'zhws') && sat==4
+         qly_tg=zhws(:,2);%
+   elseif strcmp(loc,'zhws') && sat==3
+        qly_tg=zhiwan(:,2);%
    end
+   
+   
    
     pca_sec=pca_ssh(:,3);% 定标点时刻。单位为s，参考时刻为2000-01-1 00:00:00
     % 把定标的秒时刻转为ellipsed day，和TG预报时间一致起来
@@ -197,6 +215,9 @@ function [tg_dif]=nao_dif(sat,loc)
     elseif sat==4 && strcmp(loc,'zhws') % zhws 2019-01-1 00:00:00
         disp('zhu hai wan shan')
         pca_day=pca_sec/86400-(datenum('2019-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 
+    elseif sat==3 && strcmp(loc,'zhws') % zhws 2019-01-1 00:00:00
+        disp('zhu hai wan shan')
+        pca_day=pca_sec/86400-(datenum('2019-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); %         
     end
     
     % *&&&&&*&*&*&*&
