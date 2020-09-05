@@ -2,10 +2,7 @@
 output/
 tg_xinxizx/
 *.asv
-test/*/*.d
-test/*/*.dat
-test/*/*.txt
-test/*/*.kml
+
 test/
 src/statis.m
 src/add_noise.m

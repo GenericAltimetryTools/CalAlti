@@ -11,11 +11,13 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           lat_gps=36.2672;% 千里岩验潮站的坐标
           lon_gps=121.3853;
           
-        case 'zh'
-          disp('zhu hai')
-          min_lat=21000000; % xlim([37.6 40]) for pass 9 YD
-          max_lat=22200000; % xlim([36 36.7]) for pass 147 QLY
+        case 'zhws'
+          disp('zhu hai wanshan')
+          min_lat=21500000; % xlim([37.6 40]) for pass 9 YD
+          max_lat=22000000; % xlim([36 36.7]) for pass 147 QLY
           pass_num=153;% define the pass number
+          lat_gps=22.108;% 验潮站的坐标
+          lon_gps=114.0294;
           
         case 'cst' % 成山头
           disp('Your CAL site is: chengshantou')

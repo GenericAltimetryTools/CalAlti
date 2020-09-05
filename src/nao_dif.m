@@ -153,10 +153,21 @@ function [tg_dif]=nao_dif(sat,loc)
             load .\qianliyan_tg_cal\zmw.nao_2011_2019_
             sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
-       end    
-   end
+      end    
+  elseif strcmp(loc,'zhws')
+       if sat==4
+            load ..\test\ja3_check\ja3.nao_zhws % Jason3 is same with Jason-2 at zmw
+    %         Here is the tide model From 2011.1.1 to 2017.1.1 covering the 92
+    %         to 303 cycles. After 303, Jason-2 changed orbit.Before 92, I have
+    %         no tide data.        
+            load ..\test\ja3_check\pca_ssh.txt;
+            load ..\test\zhws.nao_2019_2022
+            sat_day=ja3(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
+            sat_tg=ja3(:,2); % 预报潮汐tide，单位cm
+       end
+  end
    
-   if strcmp(loc,'qly')
+   if strcmp(loc,'qly') % I only use the qly_tg to stand for the tg model value at tg station.
        qly_tg=qly(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值
 %        qly_tg=tg_FES2014(:,1);
    elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
@@ -165,28 +176,33 @@ function [tg_dif]=nao_dif(sat,loc)
    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')
        qly_tg=zmw(:,2);% tide, 千里岩地点的预报潮汐。时间与hy2的相同。不用单独赋值 
 %        qly_tg=tg_FES2014(:,1);
+   elseif strcmp(loc,'zhws')
+       qly_tg=zhws(:,2);%
    end
    
-    pca_sec=pca_ssh(:,3);% HY-2定标点时刻。单位为s，参考时刻为2000-01-1 00:00:00
+    pca_sec=pca_ssh(:,3);% 定标点时刻。单位为s，参考时刻为2000-01-1 00:00:00
     % 把定标的秒时刻转为ellipsed day，和TG预报时间一致起来
 %     Transform the time reference of satellite pca time to the NAO
 %     ellipsed day. Here should be carefull since the start time of NAO
 %     maybe different.
 
-    if sat==1 || sat==2
+    if sat==1 || sat==2 % unit : day
         pca_day=pca_sec/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期  
-    elseif sat==5 || sat == 4
+    elseif sat==5 || sat == 4 && ~strcmp(loc,'zhws')
         pca_day=pca_sec/86400-(datenum('2015-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期 
     elseif sat==3 && strcmp(loc,'qly') || strcmp(loc,'cst009')
         pca_day=pca_sec/86400-(datenum('2013-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期 
     elseif sat==3 && strcmp(loc,'zmw')
         pca_day=pca_sec/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期 
+    elseif sat==4 && strcmp(loc,'zhws') % zhws 2019-01-1 00:00:00
+        disp('zhu hai wan shan')
+        pca_day=pca_sec/86400-(datenum('2019-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 
     end
-
     
     % *&&&&&*&*&*&*&
     
     % 插值处pca_day的千里岩和定标点预报潮汐
+%     figure(1234);plot(sat_day(1:2000),sat_tg(1:2000));hold on;plot(sat_day(1:2000),qly_tg(1:2000));hold off
     tg_pca_ssh=interp1(sat_day,sat_tg,pca_day,'PCHIP');
     tg_qly_ssh=interp1(sat_day,qly_tg,pca_day,'PCHIP');
     tg_dif=tg_pca_ssh-tg_qly_ssh;

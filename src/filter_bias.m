@@ -1,8 +1,18 @@
 % Filter data and save
-function [bias]=filter_bias(sat,bias2)
+function [bias]=filter_bias(sat,bias2,loc)
 
     tmpp=bias2(:,2);
     ttt=bias2(:,1);
+
+    if strcmp(loc,'zhws')
+       Locate=find(tmpp>100); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-50); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+    end
+    
     [tmpp,ttt]=three_sigma_delete(tmpp,ttt);
     bias=[ttt tmpp];
     if sat==5

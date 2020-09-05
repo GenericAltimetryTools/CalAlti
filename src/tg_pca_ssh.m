@@ -27,28 +27,43 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
     elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw')
         filename = '..\tg_xinxizx\zmw\ZMW_sort_clean.DD';
+    elseif strcmp(loc,'zhws')
+        disp('zhws')
+        filename = '..\tide_zhws\tideWailingdingWharf.DD';
     end
-    
-    
-%     filename = 'J:\千里岩二次定标\qlytg\tg_new_201501_201712.txt';
+
     disp(['loading TG file:',filename])
     disp('loading........................................................')
     tg=load (filename);
-	%\千里岩潮汐\QLY201301_201412.txt    I:\千里岩二次定标\qlytg\tg_new_201501_201703.txt tg_new_201501_201712.txt
-	% 一共有三个潮汐文件。注意替换，下面也要修改参考时间。
     
-    % Time of tide data 
-    tmp000=tg;
-    tmp1=tmp000(:,1);
-    tmp2=tmp000(:,2);
-    tmp=num2str(tmp1);
-    yyyy=str2num(tmp(:,1:4));
-    mm=str2num(tmp(:,5:6));
-    dd=str2num(tmp(:,7:8));
-    hh=str2num(tmp(:,9:10));
-    ff=str2num(tmp(:,11:12));
-    ss(1:length(ff))=0;
-    ss=ss';
+    % give time from tide gauge data
+    if strcmp(loc,'qly') || strcmp(loc,'zmw') % unit is cm
+        tmp000=tg;
+        tmp1=tmp000(:,1); %yyyymmddHHMM
+%         tmp2=tmp000(:,2);
+        tmp=num2str(tmp1);
+        yyyy=str2num(tmp(:,1:4));
+        mm=str2num(tmp(:,5:6));
+        dd=str2num(tmp(:,7:8));
+        hh=str2num(tmp(:,9:10));
+        ff=str2num(tmp(:,11:12));
+        ss(1:length(ff))=0;
+        ss=ss';
+    elseif strcmp(loc,'zhws') % unit is m
+        tmp000=tg;
+        tmp1=tmp000(:,1);% yyyymmdd
+        tmp2=tmp000(:,2);% hhmmss
+        tmp=num2str(tmp1);
+        yyyy=str2num(tmp(:,1:4));
+        mm=str2num(tmp(:,5:6));
+        dd=str2num(tmp(:,7:8));
+        tmp=num2str(tmp2);
+        hh=floor(tmp2/10000);
+        ff=floor((tmp2-hh*1E4)/100);
+        ss=tmp2-hh*1E4-ff*1E2;
+        
+%         ss=ss';
+    end
     
     date_yj = [yyyy  mm dd hh ff ss];
     disp('Finish loading of real TG data')
@@ -61,14 +76,19 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436')
         ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
+    elseif strcmp(loc,'zhws')
+        ssh=tmp000(:,3)+2.7;% The tide data were already referred to the WGS-84 (processed by the provider)
+        % I find that the reference of the ZHWS site (WailingdingWharf) maybe wrong.
     end
     
     t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%时间格式转，卫星的参考时间是2000-01-1 00:00:00。
     % The time zone of TG in China is Zone 8, Thus 8 hours should be
     % subtracted from TG data.
-    tm2=round(t3*86400);% 这是验潮的时间，UTC
+    tm2=round(t3*86400);% This is the time (seconds) of the tide gauge data ，UTC+0 (same with altimeter)
     disp('Finish time reference transform of real TG data')
     
+    % Load the PCA of satellite altimeter data. Format is : lat lon second
+    % ssh cycle
     if sat==1
             load ..\test\ja2_check\pca_ssh.txt;
 		elseif sat==2
@@ -88,15 +108,20 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     c=length(ff); % TG len
     
     tmp3(1:b)=0; % zero Array, save location of the time of PCA points 
-    % saved in pca_ssh.txt .
     tmp3=tmp3';
     
-    % 循环，寻找卫星过境的验潮站前后时刻。As data interval, SA is 1 sec and TG is 10 secs.
+    % Loop to find the TG data before and after SA passing over. The data interval for SA is 1 sec and for TG is 10 min.
+    % For zhws, the time sample is not uniform.WailingdingWharf is 30
+    % seconds,ZhiwanWharf is 4 minutes,DanganWharf is 30 seconds. Actually,
+    % there is no need for such high frequency. 10 minute sample is enouth.
     for i=1:b
         n=0;
         for j=1:c-1
             
-            if((pca_tim(i)<tm2(j+1)) && (pca_tim(i)>tm2(j)) || (pca_tim(i)==tm2(j)))
+            if((pca_tim(i)<tm2(j+1)) && (pca_tim(i)>tm2(j)) && (abs((pca_tim(i)-tm2(j)))<3600) && (abs((pca_tim(i)-tm2(j+1)))<3600)  || (pca_tim(i)==tm2(j)))
+            % Be sure that the tide gauge have valid data before and after
+            % 1hour of SA passing. This will detect the tide gauge data
+            % gap.
                 n=j;
 %                 break
                 continue
@@ -104,21 +129,28 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 
         end
         % 注意 潮汐数据的有效性检验。9998,9989是无效值。		
-        tmp3(i)=n;% 存储验潮数据对应时间的位置
+        tmp3(i)=n;% Save the location of PCA time (sec) in TG data 存储验潮数据对应时间的位置
     end
     disp('Finish time selection of TG based on PCA time')
     
     % 下面是拟合，计算过境时刻的TG的SSH
-    tg_pca_ssh(1:b)=0;% 保存TG的PCA SSH值
+    tg_pca_ssh(1:b)=-9999;% 保存TG的PCA SSH值
+    if strcmp(loc,'qly') || strcmp(loc,'zmw')
+        len_tg=12; % means 120minute=2hour
+    elseif strcmp(loc,'zhws')
+        len_tg=120/0.5; % data sample is 30 seconds. `120/0.5` = 2 hour
+    end
+    
     for i=1:b
         if tmp3(i)~=0
-            loct=tmp3(i);
-            ssh_tg2=ssh(loct-12:loct+12); % 截取验潮站这一时间前后各2小时的数据，即前后各12个数据。
+            loct=tmp3(i); % location in matrix
+            ssh_tg2=ssh(loct-len_tg:loct+len_tg); % TG 截取验潮站这一时间前后各2小时的数据，即前后各12个数据。
             ssh_tg3=smooth(ssh_tg2,4,'rlowess'); % Here should be carefull 
-            % to set the smooth algrithm. like the span and methods
-            tt=tm2(loct-12:loct+12);
-            t_pca=pca_tim(i);
+            % to set the smooth algrithm. Also the data length involved.
+            tt=tm2(loct-len_tg:loct+len_tg); % TG
+            t_pca=pca_tim(i);% SA
             tg_pca_ssh(i)=interp1(tt,ssh_tg3,t_pca,'PCHIP');
+%             figure(23);plot(tt,ssh_tg3,tt,ssh_tg2);
         end
     end
     disp('Finish interpolation of TG SSH at PCA')
@@ -267,7 +299,15 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             s3a_mss=s3a_mss(2:length(s3a_mss),3);
             mss_correction=-(s3a_mss-tg_mss);
         end
-    end    
+     elseif strcmp(loc,'zhws')
+           if sat==4
+                ja3 = load ('..\test\ja3_check\dtu18_zhws.dat');% Ja3.
+                jason3_mss=ja3;
+                tg_mss=jason3_mss(1,3);
+                jason_mss=jason3_mss(2:length(jason3_mss),3);
+                mss_correction=-(jason_mss-tg_mss);% cm
+           end
+    end 
     disp('Finish DTU MSS correction,MEAN:')
     mean(mss_correction)
     disp('Begin NAO file loading and correction')  
@@ -297,12 +337,18 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 %     disp('The parameters size are:')
 %     whos
     
+    if strcmp(loc,'zhws') % the reference ellipsoid height difference between WGS and TP. BY wgs_tp.m
+        wgs_tp=0.699917949844327;
+    else
+        wgs_tp=0.7179;        
+    end
+    
     if sat==5
         bias=ssh_ali-(tg_pca_ssh')+mss_correction-tg_dif/100;
 %       Sentinel-3 height reference is WGS-84,which is not the same with
 %       other SA missions. The unit of bias is m
     else
-        bias=ssh_ali-(tg_pca_ssh')-0.7179+mss_correction-tg_dif/100; %-tg_dif/100
+        bias=ssh_ali-(tg_pca_ssh')-wgs_tp+mss_correction-tg_dif/100; %-tg_dif/100
 %         Height reference for other SA missions is T/P which has a 0.7179m
 %         transtorm difference with WGS-84 (TG reference). This value could
 %         be calculated by program wgs_tp.m.
