@@ -22,8 +22,12 @@ tide/*.out
 gmt.history
 crossover/hy2b.txt
 crossover/*.ps
+crossover/CROSSHY2/*
+crossover/adjust
 crossover/*.png
 crossover/*.conf
+crossover/*.txt
+crossover/*.nc
 doc/*.log
 doc/*.aux
 doc/*.gz

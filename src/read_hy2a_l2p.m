@@ -1,6 +1,6 @@
 % ###############################################
 
-function read_hy2a_l2p(min_cir,max_cir,min_lat,max_lat,dir_0)
+function read_hy2a_l2p(min_cir,max_cir,min_lat,max_lat,min_lon,max_lon,dir_0)
 
 % ###############################################
 % First loop directories
@@ -14,8 +14,8 @@ for cycle=min_cir:max_cir
     namelist = ls(fullfile(dir_nm,'*.nc')); % 
     
     % Second loop files
-%     for nm=1:length(namelist)
-    for nm=290:310
+    for nm=1:length(namelist)
+%     for nm=290:310
         nm
         filepath=strcat(dir_nm,namelist(nm,:));
         nc=netcdf.open(filepath,'NC_NOWRITE');
@@ -46,7 +46,7 @@ for cycle=min_cir:max_cir
 %             if lat(i)<max_lat && lat(i)> min_lat && r_ku(i)~=2147483647 ...
 %                     && alt(i)~=2147483647 && sla(i)~=32767
             
-            if lat(i)<max_lat && lat(i)> min_lat             
+            if lat(i)<max_lat && lat(i)> min_lat && lon(i)<max_lon && lon(i)> min_lon  && sla(i)~=32767           
                 
                 ssh=double(alt(i)-r_ku(i))/1E4- ...
                 double(dry(i)+wet(i)+ino(i)+ssb(i)+dac(i)+set(i)+pt(i))/1E4 - double(ots(i))/1E4;
@@ -57,7 +57,8 @@ for cycle=min_cir:max_cir
                 ssh_d=ssh-ssh_nc;
                 sla_nc=double(sla(i))/1E4;
             
-                fprintf(fid2,'%12.6f %12.6f %12.6f  %12.6f  %12.8f %12.8f %12.8f  %12.8f %12.8f\n',double(lon(i))/1E6,double(lat(i))/1E6,time(i),ssh,ssh_nc,ssh_d,sla_my,sla_nc,double(mss(i))/1E4);
+%                 fprintf(fid2,'%12.6f %12.6f %12.6f  %12.6f  %12.8f %12.8f %12.8f  %12.8f %12.8f\n',double(lon(i))/1E6,double(lat(i))/1E6,time(i),ssh,ssh_nc,ssh_d,sla_my,sla_nc,double(mss(i))/1E4);
+                fprintf(fid2,'%12.6f %12.6f  %12.8f\n',double(lon(i))/1E6,double(lat(i))/1E6,ssh_nc);
             
             end
         end

@@ -7,7 +7,6 @@
 function plot_gmt_pass(cir,sat)
 
 if sat==1
-
     temp='..\test\ja2_check\';
 elseif sat==4
     temp='..\test\ja3_check\';

@@ -72,10 +72,13 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
 
                 if aa(1)>10 % 表示有效点数大于20个，占总数的一半。这个值可以更具总数多少修改。
                     pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'nearest');
+                    % Add geoid height coorection
+                    pca_wet_height=pca_wet*exp(-h_gnss/2000);% Here the h_gnss is the diff between GNSS and geoid.
+                    pca_wet=pca_wet_height;
                     pca_wet_model=interp1(temp6(:,2),temp6(:,4),lat3,'pchip');
                     pca_dry=interp1(temp6(:,2),temp6(:,6),lat_gps,'pchip');
                     pressure_gdr=pca_dry*(1-0.00266*cosd(2*lat_gps))/2.277; %m_dry=-2.277*pre/(1-0.0026*cosd(2*36)-(0.28*1e-6)*h); % Here negelact the Height effect. unit mm
-                    pca_dry_corrected=pressure_gdr*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*1e-6*h_gnss);
+                    pca_dry_corrected=pressure_gdr*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);
                     pca_ztd=pca_wet+pca_dry_corrected;% This the ZTD. Toal PD.
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'pchip');
                     tim_pca=interp1(temp6(:,2),temp6(:,5),lat3,'pchip');

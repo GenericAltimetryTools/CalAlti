@@ -6,7 +6,7 @@
 % This is a function to determine the passnumber,CAL site location for HY-2.
 % Author:Yang Lei
 % 2020-0822
-function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
+function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_site(loc)
 
     switch lower(loc)
         case 'qly'
@@ -96,7 +96,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           pass_num=17;% define the pass number
           lat_gps=1.8235778e+01;% GNSS的坐标
           lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
-
+          h_gnss=4.7004406e+01-(-1.097660858330E+01);
        case 'hisy2' % shandong YanTai
           disp('Your CAL site is: Hainan sanya')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
@@ -107,7 +107,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           pass_num=252;% define the pass number
           lat_gps=1.8235778e+01;% GNSS的坐标
           lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
-          
+          h_gnss=4.7004406e+01-(-1.097660858330E+01);
        case 'yong' % shandong YanTai
           disp('Your CAL site is:Yongxing Dao')
           min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
@@ -118,7 +118,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           pass_num=265;% define the pass number
           lat_gps=1.6834028e+01;% GNSS的坐标
           lon_gps=1.1233533e+02;%  
-
+          h_gnss=8.3717570e+00-3.663055416951e+00;
        case 'fjpt' % shandong YanTai
           disp('Your CAL site is:Fujian Pintan')
           min_lat=25000000; % 分析湿延迟的时候范围可以设置偏大
@@ -129,7 +129,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps]=readhy2_cal_select_site(loc)
           pass_num=209;% define the pass number
           lat_gps=2.5502154e+01;% GNSS的坐标
           lon_gps=1.1976872e+02;% 1.1976872e+02 2.5502154e+01
-     
+          h_gnss=3.3686457e+01-1.467323506820E+01;
        case 'gdst' % shandong YanTai
           disp('Your CAL site is:Guandong ShanTou')
           min_lat=22400000; % 分析湿延迟的时候范围可以设置偏大

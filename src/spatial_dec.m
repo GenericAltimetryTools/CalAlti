@@ -105,14 +105,15 @@ for i=min_cir:max_cir
         
         latitude=temp6(:,2);
         longitude=temp6(:,1);
-        points=temp6(:,3);
-        lenpd=length(points);
+        points=temp6(:,3); % wet PD
+        lenpd=length(points); % 
         lenpd_all(i)=lenpd;
        
-        if std(points)<std_thr && lenpd>m-2
+        if std(points)<std_thr && lenpd>m-2 % remove bad data
             wet_rmse=[];
-            for k=1:lenpd-3
-                wet_pd=points(lenpd-(k+1):lenpd)-points(lenpd);
+            for k=1:lenpd-3 % do not need the tail data
+                wet_pd=points(lenpd-(k+1):lenpd)-points(lenpd); % Here we only use the Yong site data. The points(lenpd) is treated as the fisrt data point.
+                % The `wet_pd` will be accumulated with k=k+1; 
                 wet_rmse(k,1)=latitude(lenpd-(k+1));
                 wet_rmse(k,2)=longitude(lenpd-(k+1));
                 wet_rmse(k,3)=rms(wet_pd);
