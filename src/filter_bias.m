@@ -1,14 +1,14 @@
 % Filter data and save
 function [bias]=filter_bias(sat,bias2,loc)
 
-    tmpp=bias2(:,2);
+    tmpp=bias2(:,2); % unit m
     ttt=bias2(:,1);
 
     if strcmp(loc,'zhws') && sat==3
        Locate=find(tmpp>100); 
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
-       Locate=find(tmpp*100<-50); 
+       Locate=find(tmpp<-1); 
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
     elseif strcmp(loc,'zhws') && sat==4

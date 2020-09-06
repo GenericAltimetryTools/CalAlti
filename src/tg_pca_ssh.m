@@ -82,11 +82,9 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
     elseif strcmp(loc,'zhws') && sat==4
-        ssh=tmp000(:,3)+2.8;% The tide data were already referred to the WGS-84 (processed by the provider)
-        % I find that the reference of the ZHWS site (WailingdingWharf) maybe wrong.
+        ssh=tmp000(:,3)+ 2.7497;% The tide data were already referred to the WGS-84 (processed by the provider)
     elseif strcmp(loc,'zhws') && sat==3
-        ssh=tmp000(:,3)+2.8;% The tide data were already referred to the WGS-84 (processed by the provider)
-        % I find that the reference of the ZHWS site (WailingdingWharf) maybe wrong.
+        ssh=tmp000(:,3)+ 3.2373;% The tide data were already referred to the WGS-84 (processed by the provider)
     end
     
     t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%时间格式转，卫星的参考时间是2000-01-1 00:00:00。
@@ -335,8 +333,8 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
                 mss_correction=-(jason_mss-tg_mss);% cm
            end
     end 
-    disp('Finish DTU MSS correction,MEAN:')
-    mean(mss_correction)
+    disp(['Finish DTU MSS correction,MEAN (cm):',num2str(mean(mss_correction))])
+
     disp('Begin NAO file loading and correction')  
 %         =================================================================
 %         plot(mss_correction,'-o'); % look at this figure, a repeat cycle
@@ -383,7 +381,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 
     disp('Finish bias calculation')
     
-    tmpp=bias; % bias
+    tmpp=bias; % bias unit m
     ttt=pca_ssh(:,5); % cycle number
     tim2=pca_ssh(:,3); % time in seconds
     
