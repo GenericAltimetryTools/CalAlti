@@ -10,6 +10,7 @@ The sites map :
 ![](./zhws.png)
 
 The coodinates of three tide gauges:
--wanlingding 22.108N 114.0294E
--zhiwan 21.9949N 114.1479E
--dangan 22.0594N 114.3036E
+
+- wanlingding 22.108N 114.0294E
+- zhiwan 21.9949N 114.1479E
+- dangan 22.0594N 114.3036E
