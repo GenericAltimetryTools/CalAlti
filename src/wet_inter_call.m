@@ -1,6 +1,6 @@
 % call wet_inter to find the minimum STD
 
-function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat,dry,h_gnss)
+function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat,dry,h_gnss,myfit)
 
 % Define the comparison latitude, thus the comparison point. Here we do not
 % know the best distance for calibration. So we give a comparison extent to
@@ -24,6 +24,8 @@ if sat==1 || sat==4 %Jason2,3
         lat3=16.5:0.05:17.5; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
         lat3=16.1:0.05:17.1; % 25km far from the mainland   
+    elseif  strcmp(loc,'gdzh')
+        lat3=21.0:0.05:22.0; % 25km far from the mainland           
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');        
@@ -57,8 +59,42 @@ if sat==3 % HY-2B
     end 
 end
 
-    lat_compare=lat3;
+% Load the GNSS wet PD file.
+% `z_delta` is a  threshold value  to remove the fast changing data. Unit
+% is `mm`. It is not the same for each site and given by subjectively.
+% - load the GNSS wet PD file according to the `loc`. Format is
+% '2008.000000000 2524.90 209.70 17.50'='Time total_PD wet_PD sig_PD'
+% -
+    if strcmp(loc,'sdyt')
+        gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
+        z_delta=15;
+    elseif strcmp(loc,'fjpt')
+        gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
+        z_delta=15;
+    elseif strcmp(loc,'hisy') || strcmp(loc,'hisy2')
+        gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
+        z_delta=15;
+    elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
+        gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
+        z_delta=20;
+    elseif strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
+        gnss_wet=load ('..\test\gnss_wet\troSDRC.d3'); 
+        z_delta=20;   
+    elseif strcmp(loc,'sdqd')
+        gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
+        z_delta=20;           
+    elseif strcmp(loc,'gdst')
+        gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
+        z_delta=20;       
+    elseif strcmp(loc,'gdzh')
+        gnss_wet=load ('..\test\gnss_wet\troGDZH.d3'); 
+        z_delta=20;               
+    end
+    
+    lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.
     % interp and compare. 
-    [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss);
+    [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss,myfit,gnss_wet,z_delta);
+    % move from main program
+ 
     
 return

@@ -1,6 +1,6 @@
 % 计算固定纬度的辐射计大气湿延迟差值、时间差值
 % interpolation of  the wet delay to the fixed point.
-function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss)
+function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss,myfit,gnss_wet,z_delta)
 
 % ------------------------------------------------------------------------
 % `dis` is distance from GNSS site to the comparison point. It is
@@ -95,7 +95,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         end 
         
         % Compare and get the orignal bais between GNSS and radiometer. May contain abnormal values
-        [bias2,sig_g]=wet_cal_G_S(sat,loc,dry);
+        [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta);
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.
@@ -111,6 +111,14 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         disp(Q);
         fclose('all');
         dis_bias_r_g(ii)=dis.data(3);
+        
+        %  Analysis the spatial inluence
+        dis_0=dis.data(3);% This is the distance from the first CAL point to GNSS location. One point.
+        
+        spa=myfit.a - myfit.b*exp(-dis_0/myfit.c);
+        disp(['The spatial rms is estimated to be:',num2str(spa)])
+        
+        [sig_r]=sigma_r(bias_std,sig_g,spa);   
     end
     
     % test 

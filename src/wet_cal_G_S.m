@@ -1,35 +1,36 @@
 % calculate the difference of the wet delay between the GNSS and the
 % radiomater. 
-% - load the GNSS wet PD file according to the `loc`. Format is
-% '2008.000000000 2524.90 209.70 17.50'='Time total_PD wet_PD sig_PD'
-% -
 
-function [bias2,sig_g]=wet_cal_G_S(sat,loc,dry)
 
-% `z_delta` is a  threshold value  to remove the fast changing data. Unit
-% is `mm`. It is not the same for each site and given by subjectively.
-    if strcmp(loc,'sdyt')
-        gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
-        z_delta=15;
-    elseif strcmp(loc,'fjpt')
-        gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
-        z_delta=15;
-    elseif strcmp(loc,'hisy') || strcmp(loc,'hisy2')
-        gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
-        z_delta=15;
-    elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
-        gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
-        z_delta=20;
-    elseif strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
-        gnss_wet=load ('..\test\gnss_wet\troSDRC.d3'); 
-        z_delta=20;   
-    elseif strcmp(loc,'sdqd')
-        gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
-        z_delta=20;           
-    elseif strcmp(loc,'gdst')
-        gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
-        z_delta=20;          
-    end
+function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta)
+% 
+% % `z_delta` is a  threshold value  to remove the fast changing data. Unit
+% % is `mm`. It is not the same for each site and given by subjectively.
+%     if strcmp(loc,'sdyt')
+%         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
+%         z_delta=15;
+%     elseif strcmp(loc,'fjpt')
+%         gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
+%         z_delta=15;
+%     elseif strcmp(loc,'hisy') || strcmp(loc,'hisy2')
+%         gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
+%         z_delta=15;
+%     elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
+%         gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
+%         z_delta=20;
+%     elseif strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
+%         gnss_wet=load ('..\test\gnss_wet\troSDRC.d3'); 
+%         z_delta=20;   
+%     elseif strcmp(loc,'sdqd')
+%         gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
+%         z_delta=20;           
+%     elseif strcmp(loc,'gdst')
+%         gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
+%         z_delta=20;       
+%     elseif strcmp(loc,'gdzh')
+%         gnss_wet=load ('..\test\gnss_wet\troGDZH.d3'); 
+%         z_delta=20;               
+%     end
 
     tmp000=gnss_wet; % The format is :`2008.000000000 2524.90 209.70 17.50`
     % `time ZTD wet sig_td`.
@@ -150,8 +151,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,loc,dry)
   end
 % =========================================================================   
 
-    sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT software.
-    Q=['The average uncertainty of the GNSS wet PD is:', num2str(sig_g)];
-    disp(Q);
+sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT software.
+Q=['The average uncertainty of the GNSS wet PD is:', num2str(sig_g)];
+disp(Q);
 
 return
