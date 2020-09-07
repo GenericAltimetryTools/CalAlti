@@ -1,0 +1,5 @@
+#!/bin/bash
+#date:2017-7-26
+
+awk '{print $0}' igs_coor_normal.txt | paste - igs_name.dat   > igs_coor_normal_full.dat
+

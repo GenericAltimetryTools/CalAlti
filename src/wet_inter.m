@@ -99,7 +99,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.
-        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir);
+        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,lat3);
         sig_bias_r_g(ii)=bias_std;
         mea_bias_r_g(ii)=bias_mean;        
         

@@ -6,7 +6,7 @@ if sat==3
     y=bias(:,2);
     [P,S]=polyfit(x,y,1);
     trend_year=P(1)*365/14;
-    disp(['The trend of bias (a*x+b) is m/y:',num2str(trend_year)])
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
     % [Y,delta]=polyconf(P,x,S);%给出回归Y的95%的置信区间为[Y-delta，Y+delta]
 %             if sat==4
                 x1=min_cir:1:max_cir;

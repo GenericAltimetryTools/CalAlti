@@ -3,7 +3,10 @@ output/
 tg_xinxizx/
 *.asv
 
-test/
+test/hy2_check
+test/ja2_check
+test/ja3_check
+test/s3a_check
 src/statis.m
 src/add_noise.m
 src/read_nc__contents.m

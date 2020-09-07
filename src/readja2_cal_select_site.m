@@ -57,7 +57,17 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           pass_num=153;% define the pass number
           lat_gps=2.2275301e+01;% GNSS的坐标
           lon_gps=1.1356688e+02 ;% 1.1976872e+02 2.5502154e+01
-          h_gnss=5.0471732e+01+3.10586395383;          
+          h_gnss=5.0471732e+01+3.10586395383;     
+      case 'lnhl' % 
+          disp('Your CAL site is: Guangdong Zhuhai')
+          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=40700000; % 
+%           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
+%           max_lat=25000000; % 
+          pass_num=77;% define the pass number
+          lat_gps=40.687689;% GNSS的坐标
+          lon_gps=120.8518 ;% 1.1976872e+02 2.5502154e+01
+          h_gnss=4.2492700e+01-5.227;             
        case 'hisy' % 
           disp('Your CAL site is: Hainan sanya')
           min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
