@@ -7,7 +7,7 @@ function ja3_wet(sat,loc,dir_0,dry)
 %=========================================================================
 % Please modify these parameters according to your requirement
 min_cir=1;% 
-max_cir=158;% 
+max_cir=149;% 158
 
 %=========================================================================
 % Step 2: select the CAL site
@@ -16,10 +16,10 @@ max_cir=158;%
 readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
 plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
-plot_gmt(pass_num,min_cir,max_cir,sat);
+% plot_gmt(pass_num,min_cir,max_cir,sat);
 
 % Step4: Analysis the final sigma of radiometer
-[myfit]=spatial_dec(153,min_cir,max_cir,sat); % here we use the `153` as a constant pass number because the data are in open coean and are of good quality.
+[myfit]=spatial_dec(114,min_cir,max_cir,sat); % here we use the `153` as a constant pass number because the data are in open coean and are of good quality.
  
 % Step 5: interpolation of  the wet delay to the fixed point and compare the GNSS and radiometer.
 % Then save the results.

@@ -8,8 +8,8 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 % choose the satellite ID and GNSS sites
-sat=4; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
-loc = 'lnhl';% choose from sdyt,fjpt,hisy,yong,gdzh,lnhl for Jason.
+sat=3; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
+loc = 'sdyt';% choose from sdyt,fjpt,hisy,yong,gdzh,lnhl,zjwz,gdst,jsly,zmw for Jason.
 % select the dry PD source. The difference may be very small
 dry=1; % 1=GDR;2=GNSS;3=ERA5;
 % And sdyt,sdrc,sdrc2,sdqd,fjpt,hisy,hisy2,yong, for HY-2B

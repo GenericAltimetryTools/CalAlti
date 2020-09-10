@@ -64,7 +64,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           pass_num=224;% define the pass number
           lat_gps=3.7482596e+01;% 成山头验潮站的坐标
           lon_gps=1.2143555e+02;
-
+          h_gnss=9.2409290e+01-8.721705361659E+00;
+          
         case 'sdqd' % shandong YanTai
           disp('Your CAL site is: shandong qingdao')
           min_lat=35000000; % 分析湿延迟的时候范围可以设置偏大

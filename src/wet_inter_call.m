@@ -25,8 +25,20 @@ if sat==1 || sat==4 %Jason2,3
     elseif  strcmp(loc,'yong2')
         lat3=16.1:0.05:17.1; % 25km far from the mainland   
     elseif  strcmp(loc,'gdzh')
-        lat3=21.0:0.05:22.0; % 25km far from the mainland           
-    else
+        lat3=21.0:0.05:22.0; % 25km far from the mainland   
+    elseif  strcmp(loc,'gdst')
+        lat3=22.5:0.05:23.45; % 25km far from the mainland           
+    elseif  strcmp(loc,'lnhl')
+        lat3=39.5:0.05:40.5; % 25km far from the mainland   
+    elseif  strcmp(loc,'jsly')
+        lat3=34.5:0.05:35.5; % 25km far from the mainland   
+    elseif  strcmp(loc,'zjwz')
+        lat3=27.2:0.05:27.9; % 25km far from the mainland    
+    elseif  strcmp(loc,'zmw')
+        lat3=39.2:0.05:39.8; % 25km far from the mainland     
+    elseif  strcmp(loc,'qly')
+        lat3=36:0.05:36.5; % 25km far from the mainland             
+    else        
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');        
     end 
@@ -34,7 +46,7 @@ end
 
 if sat==3 % HY-2B
     if  strcmp(loc,'sdyt')
-        lat3=37.75; % 25km far from the mainland
+        lat3=37.7:0.05:38.5; % 25km far from the mainland
     elseif  strcmp(loc,'fjpt')
         lat3=25.7; % 25km far from the mainland
     elseif  strcmp(loc,'hisy')
@@ -88,7 +100,22 @@ end
         z_delta=20;       
     elseif strcmp(loc,'gdzh')
         gnss_wet=load ('..\test\gnss_wet\troGDZH.d3'); 
-        z_delta=20;               
+        z_delta=20;  
+    elseif strcmp(loc,'lnhl')
+        gnss_wet=load ('..\test\gnss_wet\troLNHL.d3'); 
+        z_delta=20;         
+    elseif strcmp(loc,'jsly')
+        gnss_wet=load ('..\test\gnss_wet\troJSLY.d3');         
+        z_delta=20;          
+    elseif strcmp(loc,'zjwz')
+        gnss_wet=load ('..\test\gnss_wet\troZJWZ.d3');         
+        z_delta=20;          
+    elseif strcmp(loc,'zmw')
+        gnss_wet=load ('..\test\gnss_wet\troBZMW.d');         
+        z_delta=20;     
+    elseif strcmp(loc,'qly')
+        gnss_wet=load ('..\test\gnss_wet\troBQLY.d');         
+        z_delta=20;             
     end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.

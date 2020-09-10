@@ -95,7 +95,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         end 
         
         % Compare and get the orignal bais between GNSS and radiometer. May contain abnormal values
-        [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta);
+        [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc);
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.

@@ -2,7 +2,7 @@
 % radiomater. 
 
 
-function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta)
+function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
 % 
 % % `z_delta` is a  threshold value  to remove the fast changing data. Unit
 % % is `mm`. It is not the same for each site and given by subjectively.
@@ -33,28 +33,49 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta)
 %     end
 
     tmp000=gnss_wet; % The format is :`2008.000000000 2524.90 209.70 17.50`
-    % `time ZTD wet sig_td`.
+    % `time ZTD wet sig_td` for CMONOC. 
+    % For China Ocean station GNSS, the format is `2010 01 01 00 00 00
+    % 2349.51 33.41 1.51` : `YYYY MM DD hh mm ss ztd wetpd sigma_ztd`
     
-    y_0=floor(tmp000(:,1));
-    da=tmp000(:,1)-y_0;
+    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly'))
+        y_0=floor(tmp000(:,1)); % year
+        da=tmp000(:,1)-y_0; % 
 
-    z_delay=tmp000(:,3);  % ZTD of GNSS,including the dry. Format: 2519.00
-    ztd_delay=tmp000(:,2);  % wet PD of GNSS, excluding the dry. Format:240.60
- 
-    z_delay_sigma=tmp000(:,4);  % sigma of the wet PD of GNSS.
-    
-    % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
-    for i=2000:2030
-       date_yj=[i 1 1 0 0 0];
-       y_sec(i)=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
+        z_delay=tmp000(:,3);  % ZTD of GNSS,including the dry. Format: 2519.00
+        ztd_delay=tmp000(:,2);  % wet PD of GNSS, excluding the dry. Format:240.60
+        z_delay_sigma=tmp000(:,4);  % sigma of the wet PD of GNSS.
+
+        % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
+        for i=2000:2030
+           date_yj=[i 1 1 0 0 0];
+           y_sec(i)=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
+        end
+        sec=y_sec(y_0)'+da*366*24*60*60; % time in unit of second. 
+        % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
+        % $1 to $3 refered to `Yr  Doy Hr`
+        
+        g_w=z_delay; % GNSS wet PD
+        g_ztd=ztd_delay; % GNSS ZTD
+
+        tm2=round(sec); % GNSS time in second
+        
+    elseif strcmp(loc,'zmw') || strcmp(loc,'qly')
+        time_tmp=floor(tmp000(:,1:6)); % `YYYY MM DD hh mm ss`
+        sec=((datenum(time_tmp)-datenum('2000-01-1 00:00:00')))*86400;
+        tm2=round(sec); % GNSS time in second        
+        % remove the repeated data
+        [tm2_clean,ia,ic]=unique(tm2);
+        tm2=tm2_clean;
+        z_delay=tmp000(ia,8);  % wet PD of GNSS, excluding the dry. Format:240.60
+        ztd_delay=tmp000(ia,7);  % ZTD of GNSS,including the dry. Format: 2519.00
+        z_delay_sigma=tmp000(ia,9);  % sigma of the wet PD of GNSS.
+        % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
+        g_w=z_delay; % GNSS wet PD
+        g_ztd=ztd_delay; % GNSS ZTD
+
+
+        
     end
-    sec=y_sec(y_0)'+da*366*24*60*60;
-       
-    g_w=z_delay; % GNSS wet PD
-    g_ztd=ztd_delay; % GNSS ZTD
-
-    tm2=round(sec); % GNSS time in second
-    
 % load the satellite radiometer wet PD according to `sat`. The file format
 % is `17.000000   111.896498 316774654.998892  -171.578105  56`, which
 % means `lat lon time(s) wet_pd(negtive) cycle`.
@@ -117,15 +138,19 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta)
                 
     %             if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
                 if z_delay_sigma(loct)<z_delta && abs(ssh_tg2(3)-ssh_tg2(1))<z_delta  % 去除短时间变化快的数据  
-                    tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time
-                    tg_pca_ztd(k)=interp1(tt,ztd_gnss_subset,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time
+                    tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time.
+                    tg_pca_ztd(k)=interp1(tt,ztd_gnss_subset,t_pca,'nearest'); % This is GNSS ZTD Interpolated to the PCA time
 
                     % Here we can select the method of Interpolation. The
                     % nearest and the linear are nearly same, meaning that
                     % the wet pd variation in 1 hour period is small.
                     w_ali2(k)=w_ali(i); % radiometer wet PD at the PCA.
                     w_ali2_model(k)=w_ali_model(i); % model wet PD at the PCA.
+                    
                     w_ali3(k)=w_ali_ztd(i); % ZTD at the PCA. Dry PD is the model value from GDR.
+                    w_ali2_dry(k)= w_ali3(k)- w_ali2(k); % model dry
+                    w_ali4(k)=w_ali2_model(k)+w_ali2_dry(k); % model ztd
+                    
                     ttt(k)=pca_wet(i,5); % cycle number
                     tim2(k)=pca_wet(i,3); % time in sec
                     sig_pd(k)=z_delay_sigma(loct);% we do not interpolate it since it is nearly the same in 1 hour period.
@@ -140,10 +165,12 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta)
   if k>1
       if dry==2
         bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
+        bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
       elseif dry==1
-        bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long          
+        bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long      
+        bias_model=-w_ali4-(tg_pca_ztd);% the result '-' means short,'+' means long        
       end
-    bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
+%     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias2=[ttt' bias' tim2' bias_model' sig_pd']; % the `bias2` format is `cycle R-G(mm) time(s) M-G(mm) sigma_GNSS (mm)`
   else
 %       disp('no data fullfill the requirement')

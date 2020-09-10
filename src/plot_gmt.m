@@ -175,8 +175,9 @@ gmt('psxy -R -J -W4p,green  -K -O >> ../temp/test.ps',out35.data)
 % gps=[lon_gps lat_gps];
 gmt('psxy ../test/gnss_wet/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ../temp/test.ps');
 % !gawk "{print $1, $2, $3}" ../test/gnss_wet/points_latlon.txt >../test/gnss_wet/points_latlon.txt2 
-gmt('pstext  ../test/gnss_wet/points_latlon.txt2 -R -J -F+f7p,black+jTL -O -K -Gwhite -D0.2/0.1 >> ../temp/test.ps')
-gmt('pswiggle  -R -J  -Z50 -W2p,yellow  -O  >> ../temp/test.ps ', slopes)
+gmt('pswiggle  -R -J  -Z50 -W2p,yellow  -O -K >> ../temp/test.ps ', slopes)
+gmt('pstext  ../test/gnss_wet/points_latlon.txt2 -R -J -F+f7p,black+jTL -O  -Gwhite -D0.2/0.1 >> ../temp/test.ps')
+
 % gmt('pswiggle  -R -J  -Z10 -W2p,green  -O  >> test.ps ', wet_ful_f_plot)
 gmt('psconvert ../temp/test.ps -P -Tf -A')
 return
