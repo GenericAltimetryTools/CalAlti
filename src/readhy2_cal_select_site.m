@@ -10,13 +10,21 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
 
     switch lower(loc)
         case 'qly'
-          disp('qianliyan HY-2A P147')
+          disp('qianliyan HY-2A P147') % VAL for HY-2A SSH.
           min_lat=35000000; % xlim([37.6 40]) for pass 9 YD
           max_lat=36700000; % xlim([36 36.7]) for pass 147 QLY
           pass_num=147;% define the pass number
           lat_gps=36.2672;% 千里岩验潮站的坐标
           lon_gps=121.3853;
           
+        case 'bqly' % bqly For wet VAL for HY2B
+          disp('qianliyan HY-2A P147')
+          min_lat=35000000; %
+          max_lat=36700000; %
+          pass_num=319;% define the pass number
+          lat_gps=36.2672;% 千里岩验潮站的坐标
+          lon_gps=121.3853;       
+          h_gnss=86.1-10.1;
         case 'zhws'
           disp('zhu hai wanshan')
           min_lat=21000000; % xlim([37.6 40]) for pass 9 YD
@@ -69,10 +77,11 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
         case 'sdqd' % shandong YanTai
           disp('Your CAL site is: shandong qingdao')
           min_lat=35000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=36100000; % 
+          max_lat=36200000; % 
           pass_num=224;% define the pass number
           lat_gps=3.6076699e+01;% 
           lon_gps=1.2030390e+02 ;%1.2030390e+02 3.6076699e+01
+          h_gnss=1.1713966e+01-6.2;
           
         case 'sdrc' % shandong YanTai
           disp('Your CAL site is: shandong rongcheng P181')
@@ -128,6 +137,17 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=1.6834028e+01;% GNSS的坐标
           lon_gps=1.1233533e+02;%  
           h_gnss=8.3717570e+00-3.663055416951e+00;
+       case 'yong2' % shandong YanTai
+          disp('Your CAL site is:Yongxing Dao')
+          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=18000000; % 
+          
+%           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
+%           max_lat=17500000; %           
+          pass_num=114;% define the pass number
+          lat_gps=1.6834028e+01;% GNSS的坐标
+          lon_gps=1.1233533e+02;%  
+          h_gnss=8.3717570e+00-3.663055416951e+00;          
        case 'fjpt' % shandong YanTai
           disp('Your CAL site is:Fujian Pintan')
           min_lat=25000000; % 分析湿延迟的时候范围可以设置偏大
@@ -161,6 +181,22 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=21.9949;% GNSS的坐标
           lon_gps=114.1479;% 1.1660307e+02 2.3417880e+01
           
+        case 'bzmw' % zhimaowan
+          disp('Your CAL site is: zhimaowan')
+          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=40000000; % 
+          pass_num=319;% define the pass number    
+          lat_gps=40.0094;% 芷锚湾验潮站的坐标
+          lon_gps=119.9200;    
+          h_gnss=24-3; 
+        case 'bzmw2' % zhimaowan
+          disp('Your CAL site is: zhimaowan')
+          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=40000000; % 
+          pass_num=362;% define the pass number    
+          lat_gps=40.0094;% 芷锚湾验潮站的坐标
+          lon_gps=119.9200;    
+          h_gnss=24-3;           
         otherwise
           disp('Unknown location.')
     end

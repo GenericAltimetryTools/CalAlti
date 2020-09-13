@@ -37,7 +37,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     % For China Ocean station GNSS, the format is `2010 01 01 00 00 00
     % 2349.51 33.41 1.51` : `YYYY MM DD hh mm ss ztd wetpd sigma_ztd`
     
-    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly'))
+    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly'))
         y_0=floor(tmp000(:,1)); % year
         da=tmp000(:,1)-y_0; % 
 
@@ -59,7 +59,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
 
         tm2=round(sec); % GNSS time in second
         
-    elseif strcmp(loc,'zmw') || strcmp(loc,'qly')
+     elseif strcmp(loc,'zmw') || strcmp(loc,'qly') || strcmp(loc,'bzmw') ||strcmp(loc,'bzmw2') || strcmp(loc,'bqly')
         time_tmp=floor(tmp000(:,1:6)); % `YYYY MM DD hh mm ss`
         sec=((datenum(time_tmp)-datenum('2000-01-1 00:00:00')))*86400;
         tm2=round(sec); % GNSS time in second        
@@ -71,11 +71,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         z_delay_sigma=tmp000(ia,9);  % sigma of the wet PD of GNSS.
         % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
         g_w=z_delay; % GNSS wet PD
-        g_ztd=ztd_delay; % GNSS ZTD
-
-
-        
-    end
+        g_ztd=ztd_delay; % GNSS ZTD     
+     end
 % load the satellite radiometer wet PD according to `sat`. The file format
 % is `17.000000   111.896498 316774654.998892  -171.578105  56`, which
 % means `lat lon time(s) wet_pd(negtive) cycle`.

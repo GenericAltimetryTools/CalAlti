@@ -15,7 +15,9 @@ format long
 dir_0='C:\Users\yangleir\Downloads\hy2b\IDR_2M\';% data directory 
 min_cir=28;% 0,128
 max_cir=46;% 106,158 
-loc = 'zhws';% Here can choose the qly, zmw, zhws
+
+% At present, it only works for HY-2B over Zhu hai wan shan site.
+loc = 'zhws';% Here can choose the qly, zmw, zhws.
 sat=3;% 3==hy2-b
 fre=1;%表示选择的高度计数据类型，高频为20 or 40，低频为1.
 

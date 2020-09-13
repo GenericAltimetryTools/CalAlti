@@ -11,7 +11,7 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 sat=3;
 
-for cir=25:25 % 21-47 cycles is one year. 201908-202008
+for cir=21:47 % 21-47 cycles is one year. 201908-202008
 %     cir=17;% choose one cycle
     nm=cir;
     temp1=check_circle(nm);% 调用函数，判断circle的位数。
@@ -40,7 +40,7 @@ for cir=25:25 % 21-47 cycles is one year. 201908-202008
 
         netcdf.close(nc)
 
-        outfile=strcat('..\test\hy2_check\',namelist(n,18:26),'.txt');% 只取周期和pass编号
+        outfile=strcat('..\test\hy2_check\',namelist(n,18:26),'_full','.txt');% 只取周期和pass编号
         fid2 = fopen(outfile,'w');
 
         for i=1:length(lon)              

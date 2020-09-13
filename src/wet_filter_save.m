@@ -3,7 +3,7 @@
 % -Save to file
 % The output format : cycle bias time(seconds)
 
-function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,lat3)
+function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,lat3,loc)
 
     tmpp=bias2(:,2);
     ttt=bias2(:,1);
@@ -45,23 +45,23 @@ function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,lat3)
     % plot_bias(bias2,sat)
     % The names of saved files are changed according to the `lat3`.
 if sat==1
-    filename1=strcat('..\test\ja2_check\jason_2_bias_wet_new',num2str(lat3),'.txt');
+    filename1=strcat('..\test\ja2_check\jason_2_bias_wet_new_',loc,num2str(lat3),'.txt');
     save(filename1,'bias2_radio','-ASCII') % 保存结果数据
-    filename2=strcat('..\test\ja2_check\jason_2_bias_wet_model_new',num2str(lat3),'.txt');    
+    filename2=strcat('..\test\ja2_check\jason_2_bias_wet_model_new_',loc,num2str(lat3),'.txt');    
     save(filename2,'bias2_model','-ASCII') % 保存结果数据    
 %     save ..\test\ja2_check\jason_2_bias_wet_model_new.txt bias2_model -ASCII % 保存结果数据
 elseif sat==4
-    filename1=strcat('..\test\ja3_check\jason_3_bias_wet_new',num2str(lat3),'.txt');
+    filename1=strcat('..\test\ja3_check\jason_3_bias_wet_new_',loc,num2str(lat3),'.txt');
     save(filename1,'bias2_radio','-ASCII') % 保存结果数据
-    filename2=strcat('..\test\ja3_check\jason_3_bias_wet_model_new',num2str(lat3),'.txt');    
+    filename2=strcat('..\test\ja3_check\jason_3_bias_wet_model_new_',loc,num2str(lat3),'.txt');    
     save(filename2,'bias2_model','-ASCII') % 保存结果数据  
     
 %     save ..\test\ja3_check\jason_3_bias_wet_new.txt bias2_radio -ASCII % 保存结果数据
 %     save ..\test\ja3_check\jason_3_bias_wet_model_new.txt bias2_model -ASCII % 保存结果数据
 elseif sat==3
-    filename1=strcat('..\test\hy2_check\hy2_bias_wet_new',num2str(lat3),'.txt');
+    filename1=strcat('..\test\hy2_check\hy2_bias_wet_new_',loc,num2str(lat3),'.txt');
     save(filename1,'bias2_radio','-ASCII') % 保存结果数据
-    filename2=strcat('..\test\hy2_check\hy2_bias_wet_model_new',num2str(lat3),'.txt');    
+    filename2=strcat('..\test\hy2_check\hy2_bias_wet_model_new_',loc,num2str(lat3),'.txt');    
     save(filename2,'bias2_model','-ASCII') % 保存结果数据  
     
 %     save ..\test\hy2_check\hy2_bias_wet_new.txt bias2_radio -ASCII % 保存结果数据

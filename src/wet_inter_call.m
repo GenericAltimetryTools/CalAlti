@@ -55,16 +55,20 @@ if sat==3 % HY-2B
     elseif  strcmp(loc,'hisy2')
 %         lat3=17.9; % 25km far from the mainland
         lat3=17.2:0.05:18.2;        
-    elseif  strcmp(loc,'yong')
+    elseif  strcmp(loc,'yong') || strcmp(loc,'yong2')
         lat3=16.5:0.05:17.5; % 25km far from the mainland    
     elseif  strcmp(loc,'yong2')
         lat3=16.75; % 25km far from the mainland  
     elseif  strcmp(loc,'sdrc') || strcmp(loc,'sdrc2')
         lat3=37.1; % 25km far from the mainland      
     elseif  strcmp(loc,'sdqd')
-        lat3=35.6; % 25km far from the mainland     
+        lat3=35.1:0.05:36.1; % 25km far from the mainland     
     elseif  strcmp(loc,'gdst') % This is not good due to land influnece
-        lat3=23.0; % 25km far from the mainland     
+        lat3=23.0; % 25km far from the mainland   
+    elseif  strcmp(loc,'bzmw') || strcmp(loc,'bzmw2')
+        lat3=39.2:0.05:39.8; % 25km far from the mainland   
+    elseif  strcmp(loc,'bqly')
+        lat3=36:0.05:36.5; % 25km far from the mainland           
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');
@@ -110,10 +114,10 @@ end
     elseif strcmp(loc,'zjwz')
         gnss_wet=load ('..\test\gnss_wet\troZJWZ.d3');         
         z_delta=20;          
-    elseif strcmp(loc,'zmw')
+    elseif strcmp(loc,'zmw') || strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') 
         gnss_wet=load ('..\test\gnss_wet\troBZMW.d');         
         z_delta=20;     
-    elseif strcmp(loc,'qly')
+    elseif strcmp(loc,'qly') || strcmp(loc,'bqly')
         gnss_wet=load ('..\test\gnss_wet\troBQLY.d');         
         z_delta=20;             
     end
