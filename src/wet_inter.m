@@ -78,6 +78,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                     pca_wet_model=interp1(temp6(:,2),temp6(:,4),lat3,'pchip');
                     pca_dry=interp1(temp6(:,2),temp6(:,6),lat_gps,'pchip');
                     pressure_gdr=pca_dry*(1-0.00266*cosd(2*lat_gps))/2.277; %m_dry=-2.277*pre/(1-0.0026*cosd(2*36)-(0.28*1e-6)*h); % Here negelact the Height effect. unit mm
+                    [pressure_gdr]=dry_height(pressure_gdr,h_gnss);% pressure correction due to height
                     pca_dry_corrected=pressure_gdr*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);
                     pca_ztd=pca_wet+pca_dry_corrected;% This the ZTD. Toal PD.
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'pchip');
