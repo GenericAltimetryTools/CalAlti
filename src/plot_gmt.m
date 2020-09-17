@@ -139,7 +139,7 @@ for i=min_cir:max_cir
             mi_lon=floor(bounds(1)-1);
             ma_lon=ceil((bounds(2))+1);
             mi_lat=floor((bounds(3))-1);
-            ma_lat=ceil((bounds(4))+1)-1;
+            ma_lat=ceil((bounds(4))+1);
             bound=['-R',num2str(mi_lon),'/',num2str(ma_lon),'/',num2str(mi_lat),'/',num2str(ma_lat)];
             order=['pscoast ',bound,' -Jm122/37/1:3000000  -Bga -BSWen -Df -Gnavy -K > ../temp/test.ps'];
             gmt(order);  

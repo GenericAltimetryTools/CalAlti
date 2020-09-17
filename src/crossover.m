@@ -3,6 +3,7 @@
 % First step: read data from nc files. Here take the HY-2B l2p from aviso
 % for example.
 % define input parameters
+
 clear ;
 temp='..\test\hy2_check\';
 str=[temp '*.dat'];
@@ -11,9 +12,9 @@ delete(str);
 dir_0='D:\aviso_hy2_c2_l2p\version_02_00';
 min_cir=68; % 
 max_cir=68; % 
-min_lat=-0*1E6; % Unit degree
+min_lat=-10*1E6; % Unit degree
 max_lat=50*1E6;
-min_lon=140*1E6;
+min_lon=40*1E6;
 max_lon=200*1E6;
 
 read_hy2a_l2p(min_cir,max_cir,min_lat,max_lat,min_lon,max_lon,dir_0); % You may need the read_nc__contents.m first.

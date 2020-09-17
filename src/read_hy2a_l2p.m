@@ -46,7 +46,7 @@ for cycle=min_cir:max_cir
 %             if lat(i)<max_lat && lat(i)> min_lat && r_ku(i)~=2147483647 ...
 %                     && alt(i)~=2147483647 && sla(i)~=32767
             
-            if lat(i)<max_lat && lat(i)> min_lat && lon(i)<max_lon && lon(i)> min_lon  && sla(i)~=32767           
+            if lat(i)<max_lat && lat(i)> min_lat && lon(i)<max_lon && lon(i)> min_lon  % && sla(i)~=32767           
                 
                 ssh=double(alt(i)-r_ku(i))/1E4- ...
                 double(dry(i)+wet(i)+ino(i)+ssb(i)+dac(i)+set(i)+pt(i))/1E4 - double(ots(i))/1E4;

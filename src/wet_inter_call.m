@@ -48,7 +48,7 @@ if sat==3 % HY-2B
     if  strcmp(loc,'sdyt')
         lat3=37.7:0.05:38.5; % 25km far from the mainland
     elseif  strcmp(loc,'fjpt')
-        lat3=25.7; % 25km far from the mainland
+        lat3=25.1:0.05:26.1; % 25km far from the mainland
     elseif  strcmp(loc,'hisy')
 %         lat3=17.9; % 25km far from the mainland
         lat3=17.2:0.05:18.2; 
@@ -60,15 +60,25 @@ if sat==3 % HY-2B
     elseif  strcmp(loc,'yong2')
         lat3=16.75; % 25km far from the mainland  
     elseif  strcmp(loc,'sdrc') || strcmp(loc,'sdrc2')
-        lat3=37.1; % 25km far from the mainland      
+        lat3=36.1:0.05:38.0; % 25km far from the mainland      
     elseif  strcmp(loc,'sdqd')
         lat3=35.1:0.05:36.1; % 25km far from the mainland     
     elseif  strcmp(loc,'gdst') % This is not good due to land influnece
-        lat3=23.0; % 25km far from the mainland   
+        lat3=22.0:0.05:23.3; % 25km far from the mainland   
+    elseif  strcmp(loc,'gdst2') % This is not good due to land influnece
+        lat3=22.0:0.05:23.4; % 25km far from the mainland           
     elseif  strcmp(loc,'bzmw') || strcmp(loc,'bzmw2')
         lat3=39.2:0.05:39.8; % 25km far from the mainland   
     elseif  strcmp(loc,'bqly')
-        lat3=36:0.05:36.5; % 25km far from the mainland           
+        lat3=36:0.05:36.5; % 25km far from the mainland    
+    elseif  strcmp(loc,'gxbh') || strcmp(loc,'gxbh2')
+        lat3=20.1:0.05:21.5; % 25km far from the mainland   
+    elseif  strcmp(loc,'xiam')
+        lat3=23.5:0.05:24.5; % 25km far from the mainland   
+    elseif  strcmp(loc,'jsly')
+        lat3=34.6:0.05:35.5; % 25km far from the mainland   
+    elseif  strcmp(loc,'lndd')|| strcmp(loc,'lndd2')
+        lat3=38.1:0.05:39.8; % 25km far from the mainland           
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');
@@ -99,7 +109,7 @@ end
     elseif strcmp(loc,'sdqd')
         gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
         z_delta=20;           
-    elseif strcmp(loc,'gdst')
+    elseif strcmp(loc,'gdst') || strcmp(loc,'gdst2')
         gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
         z_delta=20;       
     elseif strcmp(loc,'gdzh')
@@ -119,7 +129,16 @@ end
         z_delta=20;     
     elseif strcmp(loc,'qly') || strcmp(loc,'bqly')
         gnss_wet=load ('..\test\gnss_wet\troBQLY.d');         
-        z_delta=20;             
+        z_delta=20;  
+    elseif strcmp(loc,'gxbh') || strcmp(loc,'gxbh2')
+        gnss_wet=load ('..\test\gnss_wet\troGXBH.d3');         
+        z_delta=20;   
+    elseif strcmp(loc,'xiam')
+        gnss_wet=load ('..\test\gnss_wet\troXIAM.d3');         
+        z_delta=20;  
+    elseif strcmp(loc,'lndd')||strcmp(loc,'lndd2')
+        gnss_wet=load ('..\test\gnss_wet\troLNDD.d3');         
+        z_delta=20;          
     end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.

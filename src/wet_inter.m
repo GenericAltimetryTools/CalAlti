@@ -100,9 +100,6 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.
-        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,lat3,loc);
-        sig_bias_r_g(ii)=bias_std;
-        mea_bias_r_g(ii)=bias_mean;        
         
         input=[lon_gps lat_gps];
         order=strcat('mapproject -G',num2str(lon3),'/',num2str(lat3),'+i+uk -fg');
@@ -112,6 +109,10 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         disp(Q);
         fclose('all');
         dis_bias_r_g(ii)=dis.data(3);
+
+        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis_bias_r_g(ii),loc);
+        sig_bias_r_g(ii)=bias_std;
+        mea_bias_r_g(ii)=bias_mean;    
         
         %  Analysis the spatial inluence
         dis_0=dis.data(3);% This is the distance from the first CAL point to GNSS location. One point.

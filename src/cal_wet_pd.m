@@ -11,7 +11,7 @@ path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 sat=3; % sat could be 1,Jason2; 4,Jason3;   3,HY-2B
 % Please first run the `yong`, because it will be set as a reference to
 % calculate the `sig_s` (spatial influence).
-loc = 'yong';
+loc = 'lndd2';
 % choose from sdyt,fjpt,hisy,yong,gdzh,lnhl,zjwz,gdst,jsly,zmw,qly for Jason.
 % And sdyt,sdrc,sdrc2,sdqd,fjpt,hisy,hisy2,yong,yong2,bzmw,bzmw2,bqly, for HY-2B
 
