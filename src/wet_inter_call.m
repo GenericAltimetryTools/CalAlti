@@ -78,7 +78,11 @@ if sat==3 % HY-2B
     elseif  strcmp(loc,'jsly')
         lat3=34.6:0.05:35.5; % 25km far from the mainland   
     elseif  strcmp(loc,'lndd')|| strcmp(loc,'lndd2')
-        lat3=38.1:0.05:39.8; % 25km far from the mainland           
+        lat3=38.1:0.05:39.8; % 25km far from the mainland    
+    elseif  strcmp(loc,'lnjz')
+        lat3=37.6:0.05:38.8; % 25km far from the mainland
+    elseif  strcmp(loc,'lnjz2')
+        lat3=37.6:0.05:39.0; % 25km far from the mainland        
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');
@@ -138,7 +142,10 @@ end
         z_delta=20;  
     elseif strcmp(loc,'lndd')||strcmp(loc,'lndd2')
         gnss_wet=load ('..\test\gnss_wet\troLNDD.d3');         
-        z_delta=20;          
+        z_delta=20;   
+    elseif strcmp(loc,'lnjz')||strcmp(loc,'lnjz2')
+        gnss_wet=load ('..\test\gnss_wet\troLNJZ.d3');         
+        z_delta=20;           
     end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.

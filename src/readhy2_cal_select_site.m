@@ -104,6 +104,23 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=40.031621 ;% 成山头验潮站的坐标
           lon_gps=124.32726	;% 
           h_gnss=2.9773536e+01-15.8;            
+
+        case 'lnjz' % shandong YanTai
+          disp('Your CAL site is: liaoning jinzhou')
+          min_lat=37500000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=38900000; % 
+          pass_num=pass_2ato2b(52);
+          lat_gps=39.091808;% 成山头验潮站的坐标
+          lon_gps=121.7401;% 
+          h_gnss=6.7586564e+01-9.68;   
+        case 'lnjz2' % shandong YanTai
+          disp('Your CAL site is: liaoning jinzhou2')
+          min_lat=37500000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=39100000; % 
+          pass_num=pass_2ato2b(9);
+          lat_gps=39.091808;% 成山头验潮站的坐标
+          lon_gps=121.7401;% 
+          h_gnss=6.7586564e+01-9.68;             
           
         case 'sdrc' % shandong YanTai
           disp('Your CAL site is: shandong rongcheng P181')
