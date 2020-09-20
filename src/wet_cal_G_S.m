@@ -37,12 +37,12 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     % For China Ocean station GNSS, the format is `2010 01 01 00 00 00
     % 2349.51 33.41 1.51` : `YYYY MM DD hh mm ss ztd wetpd sigma_ztd`
     
-    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly'))
+    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly') || strcmp(loc,'kmnm'))
         y_0=floor(tmp000(:,1)); % year
         da=tmp000(:,1)-y_0; % 
 
-        z_delay=tmp000(:,3);  % ZTD of GNSS,including the dry. Format: 2519.00
-        ztd_delay=tmp000(:,2);  % wet PD of GNSS, excluding the dry. Format:240.60
+        z_delay=tmp000(:,3);  % wet PD of GNSS, excluding the dry. Format:240.60
+        ztd_delay=tmp000(:,2);  % ZTD of GNSS,including the dry. Format: 2519.00
         z_delay_sigma=tmp000(:,4);  % sigma of the wet PD of GNSS.
 
         % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
@@ -71,7 +71,30 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         z_delay_sigma=tmp000(ia,9);  % sigma of the wet PD of GNSS.
         % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
         g_w=z_delay; % GNSS wet PD
-        g_ztd=ztd_delay; % GNSS ZTD     
+        g_ztd=ztd_delay; % GNSS ZTD    
+     elseif strcmp(loc,'kmnm') % This is IGD data format 
+        y_0=tmp000(:,1)+2000; % year
+%         y_0=2000+y_y0;
+        da=tmp000(:,2); % 
+        sec_igs=tmp000(:,3); % 
+        
+%         z_delay=tmp000(:,4);  % 
+        ztd_delay=tmp000(:,4);  % ZTD of GNSS,including the dry. Format: 2519.00
+        z_delay_sigma=tmp000(:,5);  % sigma of the wet PD of GNSS.
+
+        % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
+        for i=2000:2030
+           date_yj=[i 1 1 0 0 0];
+           y_sec(i)=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
+        end
+        sec=y_sec(y_0)'+da*24*60*60+sec_igs; % time in unit of second. 
+        % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
+        % $1 to $3 refered to `Yr  Doy Hr`
+        
+        g_w=ztd_delay; % This is fake
+        g_ztd=ztd_delay; % GNSS ZTD
+
+        tm2=round(sec); % GNSS time in second        
      end
 % load the satellite radiometer wet PD according to `sat`. The file format
 % is `17.000000   111.896498 316774654.998892  -171.578105  56`, which
@@ -102,6 +125,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     c=length(tm2); % GNSS data length
     
     tmp3(1:b)=0;
+    
     % Find the time of satellite passing. The time location will be stored in `tmp3`.
     for i=1:b
         n=0;

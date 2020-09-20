@@ -280,6 +280,15 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=21.652538;% 
           lon_gps=109.21241	;    
           h_gnss=2.8666416e+01-(-18.11);              
+
+        case 'kmnm' % zhimaowan
+          disp('Your CAL site is: taiwan jinmen IGS')
+          min_lat=23000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=24800000; % 
+          pass_num=pass_2ato2b(300);% define the pass number    
+          lat_gps=24.463822;% 
+          lon_gps=118.38858;    
+          h_gnss=49.1-12.3;   
           
         otherwise
           disp('Unknown location.')

@@ -73,7 +73,7 @@ if sat==3 % HY-2B
         lat3=36:0.05:36.5; % 25km far from the mainland    
     elseif  strcmp(loc,'gxbh') || strcmp(loc,'gxbh2')
         lat3=20.1:0.05:21.5; % 25km far from the mainland   
-    elseif  strcmp(loc,'xiam')
+    elseif  strcmp(loc,'xiam') || strcmp(loc,'kmnm') 
         lat3=23.5:0.05:24.5; % 25km far from the mainland   
     elseif  strcmp(loc,'jsly')
         lat3=34.6:0.05:35.5; % 25km far from the mainland   
@@ -146,6 +146,9 @@ end
     elseif strcmp(loc,'lnjz')||strcmp(loc,'lnjz2')
         gnss_wet=load ('..\test\gnss_wet\troLNJZ.d3');         
         z_delta=20;           
+    elseif strcmp(loc,'kmnm')
+        gnss_wet=load ('..\test\gnss_wet\trokmnm.d3');         
+        z_delta=20;    % not use this parameters               
     end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.

@@ -1,3 +1,3 @@
 #!/bin/bash
 #date:2017-7-26
-gmt grdtrack points_latlon.txt -GC:/Users/yangleir/Documents/dtu/DTU18MSS_1min.nc > points_latlon_geoid.txt
+gmt grdtrack igs_coor_normal_full.dat -GC:/Users/yangleir/Documents/dtu/DTU18MSS_1min.nc > igs_coor_normal_full_geoid.dat
