@@ -38,3 +38,4 @@ doc/*.toc
 doc/*.pdf
 temp/*
 !temp/readme.md
+src/test_pressure_dry.m
