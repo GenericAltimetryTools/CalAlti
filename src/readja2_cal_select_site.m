@@ -5,7 +5,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
     switch lower(loc)
         case 'qly'
           disp('Your CAL site is: qianliyan')
-          min_lat=35000000; % xlim([37.6 40]) for pass 9 YD
+          min_lat=34800000; % xlim([37.6 40]) for pass 9 YD
           max_lat=36900000; % xlim([36 36.7]) for pass 147 QLY
           pass_num=153;% define the pass number
           lat_gps=36.2672;% 千里岩验潮站的坐标
@@ -52,7 +52,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           
       case 'gdzh' % 
           disp('Your CAL site is: Guangdong Zhuhai')
-          min_lat=20000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=18000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=22200000; % 
 %           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=25000000; % 
@@ -62,7 +62,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           h_gnss=5.0471732e+01+3.10586395383;     
       case 'lnhl' % 
           disp('Your CAL site is: Liaoning Huludao')
-          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=38000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40800000; % 
 %           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=25000000; % 
@@ -72,7 +72,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           h_gnss=4.2492700e+01-5.227;  
       case 'jsly' % 
           disp('Your CAL site is: Jiangsu Lianyun')
-          min_lat=34000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=32000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=35600000; % 
 %           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=25000000; % 
@@ -92,7 +92,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           h_gnss=1.1317437e+02-14.012;              
       case 'gdst' % 
           disp('Your CAL site is: Guangdong Shantou')
-          min_lat=22000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=21000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=23500000; % 
 %           min_lat=24500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=25000000; % 
@@ -103,7 +103,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           
        case 'hisy' % 
           disp('Your CAL site is: Hainan sanya')
-          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=15700000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=18300000; % 
 %           max_lat=17900000; % 
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
@@ -114,8 +114,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           h_gnss=4.7004406e+01-(-1.097660858330E+01);
        case 'yong' % 
           disp('Your CAL site is: Yong xing dao P153')
-          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18000000; % 
+          min_lat=14000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=19500000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
@@ -125,7 +125,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           h_gnss=8.3717570e+00-3.663055416951e+00;
        case 'yong2' % 
           disp('Your CAL site is: Yong xing dao P114')
-          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=12000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=19500000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
@@ -137,7 +137,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           
         case 'zmw' % zhimaowan
           disp('Your CAL site is: zhimaowan')
-          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=37000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
           pass_num=138;% define the pass number    
           lat_gps=40.0094;% 芷锚湾验潮站的坐标

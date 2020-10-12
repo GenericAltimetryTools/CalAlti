@@ -131,11 +131,18 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
     
     % output the mean and STD as a function of the distance
     if sat==1
-        save ..\test\ja2_check\jason_2_bias_wet_dis_function.txt output_dis -ASCII % 保存结果数据
+        filename1=strcat('..\test\ja2_check\jason_2_bias_wet_dis_function_',loc,'.txt');
+        save(filename1,'output_dis','-ASCII') % 保存结果数据        
+        
+%         save ..\test\ja2_check\jason_2_bias_wet_dis_function.txt output_dis -ASCII % 保存结果数据
     elseif sat==4
-        save ..\test\ja3_check\jason_3_bias_wet_dis_function.txt output_dis -ASCII % 保存结果数据
+        filename1=strcat('..\test\ja3_check\jason_3_bias_wet_dis_function_',loc,'.txt');
+        save(filename1,'output_dis','-ASCII') % 保存结果数据           
+%         save ..\test\ja3_check\jason_3_bias_wet_dis_function.txt output_dis -ASCII % 保存结果数据
     elseif sat==3
-        save ..\test\hy2_check\hy2_bias_dis_function.txt output_dis -ASCII % 保存结果数据
+%         save ..\test\hy2_check\hy2_bias_dis_function.txt output_dis -ASCII % 保存结果数据
+        filename1=strcat('..\test\hy2_check\hy2_bias_wet_dis_function_',loc,'.txt');
+        save(filename1,'output_dis','-ASCII') % 保存结果数据          
     end
     
 return

@@ -19,7 +19,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
         case 'bqly' % bqly For wet VAL for HY2B wet
           disp('qianliyan HY-2A P147')
-          min_lat=35000000; %
+          min_lat=32500000; %
           max_lat=36700000; %
           pass_num=319;% define the pass number
           lat_gps=36.2672;% 千里岩验潮站的坐标
@@ -77,31 +77,27 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
         case 'sdqd' % shandong YanTai
           disp('Your CAL site is: shandong qingdao')
-          min_lat=35000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=34400000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=36200000; % 
           pass_num=224;% define the pass number
           lat_gps=3.6076699e+01;% 
           lon_gps=1.2030390e+02 ;%1.2030390e+02 3.6076699e+01
           h_gnss=1.1713966e+01-6.2;
 
-        case 'lndd' % shandong YanTai
+        case 'lndd' % 
           disp('Your CAL site is: liaoning dandong')
-          min_lat=38000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=38000000; % 
           max_lat=39800000; % 
-%           min_lat=30000000; % 分析湿延迟的时候范围可以设置偏大
-%           max_lat=36000000; % 
           pass_num=pass_2ato2b(257);
-          lat_gps=40.031621 ;% 成山头验潮站的坐标
+          lat_gps=40.031621 ;
           lon_gps=124.32726	;% 
           h_gnss=2.9773536e+01-15.8;  
-        case 'lndd2' % shandong YanTai
+        case 'lndd2' % 
           disp('Your CAL site is: liaoning dandong2')
-          min_lat=37500000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=37500000; % 
           max_lat=39800000; % 
-%           min_lat=30000000; % 分析湿延迟的时候范围可以设置偏大
-%           max_lat=36000000; % 
           pass_num=pass_2ato2b(300);
-          lat_gps=40.031621 ;% 成山头验潮站的坐标
+          lat_gps=40.031621 ;% 
           lon_gps=124.32726	;% 
           h_gnss=2.9773536e+01-15.8;            
 
@@ -125,7 +121,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
         case 'sdrc' % shandong YanTai
           disp('Your CAL site is: shandong rongcheng P181')
           min_lat=34000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=38300000; % 
+          max_lat=38100000; % 
 %           min_lat=30000000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=36000000; % 
           pass_num=181;% define the pass number
@@ -134,8 +130,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=6.4493126e+01-11.80;          
         case 'sdrc2' % shandong YanTai
           disp('Your CAL site is: shandong rongcheng P128')
-          min_lat=36000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=38000000; % 
+          min_lat=34000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=39500000; % 
 %           min_lat=30000000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=36000000; % 
           pass_num=86;% define the pass number
@@ -146,8 +142,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
        case 'hisy' % shandong YanTai
           disp('Your CAL site is: Hainan sanya')
-          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18400000; % 
+          min_lat=14000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=18200000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
@@ -157,8 +153,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=4.7004406e+01-(-1.097660858330E+01);
        case 'hisy2' % shandong YanTai
           disp('Your CAL site is: Hainan sanya')
-          min_lat=16000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18000000; % 
+          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=18100000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
@@ -168,8 +164,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=4.7004406e+01-(-1.097660858330E+01);
        case 'yong' % shandong YanTai
           disp('Your CAL site is:Yongxing Dao')
-          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18000000; % 
+          min_lat=13000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=19500000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
@@ -179,8 +175,8 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=8.3717570e+00-3.663055416951e+00;
        case 'yong2' % shandong YanTai
           disp('Your CAL site is:Yongxing Dao')
-          min_lat=15000000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=18000000; % 
+          min_lat=13000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=20000000; % 
           
 %           min_lat=16500000; % 分析湿延迟的时候范围可以设置偏大
 %           max_lat=17500000; %           
@@ -203,7 +199,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
        case 'fjpt' % shandong YanTai
           disp('Your CAL site is:Fujian Pintan')
           min_lat=24900000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=27000000; %           
+          max_lat=26100000; %           
           pass_num=209;% define the pass number
           lat_gps=2.5502154e+01;% GNSS的坐标
           lon_gps=1.1976872e+02;% 1.1976872e+02 2.5502154e+01
@@ -211,7 +207,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
        case 'gdst' % shandong YanTai
           disp('Your CAL site is:Guandong ShanTou')
-          min_lat=21400000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=20000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=23100000; % 
           
           pass_num=pass_2ato2b(52);
@@ -220,7 +216,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=3.1811380e+01-6.9;  
        case 'gdst2' % shandong YanTai
           disp('Your CAL site is:Guandong ShanTou')
-          min_lat=21400000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=20400000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=23500000; % 
           pass_num=pass_2ato2b(313);
           lat_gps=2.3417880e+01;% GNSS的坐标
@@ -229,7 +225,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
        case 'xiam' % shandong YanTai
           disp('Your CAL site is: Fujian Xiamen')
-          min_lat=23000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=21000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=24800000; % 
           pass_num=pass_2ato2b(300);
           lat_gps=24.449852;% GNSS的坐标
@@ -249,7 +245,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
         case 'bzmw' % zhimaowan
           disp('Your CAL site is: zhimaowan')
-          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=38300000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
           pass_num=319;% define the pass number    
           lat_gps=40.0094;% 芷锚湾验潮站的坐标
@@ -257,7 +253,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           h_gnss=24-3; 
         case 'bzmw2' % zhimaowan
           disp('Your CAL site is: zhimaowan')
-          min_lat=39000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=38200000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
           pass_num=362;% define the pass number    
           lat_gps=40.0094;% 芷锚湾验潮站的坐标
@@ -266,7 +262,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
 
         case 'gxbh' % zhimaowan
           disp('Your CAL site is: guangxi beihai')
-          min_lat=20000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=17000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=21500000; % 
           pass_num=17;% define the pass number    
           lat_gps=21.652538;% 
