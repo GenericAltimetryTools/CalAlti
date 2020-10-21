@@ -143,6 +143,16 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           lat_gps=40.0094;% 芷锚湾验潮站的坐标
           lon_gps=119.9200;    
           h_gnss=24-3;
+
+        case 'twtf' % zhimaowan
+          disp('Your CAL site is: twtf')
+          min_lat=25000000; % 分析湿延迟的时候范围可以设置偏大
+          max_lat=28000000; % 
+          pass_num=051;% define the pass number    
+          lat_gps=2.4953600e+01;% 芷锚湾验潮站的坐标
+          lon_gps=1.2116450e+02;    
+          h_gnss=2.0312200e+02-20.3;
+          
 %         case 'zhws' % 
 %           disp('Your CAL site is: zhuhai wanshan')
 %           min_lat=21000000; % 

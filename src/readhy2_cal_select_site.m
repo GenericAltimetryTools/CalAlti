@@ -243,7 +243,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=21.9949;% GNSS的坐标
           lon_gps=114.1479;% 1.1660307e+02 2.3417880e+01
           
-        case 'bzmw' % zhimaowan
+        case 'bzmw' % 
           disp('Your CAL site is: zhimaowan')
           min_lat=38300000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
@@ -251,7 +251,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=40.0094;% 芷锚湾验潮站的坐标
           lon_gps=119.9200;    
           h_gnss=24-3; 
-        case 'bzmw2' % zhimaowan
+        case 'bzmw2' % 
           disp('Your CAL site is: zhimaowan')
           min_lat=38200000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=40000000; % 
@@ -260,7 +260,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lon_gps=119.9200;    
           h_gnss=24-3;       
 
-        case 'gxbh' % zhimaowan
+        case 'gxbh' % 
           disp('Your CAL site is: guangxi beihai')
           min_lat=17000000; % 分析湿延迟的时候范围可以设置偏大
           max_lat=21500000; % 
@@ -268,23 +268,40 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=21.652538;% 
           lon_gps=109.21241	;    
           h_gnss=2.8666416e+01-(-18.11);    
-        case 'gxbh2' % zhimaowan
+        case 'gxbh2' % 
           disp('Your CAL site is: guangxi beihai 2 ')
-          min_lat=20000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=20000000; % 
           max_lat=21500000; % 
           pass_num=pass_2ato2b(218);% define the pass number    
           lat_gps=21.652538;% 
           lon_gps=109.21241	;    
           h_gnss=2.8666416e+01-(-18.11);              
 
-        case 'kmnm' % zhimaowan
+        case 'kmnm' % 
           disp('Your CAL site is: taiwan jinmen IGS')
-          min_lat=23000000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=23000000; % 
           max_lat=24800000; % 
           pass_num=pass_2ato2b(300);% define the pass number    
           lat_gps=24.463822;% 
           lon_gps=118.38858;    
           h_gnss=49.1-12.3;   
+
+        case 'twtf' % Taiwan IGS
+          disp('Your CAL site is: twtf')
+          min_lat=25200000; %
+          max_lat=28000000; % 
+          pass_num=pass_2ato2b(162);% define the pass number    
+          lat_gps=2.4953600e+01;% 
+          lon_gps=1.2116450e+02;    
+          h_gnss=2.0312200e+02-20.3;
+        case 'twtf2' % Taiwan IGS
+          disp('Your CAL site is: twtf')
+          min_lat=24700000; %
+          max_lat=26800000; % 
+          pass_num=pass_2ato2b(37);% define the pass number    
+          lat_gps=2.4953600e+01;% 
+          lon_gps=1.2116450e+02;    
+          h_gnss=2.0312200e+02-20.3;
           
         otherwise
           disp('Unknown location.')

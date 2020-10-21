@@ -37,7 +37,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     % For China Ocean station GNSS, the format is `2010 01 01 00 00 00
     % 2349.51 33.41 1.51` : `YYYY MM DD hh mm ss ztd wetpd sigma_ztd`
     
-    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly') || strcmp(loc,'kmnm'))
+    % Be carefull, here is not~ in `if`.
+    if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly') || strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2'))
         y_0=floor(tmp000(:,1)); % year
         da=tmp000(:,1)-y_0; % 
 
@@ -72,7 +73,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
         g_w=z_delay; % GNSS wet PD
         g_ztd=ztd_delay; % GNSS ZTD    
-     elseif strcmp(loc,'kmnm') % This is IGD data format 
+     elseif strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2') % This is IGD data format 
         y_0=tmp000(:,1)+2000; % year
 %         y_0=2000+y_y0;
         da=tmp000(:,2); % 

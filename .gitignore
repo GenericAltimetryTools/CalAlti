@@ -1,13 +1,14 @@
+src/cal_wet_pd.m
 *.dat
 output/
 tg_xinxizx/
 *.asv
-
 test/hy2_check
 test/ja2_check
 test/ja3_check
 test/s3a_check
 test/hy2_checkbias_last_hy2.txt
+test/gnss_wet
 src/statis.m
 src/add_noise.m
 src/read_nc__contents.m
