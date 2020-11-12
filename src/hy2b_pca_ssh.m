@@ -22,7 +22,7 @@ temp='..\test\hy2_check\';
                 temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
                 aa=size(temp6);
 
-                if aa(1)>5 % 表示有效点数大于5个，占总数的一半。这个值可以更具总数多少修改。
+                if aa(1)>5 % 表示有效点数大于5个，占总数的一半。这个值可以根据总数多少修改。
                     if strcmp(loc,'zmw') % Do not use the PCA because of the land contamination.
     %                     [lat3,lon3,tim_pca]=pca(temp4,lat_gps,lon_gps); % 调用函数，计算PCA
                         lat3=39.8046; % 这个数值和Jason-2的数据质量有关系，可以适当的调整。

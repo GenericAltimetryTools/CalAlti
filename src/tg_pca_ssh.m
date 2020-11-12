@@ -34,8 +34,6 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         disp('zhws')
         filename = '..\tide_zhws\tideZhiwanWharf.DD';
     end
-
-
     
     disp(['loading TG file:',filename])
     disp('loading........................................................')
@@ -72,6 +70,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     
     date_yj = [yyyy  mm dd hh ff ss];
     disp('Finish loading of real TG data')
+    
     if strcmp(loc,'qly')        
         ssh=tmp000(:,2)/100+7.502;% 7.502 is the parameter of height reference 
     % transform from TG local to WGS-84.
@@ -82,9 +81,9 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
     elseif strcmp(loc,'zhws') && sat==4
-        ssh=tmp000(:,3)+ 2.7497;% The tide data were already referred to the WGS-84 (processed by the provider)
-    elseif strcmp(loc,'zhws') && sat==3
-        ssh=tmp000(:,3)+ 3.2373;% The tide data were already referred to the WGS-84 (processed by the provider)
+        ssh=tmp000(:,3)+ 2.7497;% The transform parameter is from the data provider
+    elseif strcmp(loc,'zhws') && sat==3 % Location is different for Jason and HY-2 at Wanshan.
+        ssh=tmp000(:,3)+ 3.2373;% The transform parameter is from the data provider
     end
     
     t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%时间格式转，卫星的参考时间是2000-01-1 00:00:00。
@@ -129,6 +128,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     % For zhws, the time sample is not uniform.WailingdingWharf is 30
     % seconds,ZhiwanWharf is 4 minutes,DanganWharf is 30 seconds. Actually,
     % there is no need for such high frequency. 10 minute sample is enouth.
+    
     for i=1:b
         n=0;
         for j=1:c-1

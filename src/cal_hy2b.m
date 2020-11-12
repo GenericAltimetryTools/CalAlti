@@ -35,10 +35,12 @@ if fre==1
 end
 
 quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num,sat);%plot the output data
+
 % Step 4: calculate the PCA point and interpolate the SSH at the PCA.
 % Calculate the MSS difference
 hy2b_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc);% 计算PCA，以及PCA点的SSH插值
 grad(lat_gps,lon_gps,sat,loc)
+
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
 % the bias between TG and the SA. Aplly the tide correction, reference
 % ellipsoid correction, geoid correction.
