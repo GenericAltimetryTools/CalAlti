@@ -21,6 +21,9 @@ function [bias]=filter_bias(sat,bias2,loc)
     end
     
     [tmpp,ttt]=three_sigma_delete(tmpp,ttt);
+    [tmpp,ttt]=three_sigma_delete(tmpp,ttt);    
+    [tmpp,ttt]=three_sigma_delete(tmpp,ttt);% Do this filter three times
+    
     bias=[ttt tmpp];
     if sat==5
         save ..\test\s3a_check\s3a_bias.txt bias -ASCII % save file

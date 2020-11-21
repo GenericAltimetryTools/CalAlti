@@ -3,9 +3,9 @@
 function [P]=trend_bias(bias,sat,min_cir,max_cir)
 if sat==3
     x=bias(:,1);
-    y=bias(:,2);
+    y=bias(:,2)*100;
     [P,S]=polyfit(x,y,1);
-    trend_year=P(1)*365/14;
+    trend_year=P(1)*365/14*10;
     disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
     % [Y,delta]=polyconf(P,x,S);%给出回归Y的95%的置信区间为[Y-delta，Y+delta]
 %             if sat==4
@@ -21,7 +21,7 @@ if sat==3
     plot(x1,Y+delta,'-*g')
     plot(x1,Y-delta,'-*g')%给出拟合的置信区间
     xlabel('Circle')
-    ylabel('HY-2B Bias/m')
+    ylabel('HY-2B Bias/cm')
     
     %  保存趋势信息
     temp21=[x1',f'];
@@ -73,10 +73,10 @@ if sat==3
 %     save ..\test\s3a_check\trend.txt temp21 -ascii
 elseif sat==1 
     x=bias(:,1);
-    y=bias(:,2);
+    y=bias(:,2)*100;
     [P,S]=polyfit(x,y,1);
-    trend_year=P(1)*36.5;% the cycle is 10 day. 36.5 is the cycles per year
-    disp(['The trend of bias (a*x+b) is m/y:',num2str(trend_year)])
+    trend_year=P(1)*36.5*10;% the cycle is 10 day. 36.5 is the cycles per year.`*10` means mm unit from cm
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
     % [Y,delta]=polyconf(P,x,S);%给出回归Y的95%的置信区间为[Y-delta，Y+delta]
 %             if sat==4
 %                 x1=min_cir:1:max_cir;
@@ -91,7 +91,7 @@ elseif sat==1
     plot(x1,Y+delta,'-*g')
     plot(x1,Y-delta,'-*g')%给出拟合的置信区间
     xlabel('Circle')
-    ylabel('Jason-2 Bias/m')
+    ylabel('Jason-2 Bias/cm')
     
     %  保存趋势信息
     temp21=[x1',f'];
@@ -99,15 +99,13 @@ elseif sat==1
     
 elseif  sat==4
     x=bias(:,1);
-    y=bias(:,2);
+    y=bias(:,2)*100;
     [P,S]=polyfit(x,y,1);
-    trend_year=P(1)*36.5;
-    disp(['The trend of bias (a*x+b) is m/y:',num2str(trend_year)])
+    trend_year=P(1)*36.5*10;
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
     % [Y,delta]=polyconf(P,x,S);%给出回归Y的95%的置信区间为[Y-delta，Y+delta]
 %             if sat==4
-                x1=x(1):1:x(end);
-                
-                
+                x1=x(1):1:x(end);       
 %             else
 %                 x1=min_cir:10:max_cir;
 %             end
@@ -119,7 +117,7 @@ elseif  sat==4
     plot(x1,Y+delta,'-*g')
     plot(x1,Y-delta,'-*g')%给出拟合的置信区间
     xlabel('Circle')
-    ylabel('Jason-3 Bias/m')
+    ylabel('Jason-3 Bias/cm')
     
     %  保存趋势信息
     temp21=[x1',f'];

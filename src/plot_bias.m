@@ -16,6 +16,8 @@ function plot_bias(bias2,sat)
     
 	
     ylabel('bias/cm')
-    bias_mean=mean (bias2(:,2)*100)
-    bias_std=std(bias2(:,2)*100)
+    bias_mean=mean (bias2(:,2)*100);
+    bias_std=std(bias2(:,2)*100);
+    disp(['The mean bias  cm/:',num2str(bias_mean)]);
+    disp(['The STD of bias is cm/y:',num2str(bias_std)]);
 return

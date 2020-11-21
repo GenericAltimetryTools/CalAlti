@@ -13,9 +13,17 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-min_cir=128;% 0,128
-max_cir=158;% 106,158 
-loc = 'zhws';% Here can choose the qly, zmw, zhws
+loc = 'qly';% Here can choose the qly, zmw, zhws
+if strcmp(loc,'zhws')
+    min_cir=128;% 92,165,239,
+    max_cir=158;% 0 for zmw and qly,128 for zhws    
+    % over the zmw, the tide data only begin at circle 114.
+elseif strcmp(loc,'qly')||strcmp(loc,'zmw')
+    min_cir=0;% 92,165,239,
+    max_cir=106;% 0 for zmw and qly,128 for zhws   
+end
+
+
 sat=4;% 4==jason-3
 fre=1;% Set data frequency. 1=1Hz,20=20Hz. Usually, 1hz is suitable.
 
