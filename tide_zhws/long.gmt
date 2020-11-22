@@ -1,0 +1,37 @@
+#!/bin/bash
+
+J=X10/5
+
+# PS=$TG"long".ps
+gmt gmtset FONT_ANNOT_PRIMARY	= 7p MAP_FRAME_PEN=thinner,black FONT_LABEL = 7p,4,black FONT_ANNOT_SECONDARY=7p
+gmt gmtset MAP_FRAME_WIDTH		= 0.01c 
+gmt gmtset FONT_LABEL 7 MAP_LABEL_OFFSET 5p
+gmt gmtset MAP_GRID_PEN_PRIMARY	= 0.1p,0/0/0,2_1_0.25_1:0
+gmt gmtset FORMAT_DATE_MAP "mm-dd" FORMAT_CLOCK_MAP hh:mm 
+gmt gmtset MAP_FRAME_TYPE plain MAP_TICK_LENGTH_PRIMARY -2p MAP_ANNOT_OFFSET_PRIMARY 10p MAP_TICK_LENGTH_SECONDARY -5p
+
+
+gmt psbasemap -R2019-04-01T00:00:00/2021-04-10T00:00:00/-3/2  -BneWS -Bpxf1o -Bsxa -Byag  -Bpy+l"Tide/m" -J$J -K  >long.ps
+
+TG=DanganWharf
+awk '{print $1,$3}' ../tide$TG.d2 | gmt psxy  -R -J$J  -Sc0.02 -Gred -O   -K >> long.ps
+# gmt select -R2020-04-01T00:00:00/2020-04-10T00:00:00/-3/2   ../tide$TG.d2  -JxT | head
+
+TG=ZhiwanWharf
+awk '{print $1,$3}' ../tide$TG.d2 | gmt psxy  -R -J$J  -Sc0.02 -Gblue -O   -K >> long.ps
+TG=WailingdingWharf
+awk '{print $1,$3}' ../tide$TG.d2 | gmt psxy  -R -J$J  -Sc0.02 -Ggreen -O  -K >> long.ps
+
+# awk '{print $1,$2/100}' wai.out | gmt psxy   -R0/9/-3/2 -J$J -Sc0.02 -Ggray -O  -K -t50>> long.ps
+# awk '{print $1,$2/100-0.25}' dan.out | gmt psxy   -R0/9/-3/2 -J$J -Sc0.02 -Gblack -O  -K -t50>> long.ps
+
+
+echo N 1 >le.d
+echo S 0.5c - 1c - 1p,red 1.1c Dangantou>>le.d
+echo S 0.5c - 1c - 1p,blue 1.1c Zhiwan >>le.d
+echo S 0.5c - 1c - 1p,green 1.1c Wailingding >>le.d
+echo S 0.5c - 1c - 1p,gray 1.1c NAO99jb >>le.d
+gmt pslegend -D+w2.5c+jBL+o0.5c/4.0c -R -J -O --FONT_ANNOT_PRIMARY=5p le.d -F+p0.1p+gbeige >> long.ps
+
+gmt psconvert long.ps -P -Tf -A
+rm   *.history 

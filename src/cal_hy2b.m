@@ -14,7 +14,7 @@ format long
 % Please modify these parameters according to your requirement
 % dir_0='D:\hy2b\IDR_2M\';% data directory 
 dir_0='D:\hy2b\GDR_2P\';% GDR-2P version released in mid 2020
-min_cir=28;% 0,128
+min_cir=23;% 0,128
 max_cir=46;% 106,158 
 
 % At present, it only works for HY-2B over Zhu hai wan shan site.

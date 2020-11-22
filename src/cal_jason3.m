@@ -13,10 +13,10 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-loc = 'qly';% Here can choose the qly, zmw, zhws
+loc = 'zhws';% Here can choose the qly, zmw, zhws
 if strcmp(loc,'zhws')
-    min_cir=128;% 92,165,239,
-    max_cir=158;% 0 for zmw and qly,128 for zhws    
+    min_cir=126;% 
+    max_cir=158;% 
     % over the zmw, the tide data only begin at circle 114.
 elseif strcmp(loc,'qly')||strcmp(loc,'zmw')
     min_cir=0;% 92,165,239,
