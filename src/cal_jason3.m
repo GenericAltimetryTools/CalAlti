@@ -13,7 +13,7 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-loc = 'zhws';% Here can choose the qly, zmw, zhws
+loc = 'qly';% Here can choose the qly, zmw, zhws
 if strcmp(loc,'zhws')
     min_cir=126;% 
     max_cir=158;% 
