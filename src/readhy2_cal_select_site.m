@@ -18,10 +18,11 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lon_gps=121.3853;
           
         case 'bqly' % bqly For wet VAL for HY2B wet
-          disp('qianliyan HY-2A P147')
+          disp('qianliyan HY-2B P147')
           min_lat=32500000; %
           max_lat=36700000; %
-          pass_num=319;% define the pass number
+%           pass_num=319;% define the pass number
+          pass_num=pass_2ato2b(147);          
           lat_gps=36.2672;% 千里岩验潮站的坐标
           lon_gps=121.3853;       
           h_gnss=86.1-10.1;
@@ -245,18 +246,20 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           
         case 'bzmw' % 
           disp('Your CAL site is: zhimaowan')
-          min_lat=38300000; % 分析湿延迟的时候范围可以设置偏大
+          min_lat=38300000; % 
           max_lat=40000000; % 
-          pass_num=319;% define the pass number    
-          lat_gps=40.0094;% 芷锚湾验潮站的坐标
+%           pass_num=319;% define the pass number  
+          pass_num=pass_2ato2b(147);% same as qianliyan              
+          lat_gps=40.0094;% tide gauge location
           lon_gps=119.9200;    
           h_gnss=24-3; 
         case 'bzmw2' % 
           disp('Your CAL site is: zhimaowan')
-          min_lat=38200000; % 分析湿延迟的时候范围可以设置偏大
-          max_lat=40000000; % 
-          pass_num=362;% define the pass number    
-          lat_gps=40.0094;% 芷锚湾验潮站的坐标
+          min_lat=38200000; % 
+          max_lat=40100000; % 
+%           pass_num=362;% define the pass number    
+          pass_num=pass_2ato2b(190);% This is the second pass of HY-2B passing zmw             
+          lat_gps=40.0094;% tide gauge location
           lon_gps=119.9200;    
           h_gnss=24-3;       
 

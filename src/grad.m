@@ -2,7 +2,7 @@
 
 function grad(lat_gps,lon_gps,sat,loc)
 
-if strcmp(loc,'cst') || strcmp(loc,'qly') || strcmp(loc,'zmw')
+if strcmp(loc,'cst') || strcmp(loc,'qly') || strcmp(loc,'bqly') || strcmp(loc,'zmw') ||  strcmp(loc,'bzmw')
     if sat==5
         disp('------Sa3----')
         fid44=fopen('..\test\s3a_check\coor.d','w');
@@ -67,7 +67,7 @@ if strcmp(loc,'cst') || strcmp(loc,'qly') || strcmp(loc,'zmw')
 
         % The input data is the DTU MSS model. Please download it from DTU
         % site.
-        gmt('grdtrack ..\test\hy2_check\coor.d -G..\mss\qly.nc >  ..\test\hy2_check\dtu18_qly.dat')
+        gmt('grdtrack ..\test\hy2_check\coor.d -G..\mss\qly.nc >  ..\test\hy2_check\dtu18.dat')
         gmt('gmt2kml  ..\test\hy2_check\coor.d -Gred+f -Fs >  ..\test\hy2_check\mypoints.kml')
             
     end

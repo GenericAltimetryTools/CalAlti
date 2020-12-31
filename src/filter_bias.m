@@ -18,6 +18,13 @@ function [bias]=filter_bias(sat,bias2,loc)
        Locate=find(tmpp*100<-50); 
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
+    elseif strcmp(loc,'bqly') && sat==3
+       Locate=find(tmpp*100>15); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-50); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];         
     end
     
     [tmpp,ttt]=three_sigma_delete(tmpp,ttt);
