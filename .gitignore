@@ -3,9 +3,12 @@ src/cal_wet_pd.m
 output/
 tg_xinxizx/
 *.asv
-test/hy2_check
-test/ja2_check
-test/ja3_check
+test/hy2_check/*.dat
+test/ja2_check/*.dat
+test/ja3_check/*.dat
+test/hy2_check/*.txt
+test/ja2_check/*.txt
+test/ja3_check/*.txt
 test/s3a_check
 test/hy2_checkbias_last_hy2.txt
 test/gnss_wet
