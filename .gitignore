@@ -9,6 +9,12 @@ test/ja3_check/*.dat
 test/hy2_check/*.txt
 test/ja2_check/*.txt
 test/ja3_check/*.txt
+test/hy2_check/*.kml
+test/ja2_check/*.kml
+test/ja3_check/*.kml
+test/hy2_check/*.d
+test/ja2_check/*.d
+test/ja3_check/*.d
 test/s3a_check
 test/hy2_checkbias_last_hy2.txt
 test/gnss_wet

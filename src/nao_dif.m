@@ -13,7 +13,7 @@ function [tg_dif]=nao_dif(sat,loc)
             load .\hy2_check\pca_ssh.txt;
             load .\qianliyan_tg_cal\qly.nao2013
             sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
-            sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
+            sat_tg=hy2(:,2); % cm
 %         end
    elseif strcmp(loc,'bqly') && sat==3
             load ..\test\hy2_check\hy2.nao2015_2021
