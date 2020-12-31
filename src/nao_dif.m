@@ -164,7 +164,13 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\zmw.nao_2011_2021_
             sat_day=hy2(:,1); %
             sat_tg=hy2(:,2); % cm
-%       end    
+      elseif strcmp(loc,'bzmw2') && sat==3 
+            load ..\test\hy2_check\hy2.nao_2011_2021_p190 % contain time span of 2A (from 2011) and 2B (from 2018) 
+            load ..\test\hy2_check\pca_ssh.txt;
+            load ..\test\zmw.nao_2011_2021_
+            sat_day=hy2(:,1); %
+            sat_tg=hy2(:,2); % cm
+            %       end    
       elseif strcmp(loc,'zhws') && sat==4
 %        if
             load ..\test\ja3_check\ja3.nao_zhws %    
@@ -188,7 +194,7 @@ function [tg_dif]=nao_dif(sat,loc)
    elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
 %        qly_tg=cst(:,2);% NAO tide
          qly_tg=tg_FES2014(:,1);
-   elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'bzmw')
+   elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         qly_tg=zmw(:,2);% NAO tide
 %        qly_tg=tg_FES2014(:,1);
    elseif strcmp(loc,'zhws') && sat==4
@@ -211,7 +217,7 @@ function [tg_dif]=nao_dif(sat,loc)
         pca_day=pca_sec/86400-(datenum('2015-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期 
     elseif sat==3 && strcmp(loc,'bqly')
         pca_day=pca_sec/86400-(datenum('2015-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期         
-    elseif sat==3 && strcmp(loc,'bzmw')
+    elseif sat==3 && strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         pca_day=pca_sec/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); % 注意变换年份，对应不同的时期                 
     elseif sat == 4 && strcmp(loc,'zmw') % 
         pca_day=pca_sec/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00')); %    

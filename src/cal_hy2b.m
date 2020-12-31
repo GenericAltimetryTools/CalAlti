@@ -17,11 +17,11 @@ dir_0='D:\hy2b\GDR_2P\';% GDR-2P version released in mid 2020
 
 
 % At present, it only works for HY-2B over Zhu hai wan shan site.
-loc = 'bzmw';% Here can choose the qlyb(2b qly), bzmw (2b zmw), zhws.
+loc = 'bzmw2';% Here can choose the qlyb(2b qly), bzmw (2b zmw), zhws.
 if  strcmp(loc,'zhws')
     min_cir=23;% 
     max_cir=46;% 
-elseif  strcmp(loc,'bqly')|| strcmp(loc,'bzmw')
+elseif  strcmp(loc,'bqly')|| strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
     min_cir=2;% cycle 5 have problems
     max_cir=54;%
 end

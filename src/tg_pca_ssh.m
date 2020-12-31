@@ -25,7 +25,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     elseif strcmp(loc,'qly') || strcmp(loc,'bqly') % bqly for HY-2B
         disp('qly')
         filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
-    elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')
+    elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         filename = '..\tg_xinxizx\zmw\ZMW_sort_clean.DD';
     elseif strcmp(loc,'zhws') && sat==4
         disp('zhws')
@@ -42,7 +42,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     tg=load (filename);
 %     figure(1000);plot(tg(:,3))
     % give time from tide gauge data
-    if strcmp(loc,'qly') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bqly') % unit is cm
+    if strcmp(loc,'qly') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bqly') || strcmp(loc,'bzmw2') % unit is cm
         tmp000=tg;
         tmp1=tmp000(:,1); %yyyymmddHHMM
         tmp=num2str(tmp1);
@@ -76,7 +76,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
         ssh=tmp000(:,2)/100+10.632;% 10.632 is the parameter of height reference 
     % transform from TG local to WGS-84.
-    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436') || strcmp(loc,'bzmw')
+    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
     elseif strcmp(loc,'zhws') && sat==4
@@ -153,7 +153,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     tg_pca_ssh(1:b)=-9999;% ±£´æTGµÄPCA SSHÖµ
     if strcmp(loc,'qly') || strcmp(loc,'zmw')
         len_tg=12; % means 120minute=2hour
-    elseif strcmp(loc,'bqly') || strcmp(loc,'bzmw')
+    elseif strcmp(loc,'bqly') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
          len_tg=24; % means 120minute=2hour; The tide gauge time interval is changed to 5 min for HY-2B time
     elseif strcmp(loc,'zhws') && sat==4
         len_tg=120/0.5; % data sample is 30 seconds. `120/0.5` = 2 hour
@@ -215,7 +215,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 
         elseif ((sat==3) && (fre==1))
 
-            hy2=load ('..\test\hy2_check\dtu18_qly.dat');
+            hy2=load ('..\test\hy2_check\dtu18.dat');
             hy2_mss=hy2;
             tg_mss=hy2_mss(1,3);
             hy_mss=hy2_mss(2:length(hy2_mss),3);
@@ -280,7 +280,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
             s3a_mss=s3a_mss(2:length(s3a_mss),3);
             mss_correction=-(s3a_mss-tg_mss);
         end
-    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'bzmw')
+    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         if sat==1
             mss=load ('..\test\ja2_check\dtu18_qly.dat');
             jason2_mss=mss;
@@ -370,16 +370,17 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     
     if strcmp(loc,'zhws') % the reference ellipsoid height difference between WGS and TP. BY wgs_tp.m
         wgs_tp=0.699917949844327;
-    elseif strcmp(loc,'bqly') || strcmp(loc,'qly') || strcmp(loc,'zmw')|| strcmp(loc,'bzmw') % for zmw and qly this value is very close.
+    elseif strcmp(loc,'bqly') || strcmp(loc,'qly') || strcmp(loc,'zmw')|| strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') % for zmw and qly this value is very close.
         wgs_tp=0.7179;        
     end
+%     whos
     
     if sat==5
         bias=ssh_ali-(tg_pca_ssh')+mss_correction-tg_dif/100;
 %       Sentinel-3 height reference is WGS-84,which is not the same with
 %       other SA missions. The unit of bias is m
     else
-        bias=ssh_ali-(tg_pca_ssh')-wgs_tp+mss_correction-tg_dif/100; %-tg_dif/100
+        bias=ssh_ali-(tg_pca_ssh')-wgs_tp+mss_correction-tg_dif/100; 
 %         Height reference for other SA missions is T/P which has a 0.7179m
 %         transtorm difference with WGS-84 (TG reference). This value could
 %         be calculated by program wgs_tp.m.

@@ -24,7 +24,14 @@ function [bias]=filter_bias(sat,bias2,loc)
        ttt(Locate)=[];  
        Locate=find(tmpp*100<-50); 
        tmpp(Locate)=[]; 
-       ttt(Locate)=[];         
+       ttt(Locate)=[]; 
+    elseif strcmp(loc,'bzmw2') && sat==3
+       Locate=find(tmpp*100>50); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-50); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];        
     end
     
     [tmpp,ttt]=three_sigma_delete(tmpp,ttt);

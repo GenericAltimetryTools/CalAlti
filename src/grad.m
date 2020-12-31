@@ -2,7 +2,7 @@
 
 function grad(lat_gps,lon_gps,sat,loc)
 
-if strcmp(loc,'cst') || strcmp(loc,'qly') || strcmp(loc,'bqly') || strcmp(loc,'zmw') ||  strcmp(loc,'bzmw')
+if strcmp(loc,'cst') || strcmp(loc,'qly') || strcmp(loc,'bqly') || strcmp(loc,'zmw') ||  strcmp(loc,'bzmw')||  strcmp(loc,'bzmw2')
     if sat==5
         disp('------Sa3----')
         fid44=fopen('..\test\s3a_check\coor.d','w');
