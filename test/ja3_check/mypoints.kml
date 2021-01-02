@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 	<Document>
-		<Style id="st-22492-0">
+		<Style id="st-15284-0">
 			<IconStyle>
 				<Icon>
 					<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
@@ -29,7 +29,7 @@
 				<name>Point Set 0</name>
 				<Placemark>
 					<name>Point 0</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						114.0294,22.108,0
@@ -38,7 +38,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 1</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.958641,21.933333,0
@@ -47,7 +47,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 2</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.964257,21.933333,0
@@ -56,7 +56,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 3</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.963931,21.933333,0
@@ -65,7 +65,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 4</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.961648,21.933333,0
@@ -74,7 +74,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 5</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.958697,21.933333,0
@@ -83,7 +83,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 6</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.956513,21.933333,0
@@ -92,7 +92,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 7</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.955716,21.933333,0
@@ -101,7 +101,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 8</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.956125,21.933333,0
@@ -110,7 +110,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 9</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.957587,21.933333,0
@@ -119,7 +119,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 10</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.958815,21.933333,0
@@ -128,7 +128,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 11</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.959084,21.933333,0
@@ -137,7 +137,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 12</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.959778,21.933333,0
@@ -146,7 +146,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 13</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.962283,21.933333,0
@@ -155,7 +155,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 14</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.96709,21.933333,0
@@ -164,7 +164,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 15</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.964382,21.933333,0
@@ -173,7 +173,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 16</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.961139,21.933333,0
@@ -182,7 +182,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 17</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.958595,21.933333,0
@@ -191,7 +191,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 18</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.957975,21.933333,0
@@ -200,7 +200,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 19</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.959931,21.933333,0
@@ -209,7 +209,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 20</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.96247,21.933333,0
@@ -218,7 +218,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 21</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.965377,21.933333,0
@@ -227,7 +227,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 22</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.964402,21.933333,0
@@ -236,7 +236,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 23</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.964202,21.933333,0
@@ -245,7 +245,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 24</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.963625,21.933333,0
@@ -254,7 +254,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 25</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.96179,21.933333,0
@@ -263,7 +263,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 26</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.958575,21.933333,0
@@ -272,7 +272,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 27</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.955205,21.933333,0
@@ -281,7 +281,7 @@
 				</Placemark>
 				<Placemark>
 					<name>Point 28</name>
-					<styleUrl>#st-22492-0</styleUrl>
+					<styleUrl>#st-15284-0</styleUrl>
 					<Point>
 						<coordinates>
 						113.953738,21.933333,0

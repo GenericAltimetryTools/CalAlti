@@ -19,7 +19,7 @@ format long
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
 loc = 'zmw';% Here can choose the qly and zmw
 if strcmp(loc,'zmw')
-    min_cir=114;% 92,165,239,
+    min_cir=114;%
     % over the zmw, the tide data only begin at circle 114.
 elseif strcmp(loc,'qly')
     min_cir=92;% over the qly, the tide data begin at circle 92.
