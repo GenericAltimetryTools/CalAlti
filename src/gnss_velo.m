@@ -39,6 +39,15 @@ trend_year=P(1)*365*1000;
 disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
 output=[days z];
 save ..\tg_xinxizx\gnss\dws.d2 output -ascii
+
+trend_year=[];
+for i=2:length(z)-1
+    [P,S]=polyfit(days(2:i+1),z(2:i+1),1);
+    trend_year(i)=P(1)*365*1000;% second to year
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
+end
+figure (10)
+plot(days(800:length(z)-1),trend_year(800:length(z)-1))
 %=========================================================================
 % $ awk '{print $4,$5,$6}' NDWS.txt |cct -I +proj=cart +ellps=WGS84 > dws.d
 
@@ -103,6 +112,14 @@ disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year)])
 output=[days z_combine];
 save ..\tg_xinxizx\gnss\zmw.d2 output -ascii
 
+trend_year=[];
+for i=2:length(z_combine)-1
+    [P,S]=polyfit(days(2:i+1),z_combine(2:i+1),1);
+    trend_year(i)=P(1)*365*1000;% second to year
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
+end
+figure (15)
+plot(days(800:length(z_combine)-1),trend_year(800:length(z_combine)-1))
 
 %-=========================
 % clc;
@@ -113,8 +130,6 @@ disp('loading........................................................')
 gnss=load (filename);
 
 filename = '..\tg_xinxizx\gnss\qly.d';
-% disp(['loading TG file:',filename])
-% disp('loading........................................................')
 blh=load (filename);
 
 yyyy=gnss(:,1);
@@ -150,8 +165,8 @@ save ..\tg_xinxizx\gnss\qly.d2 output -ascii
 %-=========================
 % clc;
 % clear;
-filename = '..\tg_xinxizx\gnss\SDQD.ios_gamit_raw.neu';
-% filename = '..\tg_xinxizx\gnss\SDQD.ios_bernese_raw.neu';
+% filename = '..\tg_xinxizx\gnss\SDQD.ios_gamit_raw.neu';
+filename = '..\tg_xinxizx\gnss\SDQD.ios_bernese_raw.neu';
 
 % YYYY.DECM YYYY DOY     N(m)      E(m)      U(m)   sig_n(m)   sig_e(m)  sig_u(m)  
 
@@ -206,7 +221,14 @@ hold off;
 output=[days z_combine];
 save ..\tg_xinxizx\gnss\sdqd.d2 output -ascii
 
-
+trend_year=[];
+for i=2:length(z_combine)-1
+    [P,S]=polyfit(days(2:i+1),z_combine(2:i+1),1);
+    trend_year(i)=P(1)*1000;% second to year
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
+end
+figure (12)
+plot(days(800:length(z_combine)-1),trend_year(800:length(z_combine)-1))
 
 %-=========================
 % clc;
@@ -247,11 +269,20 @@ hold off;
 output=[days zz];
 save ..\tg_xinxizx\gnss\gdzh.d2 output -ascii
 
+trend_year=[];
+for i=2:length(zz)-1
+    [P,S]=polyfit(days(2:i+1),zz(2:i+1),1);
+    trend_year(i)=P(1)*1000;% second to year
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
+end
+figure (13)
+plot(days(800:length(zz)-1),trend_year(800:length(zz)-1))
+
 %-=========================
 % clc;
 % clear;
-filename = '..\tg_xinxizx\gnss\LNHL.ios_gamit_raw.neu';
-% filename = '..\tg_xinxizx\gnss\LNHL.ios_bernese_raw.neu';
+% filename = '..\tg_xinxizx\gnss\LNHL.ios_gamit_raw.neu';
+filename = '..\tg_xinxizx\gnss\LNHL.ios_bernese_raw.neu';
 
 % YYYY.DECM YYYY DOY     N(m)      E(m)      U(m)   sig_n(m)   sig_e(m)  sig_u(m)  
 
@@ -273,9 +304,6 @@ plot(days,zz);hold on
 [zz,days]=three_sigma_delete(zz,days);
 plot(days,zz);
 
-% legend ('X','Y','Z');
-
-
 [P,S]=polyfit(days,zz,1);
 trend_year=P(1)*1000;
 simu=polyval(P,days);
@@ -285,6 +313,26 @@ hold off;
 
 output=[days zz];
 save ..\tg_xinxizx\gnss\lnhl.d2 output -ascii
+
+trend_year=[];
+for i=2:length(zz)-1
+    [P,S]=polyfit(days(2:i+1),zz(2:i+1),1);
+    trend_year(i)=P(1)*1000;% second to year
+    disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
+end
+figure (14)
+plot(days(800:length(zz)-1),trend_year(800:length(zz)-1))
+
+%% wanshan
+% Check the land deformation through GNSS 
+% vertical = load('D:\ZWS\GBS\NetS10\WailingdingSchoolroof\altwai.dd');
+% v=vertical(:,2);
+% t=vertical(:,1);
+% [v,t]=three_sigma_delete(v,t);
+% plot(v)
+% mean(v)
+% std(v)
+
 
 %--------------------------------------------------------------------------
 % date_gnss = [2021  1 1];

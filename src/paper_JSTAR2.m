@@ -32,6 +32,5 @@ figure (2)
 plot(mean_bias(1:length(x)-1));hold on
 plot(std_bias(1:length(x)-1))
 
-% Check
- 
+
  
