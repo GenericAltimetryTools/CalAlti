@@ -17,7 +17,7 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
-loc = 'zmw';% Here can choose the qly and zmw
+loc = 'qly';% Here can choose the qly and zmw
 if strcmp(loc,'zmw')
     min_cir=114;%
     % over the zmw, the tide data only begin at circle 114.
@@ -27,6 +27,7 @@ end
 max_cir=303;% 165,239,303. This is depended on the tide data time span.
 sat=1; % 1 = Jason-2
 fre=1; % 1=1Hz. Usually 1 Hz is ok to do the CAL.
+tmodel=1; % tide model. 1=NAO99jb,2=fes2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
@@ -47,7 +48,7 @@ grad(lat_gps,lon_gps,sat,loc)
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
 % the bias between TG and the SA. Aplly the tide correction, reference
 % ellipsoid correction, geoid correction.
-[bias2]=tg_pca_ssh(sat,fre,loc);% calculate the TG PCA SSH and then the altimeter SSH bais
+[bias2]=tg_pca_ssh(sat,fre,loc,tmodel);% calculate the TG PCA SSH and then the altimeter SSH bais
 % plot(bias2(:,1),bias2(:,2)); % Just plot bias.
 [bias]=filter_bias(sat,bias2,loc);% filter and save to (example: ..\test\s3a_check\s3a_bias.txt)
 last_bias_save(sat);% output more parameters.

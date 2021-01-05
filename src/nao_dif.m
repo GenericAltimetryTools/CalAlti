@@ -2,6 +2,7 @@
 %satellte altimter PCA point, another point is the tide station.)
 %The input parameter is the sat and loc. The output is the tide difference
 %between PCA and tide station.
+
 function [tg_dif]=nao_dif(sat,loc)
 
 % The `if` and `elseif` programs are not easy to read. I will improve this
@@ -121,7 +122,7 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\zmw.nao_2011_2021_
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
-%        end
+
        elseif sat==2 && strcmp(loc,'zmw735')
             load .\qianliyan_tg_cal\saral.nao_zmw_2011_2019_25km
             load .\saral_check\pca_ssh.txt;
@@ -145,8 +146,10 @@ function [tg_dif]=nao_dif(sat,loc)
     %         no tide data.        
             load ..\test\ja3_check\pca_ssh.txt;
             load ..\test\zmw.nao_2011_2021_
+%             load ..\test\tg_FES2014.zmw_ja2pca_2011_2021
             sat_day=ja2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
             sat_tg=ja2(:,2); % 预报潮汐tide，单位cm
+%             sat_tg=tg_FES2014(:,3);% use the FES 2014 model
 %       end 
       elseif (strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436')) && sat==5
             load .\qianliyan_tg_cal\s3a.zmw_s3a_25km % 注意变换文件，对应不同的时期
@@ -162,15 +165,14 @@ function [tg_dif]=nao_dif(sat,loc)
             load ..\test\hy2_check\hy2.nao_2011_2021_ % contain time span of 2A (from 2011) and 2B (from 2018) 
             load ..\test\hy2_check\pca_ssh.txt;
             load ..\test\zmw.nao_2011_2021_
-            sat_day=hy2(:,1); %
-            sat_tg=hy2(:,2); % cm
+            sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
+            sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
       elseif strcmp(loc,'bzmw2') && sat==3 
             load ..\test\hy2_check\hy2.nao_2011_2021_p190 % contain time span of 2A (from 2011) and 2B (from 2018) 
             load ..\test\hy2_check\pca_ssh.txt;
             load ..\test\zmw.nao_2011_2021_
-            sat_day=hy2(:,1); %
-            sat_tg=hy2(:,2); % cm
-            %       end    
+            sat_day=hy2(:,1); %日期的ellipsed day，单位日，起始时刻2013.1.1 00:00:00，结束2015.1.1 00:00:00
+            sat_tg=hy2(:,2); % 预报潮汐tide，单位cm
       elseif strcmp(loc,'zhws') && sat==4
 %        if
             load ..\test\ja3_check\ja3.nao_zhws %    
@@ -196,7 +198,7 @@ function [tg_dif]=nao_dif(sat,loc)
          qly_tg=tg_FES2014(:,1);
    elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         qly_tg=zmw(:,2);% NAO tide
-%        qly_tg=tg_FES2014(:,1);
+%        qly_tg=tg_FES2014(:,2);% FES 2014 model. C2 is model for tide station.
    elseif strcmp(loc,'zhws') && sat==4
          qly_tg=zhws(:,2);%
    elseif strcmp(loc,'zhws') && sat==3
@@ -205,8 +207,7 @@ function [tg_dif]=nao_dif(sat,loc)
    
    
    
-    pca_sec=pca_ssh(:,3);% 定标点时刻。单位为s，参考时刻为2000-01-1 00:00:00
-    % 把定标的秒时刻转为ellipsed day，和TG预报时间一致起来
+    pca_sec=pca_ssh(:,3);% PCA time (seconds) refer to 2000-01-1 00:00:00
 %     Transform the time reference of satellite pca time to the NAO
 %     ellipsed day. Here should be carefull since the start time of NAO
 %     maybe different.
@@ -241,118 +242,4 @@ function [tg_dif]=nao_dif(sat,loc)
     tg_qly_ssh=interp1(sat_day,qly_tg,pca_day,'PCHIP');
     tg_dif=tg_pca_ssh-tg_qly_ssh;
 
-    % =====================================================================
-%     Following lines are to compare the model value with the real tide
-%     data. Get the mean difference and the std.
-    % =====================================================================
-%     if strcmp(loc,'cst') && sat==2
-%         disp('HAHAHAHA')
-%         filename = 'J:\成山头验潮\CST_sort_clean.DD'; 
-%         tg=load (filename);
-%         %\千里岩潮汐\QLY201301_201412.txt    I:\千里岩二次定标\qlytg\tg_new_201501_201703.txt tg_new_201501_201712.txt
-%         % 一共有三个潮汐文件。注意替换，下面也要修改参考时间。
-% 
-%         % Time of tide data 
-%         tmp000=tg;
-%         tmp1=tmp000(:,1);
-%         tmp2=tmp000(:,2);
-%         tmp=num2str(tmp1);
-%         yyyy=str2num(tmp(:,1:4));
-%         mm=str2num(tmp(:,5:6));
-%         dd=str2num(tmp(:,7:8));
-%         hh=str2num(tmp(:,9:10));
-%         ff=str2num(tmp(:,11:12));
-%         ss(1:length(ff))=0;
-%         ss=ss';
-% 
-%         date_yj = [yyyy  mm dd hh ff ss];
-%         
-%         ssh=tmp000(:,2)/100+10.632;
-%         t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);
-%         tm2=round(t3*86400);
-%         tg_day=tm2/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00'));
-%         figure (40)
-%         sat_day=round(sat_day*86400);
-%         tg_day=round(tg_day*86400);  
-%         
-%         [t, ra, rb] = intersect(sat_day, tg_day);
-%         c=[t qly_tg(ra) ssh(rb)];
-%         cc=c;
-%         whos
-%         
-%         dif=cc(:,2)/100-cc(:,3);
-%                
-%         dif_m=mean(dif)
-%         dif_std=std(dif)
-%         
-%         dif=dif-dif_m; 
-%         
-%         plot(t,dif)
-%         title('td model compared to real measurement(cm)');
-% 
-%     end
-%     if strcmp(loc,'qly') && sat==1
-%         disp('qly is loading')
-%         filename = 'J:\千里岩潮汐\QLY_2011_2018_clean.txt'; 
-%         tg=load (filename);
-%         %\千里岩潮汐\QLY201301_201412.txt    I:\千里岩二次定标\qlytg\tg_new_201501_201703.txt tg_new_201501_201712.txt
-%         % 一共有三个潮汐文件。注意替换，下面也要修改参考时间。
-% 
-%         % Time of tide data 
-%         tmp000=tg;
-%         tmp1=tmp000(:,1);
-%         tmp2=tmp000(:,2);
-%         tmp=num2str(tmp1);
-%         yyyy=str2num(tmp(:,1:4));
-%         mm=str2num(tmp(:,5:6));
-%         dd=str2num(tmp(:,7:8));
-%         hh=str2num(tmp(:,9:10));
-%         ff=str2num(tmp(:,11:12));
-%         ss(1:length(ff))=0;
-%         ss=ss';
-% 
-%         date_yj = [yyyy  mm dd hh ff ss];
-%         
-%         ssh=tmp000(:,2);
-%         t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);
-%         tm2=round(t3*86400);
-%         tg_day=tm2/86400-(datenum('2011-01-1 00:00:00')-datenum('2000-01-1 00:00:00'));
-%         figure (40)
-%         sat_day=round(sat_day*86400);
-%         tg_day=round(tg_day*86400);  
-%         
-%         [t, ra, rb] = intersect(sat_day, tg_day);
-%         c=[t qly_tg(ra) ssh(rb)];
-%         cc=c;
-% %         whos
-%         
-%         dif=cc(:,2)-cc(:,3);
-%                
-%         dif_m=mean(dif)
-%         dif_std=std(dif)
-%         
-%         ssh=ssh+dif_m; % real tide
-%         dif=dif-dif_m; 
-%         
-%         plot(t,dif)
-%         title('td model compared to real measurement(m)');
-%         
-%         figure(10)
-%         plot(tg_dif);
-%         title('td dif of two points at the pca time(cm)');
-%         
-%         figure(20)
-%         plot(sat_day(1:300),sat_tg(1:300),'-');
-%         hold on
-%         plot(sat_day(1:300),qly_tg(1:300),'--');
-% 
-%         title('td model at two points:cst and pca (cm)');
-%         hold off
-%         figure(30)
-%         plot(tg_day(1:1000),ssh(1:1000),'--')
-%         hold on
-%         plot(sat_day(1:1000),qly_tg(1:1000),'-')
-%         hold off
-% 
-%     end
 return

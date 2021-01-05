@@ -17,7 +17,7 @@ dir_0='D:\hy2b\GDR_2P\';% GDR-2P version released in mid 2020
 
 
 % At present, it only works for HY-2B over Zhu hai wan shan site.
-loc = 'bzmw2';% Here can choose the qlyb(2b qly), bzmw (2b zmw), zhws.
+loc = 'bzmw';% Here can choose the bqly(2b qly), bzmw (2b zmw), zhws.
 if  strcmp(loc,'zhws')
     min_cir=23;% 
     max_cir=46;% 
@@ -27,6 +27,7 @@ elseif  strcmp(loc,'bqly')|| strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
 end
 sat=3;% 3==hy2-b
 fre=1;% choose 1 | 20
+tmodel=1; % tide model. 1=NAO99jb,2=fes2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
@@ -51,7 +52,7 @@ grad(lat_gps,lon_gps,sat,loc)
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
 % the bias between TG and the SA. Aplly the tide correction, reference
 % ellipsoid correction, geoid correction.
-[bias2]=tg_pca_ssh(sat,fre,loc);% PCA SSH of TG. Calaulte SA bias
+[bias2]=tg_pca_ssh(sat,fre,loc,tmodel);% PCA SSH of TG. Calaulte SA bias
 
 [bias]=filter_bias(sat,bias2,loc);% filter and save to (example: ..\test\s3a_check\s3a_bias.txt)
 last_bias_save(sat);% output more parameters.

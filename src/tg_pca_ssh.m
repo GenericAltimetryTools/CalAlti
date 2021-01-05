@@ -4,10 +4,12 @@
 % The SA time unit is second, and the reference time for SA is 2000-1-1
 % 00:00:00.
 % The tide gauge data is provided from China Oceanic Information Network.
-% Here the QianLiYan TG data is the input data, which spans from
-% 2011-2018. 
-% The output of the tide model of NAO, a fortran program, is used here for
-% correcting tide difference between different location. 
+% Here the QianLiYan or Wanshan in situ TG data is the input data. The
+% Qianliyan, Zhimaowan data are not opened to public due to the Chinese
+% data restriction. The Wanshan data are free available.
+% The output of the tide model of NAOjb, a fortran program, is used here for
+% correcting tide difference between different location. Alternitively, the
+% FES2014 could be used as a global model.
 
 % This program is wrote by YangLei at FIO,MNR of China.
 
@@ -18,7 +20,8 @@
 % 4,Read tide correction from NAO model.
 % 5,Save result.
 
-function [bias2]=tg_pca_ssh(sat,fre,loc)
+function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
+
     if strcmp(loc,'cst') || strcmp(loc,'cst009')
         disp('cst')
         filename = 'J:\成山头验潮\CST_sort_clean.DD'; 
@@ -70,6 +73,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     date_yj = [yyyy  mm dd hh ff ss];
     disp('Finish loading of real TG data')
     
+    % Datum unification.
     if strcmp(loc,'qly') || strcmp(loc,'bqly')        
         ssh=tmp000(:,2)/100+7.502;% 7.502 is the parameter of height reference 
     % transform from TG local to WGS-84.
@@ -87,10 +91,10 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         disp("error in datum uniform")
     end
     
-    t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%时间格式转，卫星的参考时间是2000-01-1 00:00:00。
-    % The time zone of TG in China is Zone 8, Thus 8 hours should be
-    % subtracted from TG data.
-    tm2=round(t3*86400);% This is the time (seconds) of the tide gauge data ，UTC+0 (same with altimeter)
+    % Transfer the Time to unit of Day from [YYYY-MM-DD HH:mm:SS]
+    t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);% Jason-2/3 time reference is 2000-01-1 00:00:00。
+    % The time zone in China is Zone 8, Thus 8 hours should be subtracted from TG data.
+    tm2=round(t3*86400); % This is the time (seconds) of the tide gauge data ，UTC+0 (same with altimeter)
     disp('Finish time reference transform of real TG data')
     
 %     % The zhws tide gauge data has the misorder. 
@@ -101,7 +105,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 %         ssh=tmpp(:,2);
 %     end
     
-    % Load the PCA of satellite altimeter data. Format is : lat lon second
+    %% Load the PCA of satellite altimeter data. Format is : lat lon second
     % ssh cycle
     if sat==1
             load ..\test\ja2_check\pca_ssh.txt;
@@ -149,8 +153,8 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     end
     disp('Finish time selection of TG based on PCA time')
     
-    % 下面是拟合，计算过境时刻的TG的SSH
-    tg_pca_ssh(1:b)=-9999;% 保存TG的PCA SSH值
+    %% Determine the length of time span before and after PCA time.
+    tg_pca_ssh(1:b)=-9999;% PCA SSH of TG
     if strcmp(loc,'qly') || strcmp(loc,'zmw')
         len_tg=12; % means 120minute=2hour
     elseif strcmp(loc,'bqly') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
@@ -163,11 +167,12 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         disp("error in determine tige gauge time width")
     end
     
+    %% Deterine the PCA SSH of TG by `interp1`.
     for i=1:b
         if tmp3(i)~=0 
-            cy(i)
+            disp(['Cycle:',num2str(cy(i))]);
             loct=tmp3(i); % location in matrix
-            ssh_tg2=ssh(loct-len_tg:loct+len_tg); % TG 截取验潮站这一时间前后各2小时的数据，即前后各12个数据。
+            ssh_tg2=ssh(loct-len_tg:loct+len_tg); % Select TG data of 2 hours before and after PCA time.
             ssh_tg3=smooth(ssh_tg2,4,'rlowess'); % Here should be carefull 
             % to set the smooth algrithm. Also the data length involved.
             tt=tm2(loct-len_tg:loct+len_tg); % TG time
@@ -177,12 +182,12 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
         end
     end
     
-    disp('Finish interpolation of TG SSH at PCA')
+    disp('Finish interpolation of TG SSH at PCA');
     % test interp and smooth
     % plot(tt,ssh_tg2,'-bo',tt,ssh_tg3,'-rs',t_pca,tg_pca_ssh(b),'bs','MarkerSize',10)
     
-    % 计算绝对偏差
     
+    %% Determine the SSH bias of altimter
     % First, the DTU MSS model is used to get the MSS value at the PCA
     % points. This step was done by the GMT track program and data was
     % saved in the *.dat file. Then, the *.dat file will be read in the
@@ -190,6 +195,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
     % file of pca_ssh.txt. In the *.dat file, the first line is the MSS at
     % the TG points, and the left lines are corresponding to the PCA
     % points. Thus, make the subtraction and get the MSS correction. 
+    
     if strcmp(loc,'qly') || strcmp(loc,'bqly')
         if sat==1
             mss=load ('..\test\ja2_check\dtu18_qly.dat');
@@ -340,8 +346,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
            end
     end 
     disp(['Finish DTU MSS correction,MEAN (cm):',num2str(mean(mss_correction))])
-
-    disp('Begin NAO file loading and correction')  
+    
 %         =================================================================
 %         plot(mss_correction,'-o'); % look at this figure, a repeat cycle
 %         is very clear, which means the orbit of SA is controled by
@@ -356,9 +361,20 @@ function [bias2]=tg_pca_ssh(sat,fre,loc)
 %         bias(i)=ssh_ali(i)-tg_pca_ssh(i)-0.7179+mss_correction(i);
 %     end
 %     
-%     tg_pca_ssh2=tg_pca_ssh';
+%     tg_pca_ssh2=tg_pca_ssh';    
 
-    [tg_dif]=nao_dif(sat,loc);% 潮汐改正
+%%
+    disp('Begin NAO file loading and correction')  
+    if tmodel==1
+        [tg_dif]=nao_dif(sat,loc);% Tide coorection.
+    elseif tmodel==2
+        [tg_dif]=fes_dif(sat,loc);% Tide coorection.
+    elseif tmodel==3 % Just call fes 2014 program instead of using output file.
+        [tg_dif]=fes_dif2(sat,loc);% Tide coorection.
+    else
+        disp('tide model is not found');
+    end
+
 
     mean_tg_dif=mean(tg_dif);
     

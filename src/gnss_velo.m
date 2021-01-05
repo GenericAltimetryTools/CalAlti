@@ -165,8 +165,8 @@ save ..\tg_xinxizx\gnss\qly.d2 output -ascii
 %-=========================
 % clc;
 % clear;
-% filename = '..\tg_xinxizx\gnss\SDQD.ios_gamit_raw.neu';
-filename = '..\tg_xinxizx\gnss\SDQD.ios_bernese_raw.neu';
+filename = '..\tg_xinxizx\gnss\SDQD.ios_gamit_raw.neu';
+% filename = '..\tg_xinxizx\gnss\SDQD.ios_bernese_raw.neu';
 
 % YYYY.DECM YYYY DOY     N(m)      E(m)      U(m)   sig_n(m)   sig_e(m)  sig_u(m)  
 
@@ -228,7 +228,9 @@ for i=2:length(z_combine)-1
     disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
 end
 figure (12)
-plot(days(800:length(z_combine)-1),trend_year(800:length(z_combine)-1))
+plot(days(1000:length(z_combine)-1),trend_year(1000:length(z_combine)-1))
+% mean(trend_year(1000:length(z_combine)-1))
+% std(trend_year(1000:length(z_combine)-1))
 
 %-=========================
 % clc;

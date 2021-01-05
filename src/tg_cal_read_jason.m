@@ -28,7 +28,9 @@ for nm=1:length(namelist)
 %     namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
 
 %      for n=1:file_num
-        t1=str2double(namelist(nm,13:15))
+        t1=str2double(namelist(nm,13:15));
+        tmp=['cycle: ',num2str(t1)];
+        disp(tmp)        
         if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
@@ -39,7 +41,7 @@ for nm=1:length(namelist)
             r_ku=netcdf.getVar(nc,61);%10-3m
             dry=netcdf.getVar(nc,82);%10-4m
             if pass_num==138
-                wet=netcdf.getVar(nc,83);%10-4m model
+                wet=netcdf.getVar(nc,83);%10-4m model. consider the land effect. ZMW use wet model
             else
                 wet=netcdf.getVar(nc,84);%10-4m
             end 

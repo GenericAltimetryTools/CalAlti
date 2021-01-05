@@ -7,7 +7,9 @@ function ja2_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc)
 fid4=fopen('..\test\ja2_check\pca_ssh.txt','w');
     temp='..\test\ja2_check\';
     for i=min_cir:max_cir
-        i
+        tmp=['cycle: ',num2str(i)];
+        disp(tmp)
+%         i
             temp1=check_circle(i);% 调用函数，判断circle的位数。
             temp2=num2str(temp1);
             temp3=temp2(3:5);% 组成三位数的字符串。

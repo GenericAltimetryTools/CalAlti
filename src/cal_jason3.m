@@ -13,7 +13,7 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-loc = 'zhws';% Here can choose the qly, zmw, zhws
+loc = 'qly';% Here can choose the qly, zmw, zhws
 if strcmp(loc,'zhws')
     min_cir=126;% corresponding to the begin of the tide data
     max_cir=158;% corresponding to the end of the tide data
@@ -25,6 +25,7 @@ end
 
 sat=4;% 4==jason-3
 fre=1;% Set data frequency. 1=1Hz,20=20Hz. Usually, 1hz is suitable.
+tmodel=1; % tide model. 1=NAO99jb,2=fes2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
@@ -48,7 +49,7 @@ grad(lat_gps,lon_gps,sat,loc)
 % Step 5: calculate the SSH of the tide gauge data at the PCA time. Then
 % the bias between TG and the SA. Aplly the tide correction, reference
 % ellipsoid correction, geoid correction.
-[bias2]=tg_pca_ssh(sat,fre,loc);% Calculate the SSH of TG at the PCA time. Calculate the absolute bais of altimeter
+[bias2]=tg_pca_ssh(sat,fre,loc,tmodel);% Calculate the SSH of TG at the PCA time. Calculate the absolute bais of altimeter
 
 [bias]=filter_bias(sat,bias2,loc);% filter and save to (example: ..\test\s3a_check\s3a_bias.txt)
 last_bias_save(sat);% output more parameters.
