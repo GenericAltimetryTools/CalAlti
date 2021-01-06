@@ -17,7 +17,7 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason2\';% data directory 
-loc = 'qly';% Here can choose the qly and zmw
+loc = 'zmw';% Here can choose the qly and zmw
 if strcmp(loc,'zmw')
     min_cir=114;%
     % over the zmw, the tide data only begin at circle 114.
@@ -27,7 +27,7 @@ end
 max_cir=303;% 165,239,303. This is depended on the tide data time span.
 sat=1; % 1 = Jason-2
 fre=1; % 1=1Hz. Usually 1 Hz is ok to do the CAL.
-tmodel=1; % tide model. 1=NAO99jb,2=fes2014
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path

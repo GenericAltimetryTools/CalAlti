@@ -28,4 +28,10 @@ The tide model will be used in function `nao_dif` called by `tg_pca_ssh`. In `na
 ```
 In the `nao_dif`, I just compute the tide correction by comparing the difference between model values at the comparison points and the tide station. The comparison point is set to one fix point that determined by the mean locations of many cycles. I ignore the 1 km shift of the satellite tracks, which should have a very small impact on the tide correction. 
 
-However, you can choose other ways to do the tide correction. For example, call the NAO fortran programs or FES matlab programs for each comparison point for every loop of the calibration. If I have time, I could improve this code to be more clear and simple.
+However, you can choose other ways to do the tide correction. For example, call the NAO fortran programs or FES matlab programs for each comparison point for every loop of the calibration. 
+
+If you would like to call FES 2014 programs, please set:
+```
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
+```
+Before doing this, you need to download the FES 2014 model (matlab programs). The difference is very small compared with `tmodel=2` using the output file of the FES2014 (computing at the mean PCA location). The difference maybe large between the NAO99jb and FES2014 in some places. Since the NAO used the TP altimetry data and tide stations around East Pacific sea, it is accurate in the ocean of regular tide signals (compared with FES 2014, they have nearly the same accuracy). However, over special sea of un-regular tide signals such as Bohai sea, the NAO99jb is less accurate than FES2014. 

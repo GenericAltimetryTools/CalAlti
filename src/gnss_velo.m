@@ -327,13 +327,13 @@ plot(days(800:length(zz)-1),trend_year(800:length(zz)-1))
 
 %% wanshan
 % Check the land deformation through GNSS 
-% vertical = load('D:\ZWS\GBS\NetS10\WailingdingSchoolroof\altwai.dd');
-% v=vertical(:,2);
-% t=vertical(:,1);
-% [v,t]=three_sigma_delete(v,t);
-% plot(v)
-% mean(v)
-% std(v)
+vertical = load('D:\ZWS\GBS\NetS10\ZhiwanMountaintop\altzhiwan.dd');
+v=vertical(:,2);
+t=vertical(:,1);
+[v,t]=three_sigma_delete(v,t);
+plot(v)
+mean(v)
+std(v)
 
 
 %--------------------------------------------------------------------------

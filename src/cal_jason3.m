@@ -13,7 +13,7 @@ format long
 %=========================================================================
 % Please modify these parameters according to your requirement
 dir_0='C:\Users\yangleir\Documents\aviso\Jason3\';% data directory 
-loc = 'qly';% Here can choose the qly, zmw, zhws
+loc = 'zmw';% Here can choose the qly, zmw, zhws
 if strcmp(loc,'zhws')
     min_cir=126;% corresponding to the begin of the tide data
     max_cir=158;% corresponding to the end of the tide data
@@ -25,7 +25,7 @@ end
 
 sat=4;% 4==jason-3
 fre=1;% Set data frequency. 1=1Hz,20=20Hz. Usually, 1hz is suitable.
-tmodel=1; % tide model. 1=NAO99jb,2=fes2014
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path

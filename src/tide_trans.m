@@ -64,5 +64,5 @@ for i=1:length(namelist)
 end
 
 fclose(file2);
-load C:\Users\yangleir\Documents\jianguoyun\Documents\projects\NSFC\青年基金\TG\ZMW.d2
-plot(ZMW(1:5000,2))
+load C:\Users\yangleir\Documents\jianguoyun\Documents\projects\NSFC\青年基金\TG\QLY.d2
+plot(ZMW(:,2))
