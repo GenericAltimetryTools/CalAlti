@@ -16,7 +16,7 @@ format long
 dir_0='D:\hy2b\GDR_2P\';% GDR-2P version released in mid 2020
 
 % At present, it only works for HY-2B over Zhu hai wan shan site.
-loc = 'bqly';% Here can choose the bqly(2b qly), bzmw (2b zmw), zhws.
+loc = 'bzmw';% Here can choose the bqly(2b qly), bzmw (2b zmw), zhws.
 if  strcmp(loc,'zhws')
     min_cir=23;% 
     max_cir=46;% 
@@ -26,7 +26,7 @@ elseif  strcmp(loc,'bqly')|| strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
 end
 sat=3;% 3==hy2-b
 fre=1;% choose 1 | 20
-tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014,4=call NAO99jb
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path

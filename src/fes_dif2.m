@@ -13,9 +13,6 @@
 
 function [tg_dif]=fes_dif2(sat,loc)
 
-
-
-
     disp('=============call fes2014=============')       
 
     if sat==3

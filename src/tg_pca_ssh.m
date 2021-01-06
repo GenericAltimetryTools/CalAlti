@@ -371,6 +371,8 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
         [tg_dif]=fes_dif(sat,loc);% Tide coorection.
     elseif tmodel==3 % Just call fes 2014 program instead of using output file.
         [tg_dif]=fes_dif2(sat,loc);% Tide coorection.
+    elseif tmodel==4
+        [tg_dif]=nao_dif2(sat);
     else
         disp('tide model is not found');
     end

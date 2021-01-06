@@ -30,8 +30,15 @@ In the `nao_dif`, I just compute the tide correction by comparing the difference
 
 However, you can choose other ways to do the tide correction. For example, call the NAO fortran programs or FES matlab programs for each comparison point for every loop of the calibration. 
 
+If you would like to call NAO99jb fortran programs, please set:
+```
+tmodel=4; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014,4=call NAO99jb
+```
+
 If you would like to call FES 2014 programs, please set:
 ```
-tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014,4=call NAO99jb
 ```
-Before doing this, you need to download the FES 2014 model (matlab programs). The difference is very small compared with `tmodel=2` using the output file of the FES2014 (computing at the mean PCA location). The difference maybe large between the NAO99jb and FES2014 in some places. Since the NAO used the TP altimetry data and tide stations around East Pacific sea, it is accurate in the ocean of regular tide signals (compared with FES 2014, they have nearly the same accuracy). However, over special sea of un-regular tide signals such as Bohai sea, the NAO99jb is less accurate than FES2014. 
+Slection of 3 or 4 maybe slow because the computing time is longer.
+
+Before doing this, you need to download the FES 2014 model (matlab programs) and NAO99 fortran codes. The difference is very small compared with `tmodel=2` using the output file of the FES2014 (computing at the mean PCA location). The difference maybe large between the NAO99jb and FES2014 in some places. Since the NAO used the TP altimetry data and tide stations around East Pacific sea, it is accurate in the ocean of regular tide signals (compared with FES 2014, they have nearly the same accuracy). However, over special sea of un-regular tide signals such as Bohai sea, the NAO99jb is less accurate than FES2014. 

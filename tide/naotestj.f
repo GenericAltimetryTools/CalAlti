@@ -35,7 +35,7 @@ c Start epoch
       imin1   =    0 ! minute
 c
 c End epoch
-      iyear2  = 2012 ! year
+      iyear2  = 2011 ! year
       imon2   =    1 ! month
       iday2   =    1 ! day
       ihour2  =    0 ! hour
