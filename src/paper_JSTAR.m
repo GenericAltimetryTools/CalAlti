@@ -6,7 +6,7 @@ clear all
 % mean(bias)
 % std(bias)
 
-% Statistics of MSS difference between three tg
+%% Statistics of MSS difference between three tg
 filename = '..\tide_zhws\tideZhiwanWharf.DD';
 tg_zhiwan=load (filename);
 filename = '..\tide_zhws\tideDanganWharf.DD';
@@ -14,7 +14,7 @@ tg_dg=load (filename);
 filename = '..\tide_zhws\tideWailingdingWharf.DD';
 tg_wai=load (filename);   
 
-% allocate
+%% allocate
 tmp000=tg_zhiwan;
 tmp1=tmp000(:,1);% yyyymmdd
 tmp2=tmp000(:,2);% hhmmss
@@ -78,7 +78,7 @@ plot(t_zhiwan,ssh_zhiwan)
 time_min=((datenum([2020 04 01 00 00 00])-datenum('2000-01-1 00:00:00')))*86400;
 time_max=((datenum([2020 04 5 00 00 00])-datenum('2000-01-1 00:00:00')))*86400;
 
-% check the tide diffrence
+%% check the tide diffrence
 load ..\test\zhiwan.nao_2019_2022
 load ..\test\zhws.nao_2019_2022
 load ..\test\dg.nao_2019_2022
@@ -94,7 +94,7 @@ xlim([time_min time_max])
 % std(tg_dif)
 % histfit(tg_dif)
 
-% Do Statistic
+%% Do Statistic
 n=(time_max-time_min)/500; % 9 days
 t=linspace(time_min,time_max,n);
 s_dg=interp1(t_dg,ssh_dg,t,'PCHIP');
@@ -119,7 +119,8 @@ mean(d1)
 mean(d2)
 mean(s_dg-s_wai)
 mean(s_dg-s_zhiwan)
-
+mean(s_zhiwan-s_wai)
+%% GMT track
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
@@ -132,6 +133,7 @@ table = gmt('grdtrack  -G..\mss\zhws.nc', loc);
 mss=table.data;
 mss_d_zhi=mss(1,3)-mss(2,3)
 mss_d_wai=mss(1,3)-mss(3,3)
+mss_z_wai=mss(2,3)-mss(3,3)
 % Results indicate that the datum of Wansha is not agree with DTU MSS
 % model.
 

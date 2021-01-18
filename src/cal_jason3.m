@@ -25,7 +25,7 @@ end
 
 sat=4;% 4==jason-3
 fre=1;% Set data frequency. 1=1Hz,20=20Hz. Usually, 1hz is suitable.
-tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
+tmodel=1; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
@@ -41,6 +41,7 @@ if fre==1
     elseif fre==20
     tg_cal_read_jason3_hi(pass_num,min_cir,max_cir,min_lat,max_lat);% TBD
 end
+
 quicklook_alti(min_cir,max_cir,min_lat,max_lat,pass_num,sat);%plot the output data
 % Step 4: calculate the PCA point and interpolate the SSH at the PCA.
 % Calculate the MSS difference

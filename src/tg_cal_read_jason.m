@@ -41,9 +41,9 @@ for nm=1:length(namelist)
             r_ku=netcdf.getVar(nc,61);%10-3m
             dry=netcdf.getVar(nc,82);%10-4m
             if pass_num==138
-                wet=netcdf.getVar(nc,83);%10-4m model. consider the land effect. ZMW use wet model
+                wet=netcdf.getVar(nc,83);%10-4m 83 model. consider the land effect. ZMW use wet model
             else
-                wet=netcdf.getVar(nc,84);%10-4m
+                wet=netcdf.getVar(nc,84);%10-4m 84 radiometer
             end 
             
             ino=netcdf.getVar(nc,85);%10-4m

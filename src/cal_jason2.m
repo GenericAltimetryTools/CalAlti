@@ -27,7 +27,7 @@ end
 max_cir=303;% 165,239,303. This is depended on the tide data time span.
 sat=1; % 1 = Jason-2
 fre=1; % 1=1Hz. Usually 1 Hz is ok to do the CAL.
-tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=call FES2014
+tmodel=3; % tide model. 1=NAO99jb,2=fes2014,3=cal FES2014l,4=NAO
 
 oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path

@@ -27,6 +27,15 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lon_gps=121.3853;       
           h_gnss=86.1-10.1;
           
+        case 'bxmd' % bqly For wet VAL for HY2B wet
+          disp('xiaomaidao HY-2B')
+          min_lat=35500000; %
+          max_lat=36100000; %
+          pass_num=pass_2ato2b(52);          
+          lat_gps=36.05166;% 
+          lon_gps=120.4250;       
+          h_gnss=-9999;          
+          
         case 'zhws2' % Not use now. Do calibration, please use the zhws.
           disp('zhu hai wanshan')
           min_lat=21000000; % xlim([37.6 40]) for pass 9 YD

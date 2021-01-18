@@ -46,6 +46,7 @@ function [bias]=filter_bias(sat,bias2,loc)
     elseif sat==4
         save ..\test\ja3_check\ja3_bias.txt bias -ASCII % save file
     elseif sat==3
-        save ..\test\hy2_check\hy2_bias.txt bias -ASCII % save file        
+        save ..\test\hy2_check\hy2_bias.txt bias -ASCII % save file      
+        
     end
 return

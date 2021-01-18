@@ -9,7 +9,7 @@ fid1 = fopen('..\test\ja3_check\ponits_circle.txt','w');
 temp1=num2str(pass_num);
 dir_nm=strcat(dir_0,temp1,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
 temp=size(dir_nm);
-namelist = ls(fullfile(dir_nm,'*.nc'))% 这里ls可以和dir替换
+namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
 
@@ -28,7 +28,7 @@ for nm=1:length(namelist)
 %     temp=size(namelist);
 %     file_num=temp(1);
 %     for n=1:file_num
-        t1=str2double(namelist(nm,13:15))
+        t1=str2double(namelist(nm,13:15));
         if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
@@ -38,8 +38,13 @@ for nm=1:length(namelist)
             alt=netcdf.getVar(nc,58);%10-3m
             r_ku=netcdf.getVar(nc,61);%10-3m
             dry=netcdf.getVar(nc,82);%10-4m
-            wet_m=netcdf.getVar(nc,83);%10-4m;83
-            wet=netcdf.getVar(nc,84);%10-4m;84
+%             wet_m=netcdf.getVar(nc,83);%10-4m;83
+%             wet=netcdf.getVar(nc,84);%10-4m;84
+            if pass_num==138
+                wet=netcdf.getVar(nc,83);%10-4m 83 model. consider the land effect. ZMW use wet model
+            else
+                wet=netcdf.getVar(nc,84);%10-4m 84 radiometer
+            end             
             ino=netcdf.getVar(nc,85);%10-4m
             ssb=netcdf.getVar(nc,88);% sea state bias,10-4m
             inv=netcdf.getVar(nc,148);%inv_bar_corr ,10-4m

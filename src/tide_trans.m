@@ -65,4 +65,4 @@ end
 
 fclose(file2);
 load C:\Users\yangleir\Documents\jianguoyun\Documents\projects\NSFC\青年基金\TG\QLY.d2
-plot(ZMW(:,2))
+plot(QLY(:,2))

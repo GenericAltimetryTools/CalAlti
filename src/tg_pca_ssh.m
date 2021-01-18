@@ -30,6 +30,9 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
         filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt';
     elseif strcmp(loc,'zmw735') || strcmp(loc,'zmw436') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
         filename = '..\tg_xinxizx\zmw\ZMW_sort_clean.DD';
+    elseif  strcmp(loc,'bxmd') 
+        disp('xmd')
+        filename = '..\tg_xinxizx\qly\QLY_2011_2018_clean.txt'; % need changes 
     elseif strcmp(loc,'zhws') && sat==4
         disp('zhws')
         filename = '..\tide_zhws\tideWailingdingWharf.DD';
@@ -45,7 +48,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     tg=load (filename);
 %     figure(1000);plot(tg(:,3))
     % give time from tide gauge data
-    if strcmp(loc,'qly') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bqly') || strcmp(loc,'bzmw2') % unit is cm
+    if strcmp(loc,'qly') || strcmp(loc,'zmw') || strcmp(loc,'bzmw')|| strcmp(loc,'bqly') || strcmp(loc,'bzmw2')|| strcmp(loc,'bxmd')% unit is cm
         tmp000=tg;
         tmp1=tmp000(:,1); %yyyymmddHHMM
         tmp=num2str(tmp1);
@@ -80,11 +83,13 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     elseif strcmp(loc,'cst') || strcmp(loc,'cst009')
         ssh=tmp000(:,2)/100+10.632;% 10.632 is the parameter of height reference 
     % transform from TG local to WGS-84.
+    elseif strcmp(loc,'bxmd')
+        ssh=tmp000(:,2)/100+3.515;%          
     elseif strcmp(loc,'zmw') || strcmp(loc,'zmw735') ||  strcmp(loc,'zmw436') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
-        ssh=tmp000(:,2)/100-0.108;% 0.108 is the parameter of height reference 
+        ssh=tmp000(:,2)/100-0.115;% 0.11 is the parameter of height reference 
     % transform from TG local to WGS-84. TBD
     elseif strcmp(loc,'zhws') && sat==4
-        ssh=tmp000(:,3)+ 2.7497;% The transform parameter is from the data provider
+        ssh=tmp000(:,3)+ 2.7497+0.03;% The transform parameter is from the data provider
     elseif strcmp(loc,'zhws') && sat==3 % Location is different for Jason and HY-2 at Wanshan.
         ssh=tmp000(:,3)+ 3.2373;% The transform parameter is from the data provider
     else 
@@ -157,7 +162,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     tg_pca_ssh(1:b)=-9999;% PCA SSH of TG
     if strcmp(loc,'qly') || strcmp(loc,'zmw')
         len_tg=12; % means 120minute=2hour
-    elseif strcmp(loc,'bqly') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')
+    elseif strcmp(loc,'bqly') || strcmp(loc,'bzmw')|| strcmp(loc,'bzmw2')|| strcmp(loc,'bxmd')
          len_tg=24; % means 120minute=2hour; The tide gauge time interval is changed to 5 min for HY-2B time
     elseif strcmp(loc,'zhws') && sat==4
         len_tg=120/0.5; % data sample is 30 seconds. `120/0.5` = 2 hour
@@ -170,7 +175,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     %% Deterine the PCA SSH of TG by `interp1`.
     for i=1:b
         if tmp3(i)~=0 
-            disp(['Cycle:',num2str(cy(i))]);
+%             disp(['Cycle:',num2str(cy(i))]);
             loct=tmp3(i); % location in matrix
             ssh_tg2=ssh(loct-len_tg:loct+len_tg); % Select TG data of 2 hours before and after PCA time.
             ssh_tg3=smooth(ssh_tg2,4,'rlowess'); % Here should be carefull 
@@ -196,7 +201,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     % the TG points, and the left lines are corresponding to the PCA
     % points. Thus, make the subtraction and get the MSS correction. 
     
-    if strcmp(loc,'qly') || strcmp(loc,'bqly')
+    if strcmp(loc,'qly') || strcmp(loc,'bqly') || strcmp(loc,'bxmd')
         if sat==1
             mss=load ('..\test\ja2_check\dtu18_qly.dat');
             jason2_mss=mss;
@@ -324,7 +329,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
             mss_correction=-(jason_mss-tg_mss);
 
         elseif sat==5
-            mss=load ('.\qianliyan_tg_cal\s3a_2019_dtu18_zmw.dat');% 注意替换，jason-2.dat是对应的2013-2014，jason2_2011是对应的2011-2012.
+            mss=load ('..\test\s3a_check\dtu18_qly.dat');% 注意替换，jason-2.dat是对应的2013-2014，jason2_2011是对应的2011-2012.
             s3a_mss=mss;
             tg_mss=s3a_mss(1,3);
             s3a_mss=s3a_mss(2:length(s3a_mss),3);
@@ -388,7 +393,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     
     if strcmp(loc,'zhws') % the reference ellipsoid height difference between WGS and TP. BY wgs_tp.m
         wgs_tp=0.699917949844327;
-    elseif strcmp(loc,'bqly') || strcmp(loc,'qly') || strcmp(loc,'zmw')|| strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') % for zmw and qly this value is very close.
+    elseif strcmp(loc,'bqly') || strcmp(loc,'qly') || strcmp(loc,'zmw')|| strcmp(loc,'bzmw') || strcmp(loc,'bzmw2')|| strcmp(loc,'bxmd') % for zmw and qly this value is very close.
         wgs_tp=0.7179;        
     end
 %     whos

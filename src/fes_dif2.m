@@ -18,48 +18,30 @@ function [tg_dif]=fes_dif2(sat,loc)
     if sat==3
         load ..\test\hy2_check\pca_ssh.txt;
         load ..\test\hy2_check\coor.d;
-        lat_t(1:length(pca_ssh))=coor(1,2); % tg lat
-        lon_t(1:length(pca_ssh))=coor(1,1);% tg lon
-        lat_pca=pca_ssh(:,1); % pca lat
-        lon_pca=pca_ssh(:,2); % pca lon
-        time_pca=pca_ssh(:,3); % pca time
-
-        time_pca_trans=time_pca/86400+datenum('2000-1-1 00:00:00');
-
-        % Now we got the location and time of PCA. 
-        [t_tg]=fes2014(lat_t,lon_t,time_pca_trans);
-        [t_pca]=fes2014(lat_pca,lon_pca,time_pca_trans);
     elseif sat==1
         load ..\test\ja2_check\pca_ssh.txt;
         load ..\test\ja2_check\coor.d;
-        lat_t(1:length(pca_ssh))=coor(1,2); % tg lat
-        lon_t(1:length(pca_ssh))=coor(1,1);% tg lon
-        lat_pca=pca_ssh(:,1); % pca lat
-        lon_pca=pca_ssh(:,2); % pca lon
-        time_pca=pca_ssh(:,3); % pca time
-
-        time_pca_trans=time_pca/86400+datenum('2000-1-1 00:00:00');
-
-        % Now we got the location and time of PCA. 
-        [t_tg]=fes2014(lat_t,lon_t,time_pca_trans);
-        [t_pca]=fes2014(lat_pca,lon_pca,time_pca_trans);
-
     elseif sat==4
         load ..\test\ja3_check\pca_ssh.txt;
-        load ..\test\ja3_check\coor.d;
-        lat_t(1:length(pca_ssh))=coor(1,2); % tg lat
-        lon_t(1:length(pca_ssh))=coor(1,1);% tg lon
-        lat_pca=pca_ssh(:,1); % pca lat
-        lon_pca=pca_ssh(:,2); % pca lon
-        time_pca=pca_ssh(:,3); % pca time
-
-        time_pca_trans=time_pca/86400+datenum('2000-1-1 00:00:00');
-
-        % Now we got the location and time of PCA. 
-        [t_tg]=fes2014(lat_t,lon_t,time_pca_trans);
-        [t_pca]=fes2014(lat_pca,lon_pca,time_pca_trans);     
+        load ..\test\ja3_check\coor.d;  
+    elseif sat==5
+        load ..\test\s3a_check\pca_ssh.txt;
+        load ..\test\s3a_check\coor.d;  
+        
     end
 
+    lat_t(1:length(pca_ssh))=coor(1,2); % tg lat
+    lon_t(1:length(pca_ssh))=coor(1,1);% tg lon
+    lat_pca=pca_ssh(:,1); % pca lat
+    lon_pca=pca_ssh(:,2); % pca lon
+    time_pca=pca_ssh(:,3); % pca time
+
+    time_pca_trans=time_pca/86400+datenum('2000-1-1 00:00:00');
+
+    % Now we got the location and time of PCA. 
+    [t_tg]=fes2014(lat_t,lon_t,time_pca_trans);
+    [t_pca]=fes2014(lat_pca,lon_pca,time_pca_trans);
+    
     tg_dif=t_pca-t_tg;
 
 return
