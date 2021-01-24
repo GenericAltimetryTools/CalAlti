@@ -4,7 +4,7 @@ clear all
 
 %% Check the impact of data length on the trend estimation.
 % bias = load ('..\test\ja2_check\bias_last_ja2_qly.txt');
-bias = load ('C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_ja2_zmw3.txt');
+bias = load ('C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_ja3_qly2.txt');
 x1=bias(:,5)/(365*86400); % This time is same with next line 
 x=bias(:,3)/(36.5); % cycle to year
 y=bias(:,4)*1000; % meter to mm. 
@@ -16,10 +16,13 @@ for i=2:length(x)-1
 %     sec(i)=
     disp(['The trend of bias (a*x+b) is mm/y:',num2str(trend_year(i))])
 end
+
 figure (1)
-plot(sec(10:length(x)-1),trend_year(10:length(x)-1))
+plot(sec(120:length(x)-1),trend_year(120:length(x)-1))
 out=[sec(10:length(x)-1) trend_year(10:length(x)-1)'];
 save ../temp/trend.txt out -ascii
+mean( trend_year(120:length(x)-1))
+std( trend_year(120:length(x)-1))
 
 % non-linear
 trend_year2=[];

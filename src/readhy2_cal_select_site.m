@@ -314,6 +314,14 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readhy2_cal_select_si
           lat_gps=2.4953600e+01;% 
           lon_gps=1.2116450e+02;    
           h_gnss=2.0312200e+02-20.3;
+        case 'hkws' % Taiwan IGS
+          disp('Your CAL site is: hkws')
+          min_lat=22500000; %
+          max_lat=21000000; % 
+          pass_num=pass_2ato2b(190);% define the pass number    
+          lat_gps=2.2434282e+01;%    
+          lon_gps=1.1433538e+02;    
+          h_gnss=6.3789000e+01-(-0.6);
           
         otherwise
           disp('Unknown location.')

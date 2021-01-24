@@ -51,3 +51,6 @@ temp/*
 src/test_pressure_dry.m
 fes2014/
 src/*_zmw.m
+data/era5/north
+data/era5/middle
+data/era5/south

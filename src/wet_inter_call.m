@@ -96,7 +96,9 @@ if sat==3 % HY-2B
     elseif  strcmp(loc,'twtf')
         lat3=25.3:0.05:27.5; % 25km far from the mainland     
     elseif  strcmp(loc,'twtf2')
-        lat3=24.9:0.05:26.1; % 25km far from the mainland             
+        lat3=24.9:0.05:26.1; % 25km far from the mainland
+    elseif  strcmp(loc,'hkws')
+        lat3=21.5:0.05:22.4; % 25km far from the mainland          
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');
@@ -165,7 +167,10 @@ end
         z_delta=20;    % not use this parameters   
     elseif strcmp(loc,'twtf')||strcmp(loc,'twtf2')
         gnss_wet=load ('..\test\gnss_wet\trotwtf.d3');         
-        z_delta=20;    % not use this parameters           
+        z_delta=20;    % not use this parameters 
+    elseif strcmp(loc,'hkws')
+        gnss_wet=load ('..\test\gnss_wet\trohkws.d3');         
+        z_delta=20;    % not use this parameters         
     end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.
