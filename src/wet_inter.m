@@ -62,12 +62,10 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                 end
                 tmp=strcat('_',temp31);
                 temp4= strcat(temp,temp3,tmp,'.txt');
-                temp5= strcat('X',temp3,tmp);
 
             if exist(temp4,'file')
 
-                load (temp4) %读入SSH文件
-                temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
+                temp6=load (temp4); %读入SSH文件
                 aa=size(temp6);
 
                 if aa(1)>10 % 表示有效点数大于20个，占总数的一半。这个值可以更具总数多少修改。

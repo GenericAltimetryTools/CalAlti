@@ -57,10 +57,10 @@ if sat==3
 else
     temp3=temp2(3:5);% 组成三位数的字符串。
 end
-% temp3=temp2(3:5);% 组成三位数的字符串。
+
 t1=check_circle(pass_num);
 t2=num2str(t1);
-% t3=t2(3:5);% 组成三位数的字符串。
+
 if sat==3
     temp31=t2(2:5);% 组成三位数的字符串。
 else
@@ -68,9 +68,8 @@ else
 end
 tmp=strcat('_',temp31);
 temp4= strcat(temp,temp3,tmp,'.txt'); % This is the file contains the max number of points.
-% temp5= strcat('X',temp3,tmp);
+
 full_pass=load (temp4);
-% full_pass=eval(temp5);
 
 %% Plot slope along tracks for each cycle using GMT.
 s_lat=full_pass(2:ma-1,2); % remove the head and tail.

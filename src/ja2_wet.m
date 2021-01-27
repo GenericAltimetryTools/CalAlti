@@ -17,11 +17,12 @@ max_cir=268;% 165,239,303,303
 readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
 plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
-plot_gmt(pass_num,min_cir,max_cir,sat);
+% plot_gmt(pass_num,min_cir,max_cir,sat); % Careful. Here are some bugs when run some specific sites.
 
 % Step4: Analysis the final sigma of radiometer
 [myfit]=spatial_dec(pass_num,min_cir,max_cir,sat); % here we use the `153` as a constant pass number because the data are in open coean and are of good quality.
  
+
 % Step 5: interpolation of  the wet delay to the fixed point and compare the GNSS and radiometer.
 % Then save the results.
 

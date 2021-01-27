@@ -3,57 +3,43 @@
 
 
 function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
-% 
-% % `z_delta` is a  threshold value  to remove the fast changing data. Unit
-% % is `mm`. It is not the same for each site and given by subjectively.
-%     if strcmp(loc,'sdyt')
-%         gnss_wet=load ('..\test\gnss_wet\troSDYT.d3');
-%         z_delta=15;
-%     elseif strcmp(loc,'fjpt')
-%         gnss_wet=load ('..\test\gnss_wet\troFJPT.d3');
-%         z_delta=15;
-%     elseif strcmp(loc,'hisy') || strcmp(loc,'hisy2')
-%         gnss_wet=load ('..\test\gnss_wet\troHISY.d3');
-%         z_delta=15;
-%     elseif strcmp(loc,'yong')||strcmp(loc,'yong2')
-%         gnss_wet=load ('..\test\gnss_wet\troYONG.d3'); 
-%         z_delta=20;
-%     elseif strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
-%         gnss_wet=load ('..\test\gnss_wet\troSDRC.d3'); 
-%         z_delta=20;   
-%     elseif strcmp(loc,'sdqd')
-%         gnss_wet=load ('..\test\gnss_wet\troSDQD.d3'); 
-%         z_delta=20;           
-%     elseif strcmp(loc,'gdst')
-%         gnss_wet=load ('..\test\gnss_wet\troGDST.d3'); 
-%         z_delta=20;       
-%     elseif strcmp(loc,'gdzh')
-%         gnss_wet=load ('..\test\gnss_wet\troGDZH.d3'); 
-%         z_delta=20;               
-%     end
 
-    tmp000=gnss_wet; % The format is :`2008.000000000 2524.90 209.70 17.50`
-    % `time ZTD wet sig_td` for CMONOC. 
+    tmp000=gnss_wet;
+    % For CMONOC the format is :`2008.000000000 2524.90 209.70 17.50`
+    % `time ZTD wet sig_td`. 
     % For China Ocean station GNSS, the format is `2010 01 01 00 00 00
     % 2349.51 33.41 1.51` : `YYYY MM DD hh mm ss ztd wetpd sigma_ztd`
+    % For IGS, the format is `08 001 03000 2366.8 1.6`=`YY DDD Seconds dry
+    % sigma`. The seconds is accumulated in one day with maximum value of
+    % 85500. (15 minutes lost in IGS data)
     
-    % Be carefull, here is not~ in `if`.
+    %%  Be carefull, here is not~ in `if`.
     if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly') || strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2')||strcmp(loc,'hkws') )
+        % CMONOC sites.
         y_0=floor(tmp000(:,1)); % year
-        da=tmp000(:,1)-y_0; % 
+        da=tmp000(:,1)-y_0; % days/366
 
-        z_delay=tmp000(:,3);  % wet PD of GNSS, excluding the dry. Format:240.60
+        z_delay=tmp000(:,3);  % wet PD of GNSS, excluding the dry. Format:240.60. 
+        % The z_delay is computed by remove the dry PD from the ZPD. And
+        % the dry PD is from the GNSS priori model.
+        
         ztd_delay=tmp000(:,2);  % ZTD of GNSS,including the dry. Format: 2519.00
         z_delay_sigma=tmp000(:,4);  % sigma of the wet PD of GNSS.
+        % The z_delay_sigma is not uniform for GAMIT and Bernese. So Here
+        % it dose not have big meaning. 
 
         % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
+        % First, calculate the seconds of the year refered to 2000.
         for i=2000:2030
            date_yj=[i 1 1 0 0 0];
            y_sec(i)=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
         end
-        sec=y_sec(y_0)'+da*366*24*60*60; % time in unit of second. 
+        % Then, add the seconds of the days.
+        sec=y_sec(y_0)'+da*366*24*60*60; % the time in unit of second. 
         % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
-        % $1 to $3 refered to `Yr  Doy Hr`
+        % $1 to $3 refered to `Yr  Doy Hr`. So 366 is determined when
+        % creating the tro*.d2 files. It is correct even one year have 365
+        % days or 366 days.
         
         g_w=z_delay; % GNSS wet PD
         g_ztd=ztd_delay; % GNSS ZTD
@@ -61,19 +47,25 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         tm2=round(sec); % GNSS time in second
         
      elseif strcmp(loc,'zmw') || strcmp(loc,'qly') || strcmp(loc,'bzmw') ||strcmp(loc,'bzmw2') || strcmp(loc,'bqly')
+        % CGN sites. The time format is different with the CMONOC.
+        
         time_tmp=floor(tmp000(:,1:6)); % `YYYY MM DD hh mm ss`
         sec=((datenum(time_tmp)-datenum('2000-01-1 00:00:00')))*86400;
-        tm2=round(sec); % GNSS time in second        
-        % remove the repeated data
-        [tm2_clean,ia,ic]=unique(tm2);
+        tm2=round(sec); % GNSS time in second   
+        
+        % remove the repeated data that maybe exited in CGN data files.
+        [tm2_clean,ia,ic]=unique(tm2); % remove the duplicated data using unique.
         tm2=tm2_clean;
+        
         z_delay=tmp000(ia,8);  % wet PD of GNSS, excluding the dry. Format:240.60
         ztd_delay=tmp000(ia,7);  % ZTD of GNSS,including the dry. Format: 2519.00
         z_delay_sigma=tmp000(ia,9);  % sigma of the wet PD of GNSS.
-        % convert the time from year.. (as 2010.89773) to second refered to '2000-01-1 00:00:00'
+        
         g_w=z_delay; % GNSS wet PD
-        g_ztd=ztd_delay; % GNSS ZTD    
+        g_ztd=ztd_delay; % GNSS ZTD
+        
      elseif strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2')||strcmp(loc,'hkws') % This is IGD data format 
+        % IGS sites
         y_0=tmp000(:,1)+2000; % year
 %         y_0=2000+y_y0;
         da=tmp000(:,2); % 
@@ -88,7 +80,13 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
            date_yj=[i 1 1 0 0 0];
            y_sec(i)=((datenum(date_yj)-datenum('2000-01-1 00:00:00')))*86400;
         end
-        sec=y_sec(y_0)'+da*24*60*60+sec_igs; % time in unit of second. 
+        
+        sec=y_sec(y_0)'+(da-1)*24*60*60+sec_igs; % time in unit of second.
+        % Here I found a bug related to the time. It should be
+        % `sec=y_sec(y_0)'+(da-1)*24*60*60+sec_igs;` instead of
+        % `sec=y_sec(y_0)'+(da)*24*60*60+sec_igs;` After fixed, the std
+        % decreases from 27 to 16 for Jason-2.
+        
         % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
         % $1 to $3 refered to `Yr  Doy Hr`
         
@@ -96,7 +94,8 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         g_ztd=ztd_delay; % GNSS ZTD
 
         tm2=round(sec); % GNSS time in second        
-     end
+    end
+%%     
 % load the satellite radiometer wet PD according to `sat`. The file format
 % is `17.000000   111.896498 316774654.998892  -171.578105  56`, which
 % means `lat lon time(s) wet_pd(negtive) cycle`.
@@ -176,12 +175,20 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
                     ttt(k)=pca_wet(i,5); % cycle number
                     tim2(k)=pca_wet(i,3); % time in sec
                     sig_pd(k)=z_delay_sigma(loct);% we do not interpolate it since it is nearly the same in 1 hour period.
-                     k=k+1;
+%                     
+%                     if dry==3
+%                         [pressure_era5]=era5_dry_function();
+%                         
+%                     end
+                    
+                    k=k+1;
                 end
             end
         end
     end
-    
+%% Dry PD using ERA5
+
+%%
 % =========================================================================    
   % Get the bais between GNSS and radiometer or model.
   if k>1
@@ -190,7 +197,9 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
       elseif dry==1
         bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long      
-        bias_model=-w_ali4-(tg_pca_ztd);% the result '-' means short,'+' means long        
+        bias_model=-w_ali4-(tg_pca_ztd);% the result '-' means short,'+' means long      
+      elseif dry==3
+          disp('waiting')
       end
 %     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias2=[ttt' bias' tim2' bias_model' sig_pd']; % the `bias2` format is `cycle R-G(mm) time(s) M-G(mm) sigma_GNSS (mm)`
@@ -200,7 +209,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
   end
 % =========================================================================   
 
-sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT software.
+sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT or Bernese software.
 Q=['The average uncertainty of the GNSS wet PD is:', num2str(sig_g)];
 disp(Q);
 
