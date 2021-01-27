@@ -14,7 +14,8 @@ elseif sat==4
     fid4=fopen('..\test\ja3_check\statistic.txt','w');
     temp='..\test\ja3_check\';
 end
-figure(5);
+% figure(5);
+figure('Name','Wet PD along Track for Each Cycle','NumberTitle','off');
 hold on
 
 for i=min_cir:max_cir
@@ -78,7 +79,7 @@ end
 fclose(fid4);
 hold off
 
-figure (6)
+figure('Name','Wet PD Difference between Radiometer and Model','NumberTitle','off');
 if sat==1
     load ..\test\ja2_check\statistic.txt
 elseif sat==4

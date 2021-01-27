@@ -5,7 +5,7 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 
-load ../test/gnss_wet/igs_xyz.dat
+load ../test/gnssinfo/igs_xyz.dat
 lat=igs_xyz(:,1);
 lon=igs_xyz(:,2);
 height=igs_xyz(:,3);
@@ -22,7 +22,7 @@ lon_d=(abs(lon)-mod(abs(lon),10000))/10000;
 lon_normal=(lon_sec/3600+lon_min/60+lon_d).*sign(lon);
 
 out=[lon_normal lat_normal height];
-% save ('../test/gnss_wet/igs_coor_normal.txt','out','-ascii')
+% save ('../test/gnssinfo/igs_coor_normal.txt','out','-ascii')
 
 % call GMT
 

@@ -1,13 +1,13 @@
-% This program aims to validate the wet delay measured by satellite radiometer 
+% This program aims to validate the wet delay measured by satellite radiometers 
 % Author:Yang Lei
-% 2020-0716
+% 2020-07-16
 
 function hy2b_wet(sat,loc,dir_0,dry)
 
 % Step 1 preparations
 %=========================================================================
 % Please modify these parameters according to your requirement
-min_cir=7;% 7
+min_cir=2;% 7
 max_cir=48;% 46
 
 %=========================================================================
