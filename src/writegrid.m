@@ -1,13 +1,6 @@
 function writegrid(y,x,z,name,ny,nx)
 filename=name;
 
-if exist(filename,'file')==1
-    delete (filename);
-    disp('creating New Netcdf file');
-else
-   disp('creating Netcdf file');
-end
-
 nccreate(filename,'latitude','Dimensions',{'latitude' nx});
 ncwriteatt(filename, 'latitude', 'standard_name', 'latitude');
 ncwriteatt(filename, 'latitude', 'long_name', 'latitude');

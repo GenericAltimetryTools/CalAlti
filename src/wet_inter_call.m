@@ -1,7 +1,7 @@
 % call wet_inter to find the minimum STD
 
 function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat,dry,h_gnss,myfit)
-
+%%
 % Define the comparison latitude, thus the comparison point. Here we do not
 % know the best distance for calibration. So we give a comparison extent to
 % the program to find the smallest STD between GNSS and the radiometer.
@@ -175,8 +175,7 @@ end
     
     lat_compare=lat3; % This is a matrix of latitude along the track. Each point of the matrix will be compared to the GNSS.
     % interp and compare. 
+    %% This is the key function 
     [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss,myfit,gnss_wet,z_delta);
-    % move from main program
- 
     
 return
