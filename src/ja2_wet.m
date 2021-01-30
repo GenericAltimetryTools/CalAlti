@@ -8,7 +8,7 @@ function ja2_wet(sat,loc,dir_0,dry)
 % Please modify these parameters according to your requirement
 
 min_cir=56;% 92,165,239,55,
-max_cir=268;% 165,239,303,303
+max_cir=276;% 165,268,303,303,276
 
 %=========================================================================
 % Step 2: select the CAL site

@@ -7,7 +7,7 @@ function hy2b_wet(sat,loc,dir_0,dry)
 % Step 1 preparations
 %=========================================================================
 % Please modify these parameters according to your requirement
-min_cir=2;% 7
+min_cir=16;% 7
 max_cir=48;% 46
 
 %=========================================================================

@@ -1,4 +1,7 @@
-% call wet_inter to find the minimum STD
+% It can do：
+% - Define zone of comparison
+% - Load the GNSS wet PD file
+% - Call `wet_inter` to calculate bias and STD
 
 function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_gps,pass_num,loc,sat,dry,h_gnss,myfit)
 %%
@@ -9,7 +12,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter_call(min_cir,max_cir,lon_gps,lat_g
 % assign the value of latitude `lat3`, which will be called by `wet_inter`.
 if sat==1 || sat==4 %Jason2,3
     if   strcmp(loc,'cst')
-        lat3=37.7;% 此处的纬度大概距离陆地20km，辐射计收到的陆地干扰较小，且距离站点近。
+        lat3=37.7;% 
     elseif  strcmp(loc,'sdyt')
 %         lat3=38.25; % 30km far from the mainland
         lat3=37.6:0.05:39.1; % It is just a test to loop the `lat3`. Slow
@@ -21,25 +24,25 @@ if sat==1 || sat==4 %Jason2,3
 %         lat3=17.75; % 35km far from the mainland
         lat3=16.0:0.05:17.8; % Loop to test my guess. The lowest RMS is not the beginning of the land contamination.   
     elseif  strcmp(loc,'yong')
-        lat3=14.1:0.05:19.4; % 25km far from the mainland    
+        lat3=14.1:0.05:19.4; % 
     elseif  strcmp(loc,'yong2')
-        lat3=14.1:0.05:19.4; % 25km far from the mainland   
+        lat3=14.1:0.05:19.4; % 
     elseif  strcmp(loc,'gdzh')
-        lat3=18.1:0.05:22.0; % 25km far from the mainland   
+        lat3=19.5:0.05:22.0; %   
     elseif  strcmp(loc,'gdst')
-        lat3=21.1:0.05:23.45; % 25km far from the mainland           
+        lat3=21.1:0.05:23.45; %          
     elseif  strcmp(loc,'lnhl')
-        lat3=38.1:0.05:40.5; % 25km far from the mainland   
+        lat3=38.1:0.05:40.5; % 
     elseif  strcmp(loc,'jsly')
-        lat3=32.5:0.05:35.5; % 25km far from the mainland   
+        lat3=33.7:0.05:35.5; %   
     elseif  strcmp(loc,'zjwz')
-        lat3=25.2:0.05:27.9; % 25km far from the mainland    
+        lat3=25.2:0.05:27.9; %     
     elseif  strcmp(loc,'zmw')
-        lat3=37.5:0.05:39.8; % 25km far from the mainland     
+        lat3=38.5:0.05:39.8; %      
     elseif  strcmp(loc,'qly')
-        lat3=35.0:0.05:36.5; % 25km far from the mainland  
+        lat3=35.0:0.05:36.5; %    
     elseif  strcmp(loc,'twtf')
-        lat3=25.1:0.05:27.5; % 25km far from the mainland          
+        lat3=25.1:0.05:27.5; %            
     else        
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');        
@@ -48,57 +51,57 @@ end
 
 if sat==3 % HY-2B
     if  strcmp(loc,'sdyt')
-        lat3=37.9:0.05:38.5; % 25km far from the mainland
+        lat3=37.9:0.05:38.5; %  
     elseif  strcmp(loc,'fjpt')
-        lat3=25.1:0.05:26.0; % 25km far from the mainland
+        lat3=25.1:0.05:26.0; %  
     elseif  strcmp(loc,'hisy')
-%         lat3=17.9; % 25km far from the mainland
+%         lat3=17.9; %  
         lat3=17.2:0.05:18.2; 
     elseif  strcmp(loc,'hisy2')
-%         lat3=17.9; % 25km far from the mainland
+%         lat3=17.9; %  
         lat3=15.2:0.05:18.0;        
     elseif  strcmp(loc,'yong2') 
-        lat3=14.1:0.05:19.9; % 25km far from the mainland    
+        lat3=14.1:0.05:19.9; %      
     elseif  strcmp(loc,'yong')
-        lat3=14.1:0.05:19.1; % 25km far from the mainland  
+        lat3=14.1:0.05:19.1; %    
     elseif  strcmp(loc,'sdrc') 
-        lat3=35.1:0.05:37.0; % 25km far from the mainland     
+        lat3=35.1:0.05:37.0; %       
     elseif  strcmp(loc,'sdrc2')
-        lat3=35.1:0.05:39.4; % 25km far from the mainland             
+        lat3=35.1:0.05:39.4; %               
     elseif  strcmp(loc,'sdqd')
-        lat3=34.6:0.05:35.8; % 25km far from the mainland     
+        lat3=34.6:0.05:35.8; %       
     elseif  strcmp(loc,'gdst') % This is not good due to land influnece
-        lat3=20.1:0.05:23.0; % 25km far from the mainland   
+        lat3=20.1:0.05:23.0; %     
     elseif  strcmp(loc,'gdst2') % This is not good due to land influnece
-        lat3=20.5:0.05:23.4; % 25km far from the mainland           
+        lat3=20.5:0.05:23.4; %             
     elseif  strcmp(loc,'bzmw') 
-        lat3=38.5:0.05:39.8; % 25km far from the mainland  
+        lat3=38.5:0.05:39.8; %    
     elseif  strcmp(loc,'bzmw2')
-        lat3=38.4:0.05:39.7; % 25km far from the mainland          
+        lat3=38.4:0.05:39.7; %            
     elseif  strcmp(loc,'bqly')
-        lat3=33:0.05:36.3; % 25km far from the mainland    
+        lat3=33:0.05:36.3; %      
     elseif  strcmp(loc,'gxbh2')
-        lat3=21.1:0.05:21.4; % 25km far from the mainland 
+        lat3=21.1:0.05:21.4; %   
     elseif  strcmp(loc,'gxbh') 
-        lat3=20.1:0.05:21.3; % 25km far from the mainland         
+        lat3=20.1:0.05:21.3; %           
     elseif  strcmp(loc,'xiam') || strcmp(loc,'kmnm') 
-        lat3=21.5:0.05:24.6; % 25km far from the mainland   
+        lat3=21.5:0.05:24.6; %     
     elseif  strcmp(loc,'jsly')
-        lat3=34.6:0.05:35.5; % 25km far from the mainland   
+        lat3=34.6:0.05:35.5; %     
     elseif  strcmp(loc,'lndd')
-        lat3=38.1:0.05:39.5; % 25km far from the mainland   
+        lat3=38.1:0.05:39.5; %     
     elseif  strcmp(loc,'lndd2')
-        lat3=37.6:0.05:39.5; % 25km far from the mainland           
+        lat3=37.6:0.05:39.5; %             
     elseif  strcmp(loc,'lnjz')
-        lat3=37.9:0.05:38.5; % 25km far from the mainland
+        lat3=37.9:0.05:38.5; %  
     elseif  strcmp(loc,'lnjz2')
-        lat3=37.9:0.05:38.8; % 25km far from the mainland
+        lat3=37.9:0.05:38.8; %  
     elseif  strcmp(loc,'twtf')
-        lat3=25.3:0.05:27.5; % 25km far from the mainland     
+        lat3=25.3:0.05:27.5; %       
     elseif  strcmp(loc,'twtf2')
-        lat3=24.9:0.05:26.1; % 25km far from the mainland
+        lat3=24.9:0.05:26.1; %  
     elseif  strcmp(loc,'hkws')
-        lat3=21.5:0.05:22.4; % 25km far from the mainland          
+        lat3=21.5:0.05:22.4; %            
     else
         disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
         error('Please check the GNSS wet PD file for this site');

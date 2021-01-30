@@ -30,18 +30,16 @@ i;
         t3=t2(3:5);% 组成三位数的字符串。
         tmp=strcat('_',t3);
         temp4= strcat(temp,temp3,tmp,'.txt');
-        temp5= strcat('X',temp3,tmp);
         s=dir(temp4);
     if exist(temp4,'file') && s.bytes~=0
 %         temp4;
-        load (temp4)
-        temp6=eval(temp5);% 字符串当做变量使用，temp5和load进来的变量名一样。
+        temp6=load (temp4);
         latitude=temp6(:,2);
         points=temp6(:,3);
         points_m=temp6(:,4);
         r_m=points-points_m;
         
-        a(i-min_cir+1)=mean(points-points_m);% 计算观测值和模型值的差值均值
+        a(i-min_cir+1)=mean(points-points_m);% The Wet PD value is nagtive.
         b(i-min_cir+1)=std(points-points_m);% 计算std
         fprintf(fid4,'%12d %12.6f %12.6f\n',i,a(i-min_cir+1),b(i-min_cir+1));% 保存
 
@@ -107,6 +105,7 @@ end
 plot(statistic(:,1),-statistic(:,2),'-o',statistic(:,1),statistic(:,3),'-ro');
 
 tmpp=-mean (statistic(:,2)); % Be attention the -. Nagetive means shorter.
+% The nagetive bias mean the radiometer is shorter.
 Q=['mean of radiometer and model wet dely is:', num2str(tmpp)];
 disp(Q);
 

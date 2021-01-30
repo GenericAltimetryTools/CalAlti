@@ -1,4 +1,10 @@
-% interpolation of the SA wet delay to the fixed point.
+% DO:
+% - Load satellite wet PD files.
+% - Interpolation of the SA wet delay to the comparison point.
+% - Calculate the dry PD at GNSS site.
+% - Call `wet_cal_G_S` to calculate bias/STD between GNSS and radiometer
+% - Output the mean and STD to files as a function of the distance
+
 % No process on the GNSS in this main function.
 
 function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,lat_compare,lon_gps,lat_gps,dry,h_gnss,myfit,gnss_wet,z_delta)
@@ -121,7 +127,11 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
 %                         pca_dry_era5_gnss_height=-pressure_era5_gnss_height*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);
                         pca_dry_corrected=-pressure_era5_gnss_height*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);% Dry PD Unit is mm.
                         
-                    end                    
+                    end 
+                    
+                    if dry==2
+                        pca_dry_corrected=0;% Not use
+                    end
 
 %                     pca_dry_corrected=pressure_gdr*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);% Dry PD Unit is mm.
                     % 
@@ -147,35 +157,42 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         % file. Also give the trend estimation for both radiometer and
         % model.
         
+        %% Compute the distance between GNSS sites and PCA points.
+        % The distance is changing folowing the loop of the PCA points with
+        % the latitude changing.
         input=[lon_gps lat_gps];
         order=strcat('mapproject -G',num2str(lon3),'/',num2str(lat3),'+i+uk -fg');
         dis = gmt (order,input);
         % 
-        Q=['finish interp at latitude:', num2str(lat3),'; distance to GNSS site:',num2str(dis.data(3))];
+        Q=['===========finish interp at latitude:', num2str(lat3),'; distance to GNSS site:============',num2str(dis.data(3))];
         disp(Q);
-        fclose('all');
-        dis_bias_r_g(ii)=dis.data(3);
-
+        dis_bias_r_g(ii)=dis.data(3); % This is the distance value.
+        
+        % The `spa` is the  spatial rms.       
+        spa=myfit.a - myfit.b*exp(-dis_bias_r_g(ii)/myfit.c); % The myfit is from the input.
+        disp(['The spatial rms is estimated to be:',num2str(spa)])        
+        %% remove the outliers through 3 delta, 
+        % Dispaly the KEY RESULT: mean bias and STD. 
         [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis_bias_r_g(ii),loc);
-        sig_bias_r_g(ii)=bias_std;
-        mea_bias_r_g(ii)=bias_mean;    
-        
-        %  Analysis the spatial inluence
-        dis_0=dis.data(3);% This is the distance from the first CAL point to GNSS location. One point.
-        
-        spa=myfit.a - myfit.b*exp(-dis_0/myfit.c);
-        disp(['The spatial rms is estimated to be:',num2str(spa)])
-        
-        [sig_r]=sigma_r(bias_std,sig_g,spa);   
+        sig_bias_r_g(ii)=bias_std; %  This is return value
+        mea_bias_r_g(ii)=bias_mean;  % As above. 
+
+        [sig_r]=sigma_r(bias_std,sig_g,spa); % Estiamte the STD of the radiometer.
+        % BE care, this method are not used now. 
+        % The STD of the radiometer are calculated through program of
+        % `paper_tgrs_wet_statis.m`.
     end
     
-    % test 
-    figure (234)
+    %% test 
+    figure('Name','Wet PD bias and STD changing with distance','NumberTitle','off');
     plot(dis_bias_r_g,sig_bias_r_g);hold on
     plot(dis_bias_r_g,mea_bias_r_g);hold off
     output_dis=[dis_bias_r_g' mea_bias_r_g' sig_bias_r_g'];
     
-    % output the mean and STD as a function of the distance
+    %% output the mean and STD as a function of the distance.
+    % This output is useful to estimate the radiometer STD at the zero
+    % distance.
+    
     if sat==1
         filename1=strcat('..\test\ja2_check\jason_2_bias_wet_dis_function_',loc,'.txt');
         save(filename1,'output_dis','-ASCII') % 保存结果数据        

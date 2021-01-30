@@ -104,7 +104,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
         % $1 to $3 refered to `Yr  Doy Hr`
         
-        g_w=ztd_delay; % This is fake
+        g_w=ztd_delay; % This is fake since there is no dry PD in IGS product.
         g_ztd=ztd_delay; % GNSS ZTD
 
         tm2=round(sec); % GNSS time in second        
@@ -133,14 +133,17 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     
 	pca_tim=round(pca_wet(:,3));% satellite time (s)
     
-    w_ali=pca_wet(:,4);% radiometer wet delay. It is nagetive value
+    pca_wet_ali=pca_wet(:,4);% radiometer wet delay. It is nagetive value
     w_ali_model=pca_wet_model(:,4);% model wet delay. Nagetive value
     w_ali_ztd=pca_ztd(:,4);% ZTD = radiometer wet delay + Dry model (GDR) value. Nagetive value
     % `dry=3` using the era5 dry pd; `dry=1` using the GDR dry pd.
+    pca_dry_corrected=pca_ztd(:,4)-pca_wet(:,4); % This is the dry PD at the GNSS height.
+    % If choose `dry=1`, it is form GDR. Else if `dry=3`, it is from era5
+    % at the location of the GNSS sites and also at the GNSS height.
     
 %     w_ali_ztd_era5=pca_ztd(:,5);% ZTD = radiometer wet delay + Dry model (ERA5) value. Nagetive value
     
-    b=length(w_ali); % radiomater data length
+    b=length(pca_wet_ali); % radiomater data length
     c=length(tm2); % GNSS data length
     
     tmp3(1:b)=0;
@@ -177,13 +180,18 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
                 
             % if abs(ssh_tg2(3)-ssh_tg2(1))<20 % 去除短时间变化快的数据
                 if z_delay_sigma(loct)<z_delta && abs(ssh_tg2(3)-ssh_tg2(1))<z_delta  % 去除短时间变化快的数据  
-                    tg_pca_ssh(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time.
-                    tg_pca_ztd(k)=interp1(tt,ztd_gnss_subset,t_pca,'nearest'); % This is GNSS ZTD Interpolated to the PCA time
-
+                    gnss_wet_one(k)=interp1(tt,ssh_tg2,t_pca,'nearest'); % This is GNSS wet PD Interpolated to the PCA time.
+                    % The dry is from gnss model. Not accurate.
+                    gnss_ztd(k)=interp1(tt,ztd_gnss_subset,t_pca,'nearest'); % This is GNSS ZTD Interpolated to the PCA time
+                    % The dry in not exluded from ztd.
+                    gnss_dry_era(k)=pca_dry_corrected(i); %This is the dry PD at the gnss site and height.
+                    gnss_wet_two(k)=gnss_ztd(k)-(-gnss_dry_era(k));% GNSS wet PD by subtracting the era5 ddry PD.                    
+                    
                     % Here we can select the method of Interpolation. The
                     % nearest and the linear are nearly same, meaning that
                     % the wet pd variation in 1 hour period is small.
-                    w_ali2(k)=w_ali(i); % radiometer wet PD at the PCA.
+                    
+                    w_ali2(k)=pca_wet_ali(i); % radiometer wet PD at the PCA.
                     w_ali2_model(k)=w_ali_model(i); % model wet PD at the PCA.
                     
                     w_ali3(k)=w_ali_ztd(i); % ZTD at the PCA. Dry PD is the model value from GDR.
@@ -211,14 +219,17 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
   % Get the bais between GNSS and radiometer or model.
   if k>1
       if dry==2
-        bias=-w_ali2-(tg_pca_ssh);% the result '-' means short,'+' means long
-        bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
+        bias=-w_ali2-(gnss_wet_one);% the result '-' means short,'+' means long
+        bias_model=-w_ali2_model-(gnss_wet_one);% the result '-' means short,'+' means long
       elseif dry==1
-        bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long      
-        bias_model=-w_ali4-(tg_pca_ztd);% the result '-' means short,'+' means long      
+        bias=-w_ali3-(gnss_ztd);% the result '-' means short,'+' means long      
+        bias_model=-w_ali4-(gnss_ztd);% the result '-' means short,'+' means long      
       elseif dry==3 % The same with `dry=1`
-        bias=-w_ali3-(tg_pca_ztd);% the result '-' means short,'+' means long      
-        bias_model=-w_ali4-(tg_pca_ztd);% the result '-' means short,'+' means long      
+%         bias=-w_ali3-(gnss_ztd);% the result '-' means short,'+' means long      
+%         bias_model=-w_ali4-(gnss_ztd);% the result '-' means short,'+' means long      
+        bias=-w_ali2-(gnss_wet_two);% the result '-' means short,'+' means long
+        bias_model=-w_ali2_model-(gnss_wet_two);% the result '-' means short,'+' means long
+        
       end
 %     bias_model=-w_ali2_model-(tg_pca_ssh);% the result '-' means short,'+' means long
     bias2=[ttt' bias' tim2' bias_model' sig_pd']; % the `bias2` format is `cycle R-G(mm) time(s) M-G(mm) sigma_GNSS (mm)`
@@ -227,7 +238,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
       error('no data fullfill the requirement,please check the input data')
   end
 % =========================================================================   
-
+%% Not useful 
 sig_g=mean(sig_pd); % This is the mean value of GNSS wet PD uncertainty from the GAMIT or Bernese software.
 Q=['The average uncertainty of the GNSS wet PD is:', num2str(sig_g)];
 disp(Q);
