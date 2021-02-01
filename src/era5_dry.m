@@ -36,18 +36,22 @@ format long
 % mslp=netcdf.getVar(nc,3); % 3d
 %% Another method to read the data. No need to add any offset
 filepath='C:\Users\yangleir\Documents\jianguoyun\Documents\python3_stu\era5\data\g.nc';
-ncdisp(filepath) % Show nc infomation.
+% ncdisp(filepath) % Show nc infomation.
 lat=ncread(filepath,'latitude'); % 1d
 lon=ncread(filepath,'longitude'); % 1d
 time=ncread(filepath,'time'); % 1d, hours since 1900-01-01 00:00:00.0
-mslp=ncread(filepath,'t'); % 3d, Pa
+geo=ncread(filepath,'z'); % 3d, Pa
+hum=ncread(filepath,'q'); % 3d, Pa
+air_t=ncread(filepath,'t'); % 3d, Pa
+
+geo_h=geo/9.80665; % transform the geopotential to height.
 
 
 %% make new nc file
 
 ny=length(lon);
 nx=length(lat);
-writegrid(lon,lat,mslp(:,:,30)/9.8,'mslp_one.nc',ny,nx)
+writegrid(lon,lat,geo_h(:,:,37),'mslp_one.nc',ny,nx)
 
 %% plot line
 % figure (2)
