@@ -84,7 +84,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                     
                     pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'nearest');% WPD of satellite altimeters at PCA locations
                     % Add geoid height coorection
-                    pca_wet_height=pca_wet*exp(-h_gnss/2000);% Here the h_gnss is the diff between GNSS and geoid.
+                    pca_wet_height=pca_wet*exp(0-h_gnss/2000);% Here the h_gnss is the diff between GNSS and geoid.
                     % The parameter 2000 needs to be investaged as
                     % revieweres said it is diverse according to season and location. 
                     

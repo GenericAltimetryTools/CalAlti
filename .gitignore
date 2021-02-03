@@ -54,3 +54,4 @@ src/*_zmw.m
 data/era5/north
 data/era5/middle
 data/era5/south
+data/era4/4d/*
