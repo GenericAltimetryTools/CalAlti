@@ -10,6 +10,6 @@ function [P_corr]=dry_height(P0,height)
 % plot(height,P_h)
 
 k1=1/44300; % This is a approximation
-P_corr=P0*(1-height*k1)^(5.257);% Using 5.257 or 5.225 dose not have significant effect on the result.
+P_corr=P0*(1-height*k1)^(5.225);% Using 5.257 or 5.225 dose not have significant effect on the result.
 
 return

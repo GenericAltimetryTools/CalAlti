@@ -22,7 +22,7 @@ lon_gps=1.0953055e+02;%
 %%
 filepath='..\data\era5\4d\hisy.nc';
 % filepath='..\data\era5\4d\north\era5.pl.20100101.nc';
-ncdisp(filepath) % Show nc infomation.
+% ncdisp(filepath) % Show nc infomation.
 lat=ncread(filepath,'latitude'); % 1d
 lon=ncread(filepath,'longitude'); % 1d
 time=ncread(filepath,'time'); % 1d, hours since 1900-01-01 00:00:00.0
@@ -31,6 +31,14 @@ hum=ncread(filepath,'q'); %
 air_t=ncread(filepath,'t'); % 
 level=ncread(filepath,'level'); % pressure level
 geo_h=geo/9.80665; % transform the geopotential to height.
+
+% geopotential ----> orography height
+filepath='..\data\era5\orography_cn.nc';
+ncdisp(filepath) % Show nc infomation.
+lat_s=ncread(filepath,'latitude'); % 1d
+lon_s=ncread(filepath,'longitude'); % 1d
+geo_s=ncread(filepath,'z'); % 4D:lon,lat,level,time
+geo_orography=geo_s/9.80665; % transform the geopotential to height.
 
 %% plot line to check the relation of pressure levels and the height
 % figure('Name','pressure level and height','NumberTitle','off');
@@ -52,22 +60,28 @@ geo_h=geo/9.80665; % transform the geopotential to height.
 
 %% make new nc file
 
-% ny=length(lon);
-% nx=length(lat);
-% writegrid(lon,lat,hum(:,:,37,1),'mslp_one.nc',ny,nx)
+ny=length(lon_s);
+nx=length(lat_s);
+writegrid(lon_s,lat_s,geo_orography(:,:),'mslp_one.nc',ny,nx)
 
 %% plot 2D with GMT
-% oldpath = path;
-% path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
-% 
-% gmt ('set MAP_ANNOT_OBLIQUE=45 FONT_TITLE=10p')
-% gmt ('grd2cpt mslp_one.nc -Crainbow > mydata.cpt')
-% gmt ('grdimage -Rmslp_one.nc  -JR10c mslp_one.nc  -K > ../temp/pl_era5.ps')
-% gmt ('pscoast -Rmslp_one.nc -JR10c -Df -A10000/0/1 -Bxa120g -Byag  -O -K -W0.01p  >> ../temp/pl_era5.ps')
-% gmt ('psxy -R -J -Sc0.2 -Gred -O -K >> ../temp/pl_era5.ps',[lon_gps,lat_gps])
-% gmt ('psscale -DjBC+o0c/-1.4c+w2.4i/0.08i -Rmslp_one.nc -JR10c -Cmydata.cpt -Bxaf -By+lunit -I -O  --FONT_ANNOT_PRIMARY=7p -K >> ../temp/pl_era5.ps ')
-% movefile('mslp_one.nc', '..\temp\mslp_one.nc'); 
-% delete('mydata.cpt')
+oldpath = path;
+path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
+
+gmt ('set MAP_ANNOT_OBLIQUE=45 FONT_TITLE=10p')
+gmt ('grd2cpt mslp_one.nc -Crainbow > mydata.cpt')
+gmt ('grdimage -R mslp_one.nc -JR10c mslp_one.nc  -K > ../temp/pl_era5.ps')
+gmt ('pscoast -R -JR10c -Df -A10000/0/1 -Bxa120g -Byag  -O -K -W0.01p  >> ../temp/pl_era5.ps')
+gmt ('psxy -R -J -Sc0.2 -Gred -O -K >> ../temp/pl_era5.ps',[lon_gps,lat_gps])
+gmt ('psscale -DjBC+o0c/-1.4c+w2.4i/0.08i -Rmslp_one.nc -JR10c -Cmydata.cpt -Bxaf -By+lunit -I -O  --FONT_ANNOT_PRIMARY=7p -K >> ../temp/pl_era5.ps ')
+
+temp=gmt ('grdtrack  -Gmslp_one.nc',[lon_gps,lat_gps]);
+temp=gmt ('grdtrack  -G..\data\era5\orography_cn.nc',[lon_gps,lat_gps]);
+oro_suface=temp.data(3)/9.80665;
+
+movefile('mslp_one.nc', '..\temp\mslp_one.nc'); 
+delete('mydata.cpt')
+
 
 %%
 % calculte the WPD for each pressure level (geopotential height)
@@ -154,10 +168,10 @@ tcwv_gnss=tcwv(k2,k1,1);
 tm=50.440+0.789*t2m_gnss;
 wet_pd_msl=(0.101995+1725.55/tm)*(tcwv_gnss/1000);
 
-wet_pd_msl_kouba=wet_pd(1,k-1)*exp((geo_height(1,k-1)-0)/3000);% 2000 is not perfect
+wet_pd_msl_kouba=wet_pd(1,k-1)*exp((geo_height(1,k-1)-oro_suface)/kouba(1));% 2000 is not perfect
 
-wet_pd_msl_kouba2=wet_pd_msl_kouba*exp((-geo_height(1,k-1)-0)/2000);
+wet_pd_level1_kouba2=wet_pd_msl_kouba*exp((oro_suface-geo_height(1,k-1))/kouba(1)); % Equal to wet_pd(1,k-1)
 
-koupa_p=(0-geo_height(1,k-1))/log(wet_pd(1,k-1)/wet_pd_msl);
-wet_pd_msl_kouba=wet_pd(1,k-1)*exp((geo_height(1,k-1)-0)/koupa_p);% 2000 is not perfect
+koupa_p=(oro_suface-geo_height(1,k-1))/log(wet_pd(1,k-1)/wet_pd_msl);% This is kouba from inverse formula.
+wet_pd_msl_kouba=wet_pd(1,k-1)*exp((geo_height(1,k-1)-oro_suface)/koupa_p);% test. equal to wet_pd_msl
 
