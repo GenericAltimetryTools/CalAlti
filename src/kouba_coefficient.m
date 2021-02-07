@@ -175,3 +175,32 @@ wet_pd_level1_kouba2=wet_pd_msl_kouba*exp((oro_suface-geo_height(1,k-1))/kouba(1
 koupa_p=(oro_suface-geo_height(1,k-1))/log(wet_pd(1,k-1)/wet_pd_msl);% This is kouba from inverse formula.
 wet_pd_msl_kouba=wet_pd(1,k-1)*exp((geo_height(1,k-1)-oro_suface)/koupa_p);% test. equal to wet_pd_msl
 
+%%
+% example to show the impact of the kouba parameter
+% pca_wet_all=[10 30 40];
+h_gnss_all=[10 50 100 150]; % Here we choose four different heights.
+figure (13)
+fid4=fopen('../temp/kouba_diff.txt','w');
+
+for w=1:4
+
+    pca_wet=40; % Here, you should change it by hand.
+    h_gnss=h_gnss_all(w);
+    % kouba_coefficient=2100;
+    k=1;
+    pca_wet_height=[];
+    d_wet=[];
+    for kouba_i=1800:2700
+        pca_wet_height(k)=pca_wet*exp(0-h_gnss/kouba_i);
+        d_wet(k)=-pca_wet_height(k)+pca_wet;
+        fprintf(fid4,'%12.6f %12.6f \n',kouba_i,pca_wet_height(k));
+        k=k+1;
+    end
+    
+    fprintf(fid4,'> \n');
+    
+    plot(1800:2700,pca_wet_height);hold on
+end
+
+
+
