@@ -111,7 +111,7 @@ function [pass_num,min_lat,max_lat,lat_gps,lon_gps,h_gnss]=readja2_cal_select_si
           pass_num=77;% define the pass number
           lat_gps=1.8235778e+01;% GNSS的坐标
           lon_gps=1.0953055e+02;% 1.0953055e+02 1.8235778e+01
-          h_gnss=4.7004406e+01-(-1.097660858330E+01);
+          h_gnss=4.7004406e+01-(-9.6);
        case 'yong' % 
           disp('Your CAL site is: Yong xing dao P153')
           min_lat=14000000; % 分析湿延迟的时候范围可以设置偏大
