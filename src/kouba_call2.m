@@ -133,7 +133,8 @@ end
 
 % plot(kouba_p_day(1,:))
 
-% select 
+%% select 
+
 kouba_p_day2=[];
 kouba_p_day_std2=[];
 fid4=fopen('../temp/kouba_coast.txt','w');
@@ -164,8 +165,28 @@ for c=1:len_coastline
 end
 fclose('all');
 
-% load ../temp/kouba_coast.txt
-% plot(kouba_coast(:,3))
-% 
-% load ../temp/kouba_site_2.txt
-% plot(kouba_site_2(:,1),kouba_site_2(:,2))
+%% 
+% load file and smooth data
+figure ('Name','Seasonal kouba coefficient','NumberTitle','off') % the pressure level height and the time relation in one day.
+d1=datenum('2010-1-1 00:00:00')-datenum('2009-10-1 00:00:00');
+d2=datenum('2015-3-31 00:00:00')-datenum('2015-1-1 00:00:00');
+    
+for c=1:len_coastline
+    file_in=strcat('../temp/kouba_site_',num2str(c),'.txt');
+    file_out=strcat('../temp/kouba_site_',num2str(c),'_smooth.txt');
+    kouba_coast=load(file_in);
+    kouba_coast_month = smooth(kouba_coast(:,1),kouba_coast(:,2),120,'moving');
+    plot(kouba_coast(:,1),kouba_coast_month);hold on
+    out=[kouba_coast(:,1) kouba_coast_month] ;
+    save(file_out,'out','-ASCII') % 保存结果数据   
+    % Get seasonal data.
+    k=1;
+    if kouba_coast(:,1)>d1 && kouba_coast(:,1)<d1+366
+        kouba_coast_month
+    end
+    for s=d1:d1+366
+        k=k+1;
+    end
+    
+end
+
