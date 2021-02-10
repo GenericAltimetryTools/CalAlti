@@ -119,7 +119,7 @@ air_gnss=reshape(air_gnss,23,1);
 height_=geo_h(1,1,37,1);
 % plot(level,hum_gnss)
 wet_pd_37=(1.116454*1e-3*trapz(double(level(15:37)),hum_gnss)+17.66543828*trapz(double(level(15:37)),hum_gnss./air_gnss))*(1+0.0026*cosd(2*lat_gps));
-
+% unit m
 
 
 %% calculate the Kouba parameter using least squares.

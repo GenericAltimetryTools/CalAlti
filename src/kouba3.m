@@ -78,6 +78,7 @@ function [kouba_p]=kouba3(filename,lon1,lat1)
             air_gnss=reshape(air_gnss,len,1);
             % plot(level,hum_gnss)
             wet_pd(ii+1,k)=(1.116454*1e-3*trapz(double(level(1:i)),hum_gnss)+17.66543828*trapz(double(level(1:i)),hum_gnss./air_gnss))*(1+0.0026*cosd(2*lat_gps));
+            % unit m
             geo_height(ii+1,k)=geo_h(k2,k1,i,ii+1);
             k=k+1;
         end

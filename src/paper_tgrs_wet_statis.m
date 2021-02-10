@@ -202,7 +202,7 @@ plot(x,myfit_value)
 
 save ..\test\hy2_check\distance_sig_fit.txt out -ASCII % 保存结果数据
 
-% GMT plot
+%% GMT plot
 % % gmt()
 % j2=load('..\test\ja2_check\distance_sig_fit.txt');
 % j3=load('..\test\ja3_check\distance_sig_fit.txt');
@@ -223,4 +223,5 @@ save ..\test\hy2_check\distance_sig_fit.txt out -ASCII % 保存结果数据
 % gmt('psxy -R -J -W0.5p,red,  -O >> ../temp/dist_sigma.ps ',h2(:,[1,3]));
 % 
 % gmt('psconvert ../temp/dist_sigma.ps -P -Tf -A')
+
 

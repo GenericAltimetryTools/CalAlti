@@ -201,7 +201,7 @@ order='psxy  -J -R -Sc0.2c -Gblack -O  -K >> ../temp/test.ps';
 % cpt = gmt('makecpt -Crainbow -E24', wet_full);
 gmt(order,full_pass(:,1:3));
 %% Plot the 50 km line
-order=['grdmath ',bound,' -A10000/0/4 -Dc -I2m LDISTG = ../temp/dist_to_gshhg_hn2.nc']; % calculate the distance from grid points to coastline
+order=['grdmath ',bound,' -A10000/0/4 -Dl -I2m LDISTG = ../temp/dist_to_gshhg_hn2.nc']; % calculate the distance from grid points to coastline
 gmt(order); % Here is the Bug for some locations.
 
 gmt('grdsample ../temp/dist_to_gshhg_hn2.nc -R -I0.5m -G../temp/file2_hn2.nc')

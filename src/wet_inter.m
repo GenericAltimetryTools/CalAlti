@@ -122,7 +122,9 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                     
                     % Here is the pressure from the ERA5 model. Just run
                     % one time at the GNSS site. It need the input of the
-                    % pca time. It will not change as the pca changes.
+                    % pca time. It will not change as the pca changes
+                    % within very short time span.(satellite speed is about
+                    % 6km/s).
                     if dry==3 && ii==1 
 
                         [pressure_era5]=era5_dry_function(tim_pca,lon_gps,lat_gps);

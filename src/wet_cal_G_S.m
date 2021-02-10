@@ -16,10 +16,11 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
     % sigma`. The seconds is accumulated in one day with maximum value of
     % 85500. (15 minutes lost in IGS data)
     
-    %% First, process GNSS data. 
+    %% First, process  GNSS data. 
     % Here is to process the GNSS PD to get the standard format that could
     % be used next.
     % Be carefull, here is not~ in `if`.
+    % 1¡¢CMONOC
     if ~(strcmp(loc,'zmw')||strcmp(loc,'qly')||strcmp(loc,'bzmw') || strcmp(loc,'bzmw2') || strcmp(loc,'bqly') || strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2')||strcmp(loc,'hkws') )
         % First, CMONOC sites.
         y_0=floor(tmp000(:,1)); % year
@@ -56,7 +57,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         g_ztd=ztd_delay; % GNSS ZTD
 
         tm2=round(sec); % GNSS time in second
-        
+     % 2¡¢China Ocean station GNSS   
      elseif strcmp(loc,'zmw') || strcmp(loc,'qly') || strcmp(loc,'bzmw') ||strcmp(loc,'bzmw2') || strcmp(loc,'bqly')
         % Then, CGN sites. The time format is different with the CMONOC.
         
@@ -74,7 +75,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         
         g_w=z_delay; % GNSS wet PD
         g_ztd=ztd_delay; % GNSS ZTD
-        
+     % 3¡¢IGS   
      elseif strcmp(loc,'kmnm') || strcmp(loc,'twtf')||strcmp(loc,'twtf2')||strcmp(loc,'hkws') % This is IGD data format 
         % Last, IGS sites
         
@@ -100,10 +101,7 @@ function [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc)
         % `sec=y_sec(y_0)'+(da-1)*24*60*60+sec_igs;` instead of
         % `sec=y_sec(y_0)'+(da)*24*60*60+sec_igs;` After fixed, the std
         % decreases from 27 to 16 for Jason-2.
-        
-        % The 366 is defined by `# awk '{ printf ("%.9f %.2f %.2f %.2f \n",$1+($2-1+$3/24)/366,$4,$5,$6)}' tro$CT.d >tro$CT.d2`
-        % $1 to $3 refered to `Yr  Doy Hr`
-        
+             
         g_w=ztd_delay; % This is fake since there is no dry PD in IGS product.
         g_ztd=ztd_delay; % GNSS ZTD
 
