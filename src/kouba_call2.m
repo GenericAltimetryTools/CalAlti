@@ -47,7 +47,7 @@ for c=18:len_coastline
 
             filepath=strcat(dir_nm,namelist(nm,:));
 %             disp(filepath)
-            [kouba_p]=kouba3(filepath,lon_gps,lat_gps);
+            [kouba_p]=kouba3(filepath,lon_gps,lat_gps);% use the kouba3 funtion.
             % Filter data
             temp=std(kouba_p);
 
@@ -188,7 +188,9 @@ for c=1:len_coastline
 %     
 end
 
-%% Get seasonal signals
+%% Get seasonal signals. 
+% Five years mean.2010-2014
+
 d1=datenum('2010-1-1 00:00:00')-datenum('2009-10-1 00:00:00');
 d2=datenum('2015-3-31 00:00:00')-datenum('2015-1-1 00:00:00');
 d3=datenum('2015-3-31 00:00:00')-datenum('2009-10-1 00:00:00')+1;

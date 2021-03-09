@@ -1,4 +1,8 @@
-% kouba function
+% This is a kouba function that calculate the delpay coefficient using
+% least squre function. The backward is that it is slow and sometimes it
+% can't do the best fit. So We can choose the second choice for calculating
+% the delay coefficient.
+
 % -input: filename
 % -output: kouba parameter
 function [kouba_p]=kouba(filename,lon1,lat1)

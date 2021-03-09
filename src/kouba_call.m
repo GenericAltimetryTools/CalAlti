@@ -2,7 +2,7 @@
 % -kouba, least square fit
 % -kouba2, using the single level as the surface wet PD of earth.
 % -kouba3, only use the pressure level data.
-% I suggest the kouba3 and kouba funtion.
+% I suggest the kouba3 and kouba funtion. (fast and robust)
 
 %%
 
@@ -29,13 +29,13 @@ area='north';
 %%
 % Pressure level
 dir_nm=strcat('..\data\era5\4d\',area,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
-namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
+namelist = ls(fullfile(dir_nm,'*.nc'));% 
 temp=size(namelist);
 file_num=temp(1);
 
 % single level
 dir_nm2=strcat('..\data\era5\pl_tcwv','\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
-namelist2 = ls(fullfile(dir_nm2,'*.nc'));% 这里ls可以和dir替换
+namelist2 = ls(fullfile(dir_nm2,'*.nc'));% 
 
 [oro_suface]=orgraphy_height(lon_gps,lat_gps);% orography height
 
@@ -47,7 +47,7 @@ for nm=1:length(namelist)
 
 %     [kouba_p]=kouba(filepath,lon_gps,lat_gps);
 %     [kouba_p]=kouba2(filepath,filepath2,lon_gps,lat_gps,oro_suface);
-    [kouba_p]=kouba3(filepath,lon_gps,lat_gps);
+    [kouba_p]=kouba3(filepath,lon_gps,lat_gps); % this is the best one.
 %     
     % Filter data
     temp=std(kouba_p);

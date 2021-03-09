@@ -17,7 +17,7 @@ max_cir=48;% 46
 readhy2b_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
 plot_hy2b_check_wet(pass_num,min_cir,max_cir,sat);
-% plot_gmt(pass_num,min_cir,max_cir,sat);
+% plot_gmt(pass_num,min_cir,max_cir,sat,loc);
 
 
 % Step4: Analysis the final sigma of radiometer

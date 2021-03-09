@@ -1,4 +1,8 @@
-% kouba function
+% This is also kouba function for calculating the delay coefficient. It is
+% more fast than least square method when use the inverse of the kouba
+% function.
+% It use the single level as the surface wet PD of earth.
+
 % -input: filename
 % -output: kouba parameter
 function [kouba_p]=kouba2(filename,filepath2,lon1,lat1,oro_suface)

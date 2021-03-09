@@ -1,4 +1,4 @@
-% kouba function
+% kouba function that only use the pressure level data.
 % -input: filename
 % -output: kouba parameter
 function [kouba_p]=kouba3(filename,lon1,lat1)

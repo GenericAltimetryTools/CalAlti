@@ -1,12 +1,12 @@
 % Plot map with GMT (mainly pswiggle).
 % Plot the wet pd slope to check the land influence.
 
-% Add the second order derivative,2021-28 
+% Add the second order derivative,2021-1-28 
 
 % Author: Yang Lei
 % 2020-08-20
 
-function plot_gmt(pass_num,min_cir,max_cir,sat)
+function plot_gmt(pass_num,min_cir,max_cir,sat,loc)
 
 disp('Making GMT figure...');
 
@@ -154,7 +154,8 @@ for i=min_cir:max_cir
             ma_lat=ceil((bounds(4))+0.5);
             
             bound=['-R',num2str(mi_lon),'/',num2str(ma_lon),'/',num2str(mi_lat),'/',num2str(ma_lat)];
-            order=['pscoast ',bound,' -JM3i  -Bga -BSWen -Df -W1 -Glightyellow -K > ../temp/test.ps'];
+            psname=strcat('../temp/',loc,'.ps');
+            order=['pscoast ',bound,' -JM3i  -Bga -BSWen -Df -W1 -Glightyellow -K > ',psname];
 %             -Jm122/37/1:5000000
             gmt(order);  
         end
@@ -162,7 +163,8 @@ for i=min_cir:max_cir
         if errors<150 % This is a filter 
             slope_mean(k,:)=slope_inter; % 2D array contain the cycle index and slope profiles.
             k=k+1;
-            gmt('pswiggle  -R -J  -Z1 -Wthinnest,red -O -K -t70 >> ../temp/test.ps ', slope); % Plot with `k` loop.
+            order=['pswiggle  -R -J  -Z1 -Wthinnest,red -O -K -t70 >>  ',psname];
+            gmt(order, slope); % Plot with `k` loop.
         end     
 
     end 
@@ -196,25 +198,32 @@ slope_inter=interp1(y',d',s_lat,'pchip');
 slope_group=[s_lon s_lat slope_inter]; % store data
 
 %% GMT plot
-gmt('psxy -J -R -W1.67c,black -O -K -t70 >> ../temp/test.ps',full_pass(:,1:3)) % The diameter is 50km based on the projection scalor.
-order='psxy  -J -R -Sc0.2c -Gblack -O  -K >> ../temp/test.ps';
+order=['psxy -J -R -W0.1c,black -O -K -t30 >> ',psname];
+gmt(order,full_pass(:,1:3)) % The diameter is 50km based on the projection scalor.
+% order='psxy  -J -R -Sc0.2c -Gblack -O  -K >> ../temp/test.ps'; % points
 % cpt = gmt('makecpt -Crainbow -E24', wet_full);
-gmt(order,full_pass(:,1:3));
+% gmt(order,full_pass(:,1:3));
 %% Plot the 50 km line
-order=['grdmath ',bound,' -A10000/0/4 -Dl -I2m LDISTG = ../temp/dist_to_gshhg_hn2.nc']; % calculate the distance from grid points to coastline
+order=['grdmath ',bound,' -A10000/0/4 -Dc -I2m LDISTG = ../temp/dist_to_gshhg_hn2.nc']; % calculate the distance from grid points to coastline
 gmt(order); % Here is the Bug for some locations.
 
 gmt('grdsample ../temp/dist_to_gshhg_hn2.nc -R -I0.5m -G../temp/file2_hn2.nc')
 gmt('grdlandmask -R -Dl -A10000/0/4 -I0.5m -N1/-1 -G../temp/land_mask.nc');
 gmt('grdmath ../temp/file2_hn2.nc ../temp/land_mask.nc MUL = ../temp/file.nc' )
 
-outdis=gmt('grdcontour ../temp/file.nc -R -C50, -D'); % plot the 35 or 50km line
-gmt('psxy -R -J -W4p,green  -K -O >> ../temp/test.ps',outdis.data)
-gmt('psxy ../test/gnssinfo/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ../temp/test.ps');
-gmt('pswiggle  -R -J  -Z1 -W2p,yellow  -O -K >> ../temp/test.ps ', slopes)
-gmt('pswiggle  -R -J  -Z0.1 -W2p,24/75/167,  -O -K >> ../temp/test.ps ', slope_group)
-gmt('pstext  ../test/gnssinfo/points_latlon.txt2 -R -J -F+f7p,black+jTL -O  -Gwhite -D0.2/0.1 >> ../temp/test.ps')
+outdis=gmt('grdcontour ../temp/file.nc -R -C40, -D'); % plot the 35 or 50km line
+order=['psxy -R -J -W4p,green  -K -O >> ',psname];
+gmt(order,outdis.data); % the distance line 50km 
+order=['psxy ../test/gnssinfo/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ',psname];
+gmt(order);% GNSS sites
+order=['pswiggle  -R -J  -Z1 -W2p,yellow  -O -K >>  ',psname];
+gmt(order, slopes); % slope (first order derivative) 
+order=['pswiggle  -R -J  -Z0.1 -W2p,24/75/167,  -O -K -DjBR+w0.02+o0.2i+lmm/km^2 >> ',psname];
+gmt(order, slope_group) % second order derivative
+order=['pstext  ../test/gnssinfo/points_latlon.txt2 -R -J -F+f7p,black+jTL -O  -Gwhite -D0.2/0.1 >> ',psname];
+gmt(order)
 %% convert PS to PDF
-gmt('psconvert ../temp/test.ps -P -Tf -A')
+order=['psconvert ',psname,' -P -Tf -A'];
+gmt(order);
 
 return
