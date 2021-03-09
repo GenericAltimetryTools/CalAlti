@@ -1,9 +1,10 @@
+% Comparison of xiam site between  IGS\CMONOC\CGN
+% - try the ERA5 kouba coefficient, comparing to the 2000 value.
+% - comparison between xiam sites from IGS,CMONOC,CGN.
+
+%% 
 clc
 clear
-% Comparison between xiam
-%%
-% -try the ERA5 kouba coefficient, comparing to the 2000 value.
-% -comparison between xiam sites from IGS,CMONOC,CGN.
 
 % load tro data
 gnss_wet_CMO=load ('..\test\gnss_wet\troXIAM.d3'); % tro from CMONOC site
@@ -47,9 +48,9 @@ g_wet=z_delay; % GNSS wet
 tm2=round(sec); % GNSS time in second
 % plot(tm2,g_ztd);
 
-%% find 2010
+%% find the year of 2018 and do the comparison of 2018. Because the whole data is slow.
 index_=find(y_0==2018);
-index_(1);% this is the first data of 2010
+% index_(1);% this is the first data of 2010
 % tm_2010=tm2(index_(1):length(y_0));
 tm_2018=tm2(index_);% one year
 g_ztd_2018=g_ztd(index_);
@@ -110,7 +111,8 @@ g_ztd_IGS=ztd_delay; % GNSS ZTD
 
 tm2_IGS=round(sec); % GNSS time in second      
 
-%%
+%% ZTD comparison between IGS and CMO
+
 tm_inter=intersect(tm_2018,tm2_IGS); % intersection between IGS and CMO
 
 index_igs = []; % index of IGS
@@ -132,7 +134,7 @@ tm_2018_cmo=tm_2018(index_cmo);% one year
 g_ztd_2018_cmo=g_ztd_2018(index_cmo);
 g_wet_CMO_era5_2018=g_wet_CMO_era5(index_cmo);
 
-figure('Name','GNSS ztd ','NumberTitle','off');
+figure('Name','GNSS ztd of IGS and CMO','NumberTitle','off');
 plot(tm_2018_cmo,g_ztd_2018_cmo);hold on
 plot(tm_2018_igs,g_ztd_2018_igs);hold on
 % Result show the IGS and the CMO network are very close.
@@ -142,7 +144,7 @@ figure('Name','GNSS ztd difference between IGS and CMO(IGS-CMO)','NumberTitle','
 plot(tm_2018_igs,ztd_d_igs_cmo);hold on
 mean (ztd_d_igs_cmo); % Total delay defference is about 2cm. Contain dry and wet. Height difference is about 60m.
 
-%%
+%% wet comparison
 lat_gps=24.463822;% 
 lon_gps=118.38858;    
 h_gnss=49.1-12.3;   
@@ -163,28 +165,35 @@ end
 pca_dry_corrected_IGS=-pressure_era5_gnss_height*2.277/(1-0.00266*cosd(2*lat_gps)-0.28*(1e-6)*h_gnss);% Dry PD Unit is mm.
 g_wet_IGS_era5=g_ztd_2018_igs+pca_dry_corrected_IGS';
 
-figure('Name','GNSS wet ','NumberTitle','off');
-plot(tm_2018_igs,g_wet_IGS_era5);hold on
-plot(tm_2018_igs,g_wet_CMO_era5_2018);hold on
 
-g_wet_d_igs_cmo=g_wet_IGS_era5-g_wet_CMO_era5_2018;
+g_wet_d_igs_cmo=g_wet_IGS_era5-g_wet_CMO_era5_2018; % With no height correction.
 
 
-mean(g_wet_d_igs_cmo); 
-std(g_wet_d_igs_cmo);
+mean(g_wet_d_igs_cmo)
+std(g_wet_d_igs_cmo)
 % The difference between IGS and CMO wet PD is only +4mm without the height
-% correction.
+% correction. The IGS is lower than the CMO about 56m, so IGS WPD is
+% higher about +4mm.
 
 kouba_coefficient=2600; % This is the mean value.
 g_wet_IGS_era5_height_toCMO=g_wet_IGS_era5*exp(-56.2/kouba_coefficient);
 g_wet_d_igs_cmo_height_toCMO=g_wet_IGS_era5_height_toCMO-g_wet_CMO_era5_2018;
-mean(g_wet_d_igs_cmo_height_toCMO);
-std(g_wet_d_igs_cmo_height_toCMO);
+mean(g_wet_d_igs_cmo_height_toCMO)
+std(g_wet_d_igs_cmo_height_toCMO)
+% For 2600, the bias reduced to -1 from 4mm,
+% For 2000, the bias reduced to -3 from 4mm,so the 
+
 
 % The mean bias change from -2.7 to -1.2. Good
 % The std bias change from 9.7 to 9.3. Good.
 
-figure('Name','GNSS wet difference(IGS-CMO) ','NumberTitle','off');
+figure('Name','GNSS wet of IGS and CMO','NumberTitle','off');
+plot(tm_2018_igs,g_wet_IGS_era5_height_toCMO);hold on
+plot(tm_2018_igs,g_wet_CMO_era5_2018);hold on
+out=[tm_2018_igs g_wet_IGS_era5_height_toCMO g_wet_CMO_era5_2018];
+save('../temp/igs_cmo.txt','out','-ascii');
+
+figure('Name','GNSS wet difference(IGS-CMO) with and without height correction ','NumberTitle','off');
 plot(tm_2018_igs,g_wet_d_igs_cmo);hold on
 plot(tm_2018_igs,g_wet_d_igs_cmo_height_toCMO);hold on
 
@@ -225,7 +234,7 @@ end
 
 tm_2018_cng=tm2_CNG(index_cng);% one year
 g_ztd_2018_cng=g_ztd_CNG(index_cng);
-g_ztd_2018_cng= smooth(tm_2018_cng,g_ztd_2018_cng,24,'moving');
+% g_ztd_2018_cng= smooth(tm_2018_cng,g_ztd_2018_cng,24,'moving');
 tm_2018_cmo=tm_2018(index_cmo);% one year
 g_ztd_2018_cmo=g_ztd_2018(index_cmo);
 g_wet_CMO_era5_2018=g_wet_CMO_era5(index_cmo);
@@ -267,7 +276,7 @@ plot(tm_2018_cng,g_wet_CMO_era5_2018);hold on
 g_wet_d_cng_cmo=g_wet_cng_era5-g_wet_CMO_era5_2018;
 mean(g_wet_d_cng_cmo)
 std(g_wet_d_cng_cmo)
-% The difference between IGS and CMO wet PD is only +4mm without the height
+% The difference between IGS and CNG wet PD is 15mm without the height
 % correction.
 
 kouba_coefficient=2690; % This is the mean value.
