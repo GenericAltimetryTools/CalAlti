@@ -155,7 +155,7 @@ for i=min_cir:max_cir
             
             bound=['-R',num2str(mi_lon),'/',num2str(ma_lon),'/',num2str(mi_lat),'/',num2str(ma_lat)];
             psname=strcat('../temp/',loc,'.ps');
-            order=['pscoast ',bound,' -JM3i  -Bga -BSWen -Df -W1 -Glightyellow -K > ',psname];
+            order=['pscoast ',bound,' -JM3i  -Bga -BSWen -Df -W0.1 -Glightyellow -K > ',psname];
 %             -Jm122/37/1:5000000
             gmt(order);  
         end
@@ -163,8 +163,8 @@ for i=min_cir:max_cir
         if errors<150 % This is a filter 
             slope_mean(k,:)=slope_inter; % 2D array contain the cycle index and slope profiles.
             k=k+1;
-            order=['pswiggle  -R -J  -Z1 -Wthinnest,red -O -K -t70 >>  ',psname];
-            gmt(order, slope); % Plot with `k` loop.
+            order=['pswiggle  -R -J  -Z1 -Wthinnest,red -O -K -t90 >>  ',psname];
+            gmt(order, slope); % Plot with `k` loop. WPD
         end     
 
     end 
@@ -212,12 +212,14 @@ gmt('grdlandmask -R -Dl -A10000/0/4 -I0.5m -N1/-1 -G../temp/land_mask.nc');
 gmt('grdmath ../temp/file2_hn2.nc ../temp/land_mask.nc MUL = ../temp/file.nc' )
 
 outdis=gmt('grdcontour ../temp/file.nc -R -C40, -D'); % plot the 35 or 50km line
-order=['psxy -R -J -W4p,green  -K -O >> ',psname];
+outdis50=gmt('grdcontour ../temp/file.nc -R -C50, -D'); % plot the 35 or 50km line
+order=['psxy -R -J -W1p,green  -K -O >> ',psname];
 gmt(order,outdis.data); % the distance line 50km 
+gmt(order,outdis50.data); % the distance line 50km 
 order=['psxy ../test/gnssinfo/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ',psname];
 gmt(order);% GNSS sites
-order=['pswiggle  -R -J  -Z1 -W2p,yellow  -O -K >>  ',psname];
-gmt(order, slopes); % slope (first order derivative) 
+% order=['pswiggle  -R -J  -Z1 -W2p,yellow  -O -K >>  ',psname];
+% gmt(order, slopes); % slope (first order derivative) 
 order=['pswiggle  -R -J  -Z0.1 -W2p,24/75/167,  -O -K -DjBR+w0.02+o0.2i+lmm/km^2 >> ',psname];
 gmt(order, slope_group) % second order derivative
 order=['pstext  ../test/gnssinfo/points_latlon.txt2 -R -J -F+f7p,black+jTL -O  -Gwhite -D0.2/0.1 >> ',psname];
@@ -225,5 +227,13 @@ gmt(order)
 %% convert PS to PDF
 order=['psconvert ',psname,' -P -Tf -A'];
 gmt(order);
+
+%% output the second order derivative and the distance to coastline
+
+% Track the distance nc file to get the distance value
+outfile_name=strcat('../temp/',loc,'dist_sec_order.txt');
+order=['grdtrack  -G../temp/file.nc > ', outfile_name]; % calculate the distance from grid points to coastline
+gmt(order,slope_group); % Here is the Bug for some locations.
+% the outfile format is : lon lat derivative distance
 
 return
