@@ -23,23 +23,24 @@ oldpath = path;
 path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 % coastline=load('..\data\era5\coastline\coastal.d3');
-coastline=load('..\test\gnssinfo\sites_all_in_tgrs');
-len_coastline=length(coastline);
+coastline=load('..\test\gnssinfo\sites_all_in_tgrs'); % GNSS coordinate
+len_coastline=length(coastline); % the number of GNSS site
 step=1;
 % len_coastline=2;
 
 % DO coordinates loop
-for c=18:len_coastline
+for c=1:len_coastline
     lat_gps=coastline(c,2);%
     lon_gps=coastline(c,1);%  
     X = ['Location : ',num2str(lat_gps),', ' num2str(lon_gps),' N=',num2str(c)];
     disp(X)
     
+    % The area are splited to three parts: north,middle and south.
     index_=1;
     if lat_gps>=34
         area='north';
-        dir_nm=strcat('..\data\era5\4d\',area,'\'); % directory plus \  EX: C:\Users\yangleir\Documents\aviso\jason2\153
-        namelist = ls(fullfile(dir_nm,'*.nc'));% 这里ls可以和dir替换
+        dir_nm=strcat('..\data\era5\4d\',area,'\'); % ERA5 pressure level data
+        namelist = ls(fullfile(dir_nm,'*.nc'));% list all the files.
         temp=size(namelist);
         file_num=temp(1);
 
@@ -52,8 +53,8 @@ for c=18:len_coastline
             temp=std(kouba_p);
 
             if temp<500
-                kouba_p_day(c,index_)=mean(kouba_p);
-                kouba_day(c,index_)=nm;
+                kouba_p_day(c,index_)=mean(kouba_p);% This is the mean value for each day.
+                kouba_day(c,index_)=nm;% `c` means the sites number 
             else
                 kouba_p_day(c,index_)=-9999;
                 kouba_day(c,index_)=nm;
@@ -139,7 +140,7 @@ kouba_p_day2=[];
 kouba_p_day_std2=[];
 fid4=fopen('../temp/kouba_coast.txt','w');
 
-for c=21:len_coastline
+for c=1:len_coastline
 %     c
     k=1;
     lat_gps=coastline(c,2);%
@@ -173,7 +174,7 @@ for c=1:len_coastline
     file_in=strcat('../temp/kouba_site_',num2str(c),'.txt');
     file_out=strcat('../temp/kouba_site_',num2str(c),'_smooth.txt');
     kouba_coast=load(file_in);
-    kouba_coast_month = smooth(kouba_coast(:,1),kouba_coast(:,2),120,'moving');
+    kouba_coast_month = smooth(kouba_coast(:,1),kouba_coast(:,2),30,'moving');
     plot(kouba_coast(:,1),kouba_coast_month);hold on
     out=[kouba_coast(:,1) kouba_coast_month] ;
     save(file_out,'out','-ASCII') % 保存结果数据   

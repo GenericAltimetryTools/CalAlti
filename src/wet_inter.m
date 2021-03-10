@@ -35,6 +35,62 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
     mea_bias_r_g=[];
     dis_bias_r_g=[];
     
+    % allocate the kouba coefficient from the ERA5
+  
+    if  strcmp(loc,'lnhl')
+        kouba=load('../data/era5/results/kouba_site_1_season.txt');
+    elseif  strcmp(loc,'lndd')
+        kouba=load('../data/era5/results/kouba_site_2_season.txt');
+
+    elseif  strcmp(loc,'lnjz')
+        kouba=load('../data/era5/results/kouba_site_3_season.txt');
+
+    elseif  strcmp(loc,'sdyt')
+        kouba=load('../data/era5/results/kouba_site_4_season.txt');
+    elseif  strcmp(loc,'sdrc')
+        kouba=load('../data/era5/results/kouba_site_5_season.txt');
+    elseif  strcmp(loc,'sdqd')
+        kouba=load('../data/era5/results/kouba_site_6_season.txt');    
+    elseif  strcmp(loc,'jsly')
+        kouba=load('../data/era5/results/kouba_site_11_season.txt');      
+    elseif  strcmp(loc,'lnhl')
+        kouba=load('../data/era5/results/kouba_site_11_season.txt');      
+    elseif  strcmp(loc,'jsly')
+        kouba=load('../data/era5/results/kouba_site_7_season.txt');      
+    elseif  strcmp(loc,'zhwz')
+        kouba=load('../data/era5/results/kouba_site_8_season.txt');     
+    elseif  strcmp(loc,'fjpt')
+        kouba=load('../data/era5/results/kouba_site_9_season.txt');           
+    elseif  strcmp(loc,'xiam')
+        kouba=load('../data/era5/results/kouba_site_11_season.txt');         
+    elseif  strcmp(loc,'gdst')
+        kouba=load('../data/era5/results/kouba_site_12_season.txt');  
+    elseif  strcmp(loc,'gdzh')
+        kouba=load('../data/era5/results/kouba_site_13_season.txt');  
+    elseif  strcmp(loc,'gxbh')
+        kouba=load('../data/era5/results/kouba_site_14_season.txt');  
+    elseif  strcmp(loc,'hisy')
+        kouba=load('../data/era5/results/kouba_site_15_season.txt');  
+    elseif  strcmp(loc,'yong')
+        kouba=load('../data/era5/results/kouba_site_16_season.txt');  
+    elseif  strcmp(loc,'zmw')|| strcmp(loc,'bzmw')
+        kouba=load('../data/era5/results/kouba_site_17_season.txt');  
+    elseif  strcmp(loc,'qly')|| strcmp(loc,'bqly')
+        kouba=load('../data/era5/results/kouba_site_18_season.txt');  
+    elseif  strcmp(loc,'twtf')
+        kouba=load('../data/era5/results/kouba_site_26_season.txt');  % seasonal for one year (averaged from 5 year)
+        kouba2=load('../data/era5/results/kouba_site_26.txt');  % daily (five year)
+    elseif  strcmp(loc,'kmnm')
+        kouba=load('../data/era5/results/kouba_site_27_season.txt');  
+             
+    else        
+        disp('!!!!!!!!!!!!!!!!!no GNSS wet PD was found!!!!!!!!!!!!!!!')
+        error('Please check the GNSS wet PD file for this site');        
+    end 
+    
+
+    % Call Kouba function
+                    
     % loop the comparison location `lat_compare`. This is to check the land
     % comtamination where apprears.
     for ii=1:tmp
@@ -81,11 +137,27 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
 
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'pchip'); % SA longitude
                     tim_pca=interp1(temp6(:,2),temp6(:,5),lat3,'pchip'); % SA time
+
+                    % This is to use the daily (not season kouba from 2010-2014) for reducing the STD
+%                     t_temp=tim_pca/86400-(datenum('2009-10-1 00:00:00')-datenum('2000-1-1 00:00:00'));% 
+%                     kouba_coefficient=interp1(kouba2(:,1),kouba2(:,2),t_temp,'pchip'); % Get the kouba at the VAL day.                    
+                    % However, result prove that the STD can not be
+                    % reduced by the daily kuoba. And it is almost the same
+                    % with the seasonal kouba. Since using the seasonal
+                    % kouba is more convinent, I will use it in in this
+                    % program.
                     
+                    % This is the season kouba. It was created by the average of five year's data. 
+                    formatOut2 = 'yyyy-mm-dd';
+                    t_temp=datestr(tim_pca/86400+datenum('2000-1-1 00:00:00'),formatOut2);
+                    t3_temp=datetime(t_temp);
+                    doy=day(t3_temp,'dayofyear');
+                    kouba_coefficient=kouba(doy);
+
+%                     kouba_coefficient=2000;
                     pca_wet=interp1(temp6(:,2),temp6(:,3),lat3,'nearest');% WPD of satellite altimeters at PCA locations
                     % Add geoid height coorection
-                    kouba_coefficient=2100;
-                    % Call Kouba function
+%                     kouba_coefficient=mean(kouba);
                     
                     pca_wet_height=pca_wet*exp(0-h_gnss/kouba_coefficient);% Here the h_gnss is the diff between GNSS and geoid.
                     % The parameter 2000 needs to be investaged as

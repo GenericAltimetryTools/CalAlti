@@ -175,8 +175,30 @@ std(g_wet_d_igs_cmo)
 % correction. The IGS is lower than the CMO about 56m, so IGS WPD is
 % higher about +4mm.
 
-kouba_coefficient=2600; % This is the mean value.
-g_wet_IGS_era5_height_toCMO=g_wet_IGS_era5*exp(-56.2/kouba_coefficient);
+kouba_coefficient2=2690; % This is the mean value.
+% allocate the kouba cofficient from the seanonal file.
+kouba_s=load('../temp/kouba_site_11_season.txt');
+
+figure('Name','kouba at XIAM','NumberTitle','off');
+plot(kouba_s);hold on
+mean(kouba_s);% The mean value is 2690
+formatOut2 = 'yyyy-mm-dd';
+
+t=datestr(tm_2018_igs/86400+datenum('2000-1-1 00:00:00'),formatOut2);
+t3=datetime(t);
+doy=day(t3,'dayofyear');% the doy is the accumulated day numbers of the year.
+
+kouba_coefficient=kouba_s(doy);% doy could be used as the index.
+plot(kouba_coefficient);
+% end kouba allocation.
+
+% format long
+for i=1:length(g_wet_IGS_era5)
+    g_wet_IGS_era5_height_toCMO(i)=g_wet_IGS_era5(i)*exp(-56.2/kouba_coefficient(i));
+end
+
+% g_wet_IGS_era5_height_toCMO=g_wet_IGS_era5*exp(-56.2/kouba_coefficient2); % apply the kouba function
+
 g_wet_d_igs_cmo_height_toCMO=g_wet_IGS_era5_height_toCMO-g_wet_CMO_era5_2018;
 mean(g_wet_d_igs_cmo_height_toCMO)
 std(g_wet_d_igs_cmo_height_toCMO)

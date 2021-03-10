@@ -8,7 +8,7 @@ function ja2_wet(sat,loc,dir_0,dry)
 % Please modify these parameters according to your requirement
 
 min_cir=56;% 92,165,239,55,
-max_cir=276;% 165,268,303,303,276
+max_cir=276;% 165,268,303,303,276£¨2015-12-31£©£¬239£¨2014-12-31£©
 
 %=========================================================================
 % Step 2: select the CAL site
@@ -16,10 +16,10 @@ max_cir=276;% 165,268,303,303,276
 % Step 2: get the wet correction of satellite altimter (radiometer value)
 readjason2_check_wet(pass_num,min_cir,max_cir,min_lat,max_lat,dir_0,sat);
 % Step 3: show the wet delay(radiometer and model)
-% plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
+plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
 
 %%
-plot_gmt(pass_num,min_cir,max_cir,sat,loc); % Careful. Here are some bugs when run some specific sites.
+% plot_gmt(pass_num,min_cir,max_cir,sat,loc); % Careful. Here are some bugs when run some specific sites.
 % See https://forum.generic-mapping-tools.org/t/is-this-a-small-bug-in-matlab/1312
 %%
 % Step4: Analysis the final sigma of radiometer
