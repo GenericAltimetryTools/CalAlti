@@ -3,7 +3,7 @@
 % -Save to file
 % The output format : cycle bias time(seconds)
 
-function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis,loc)
+function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis,loc,wpd_d)
 
     tmpp=bias2(:,2);
     ttt=bias2(:,1);
@@ -19,6 +19,12 @@ function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis,loc)
     bias_mean=mean (bias2_radio(:,2));
     bias_std=std(bias2_radio(:,2));
 
+    Q=['**********wet PD of radiometer-gnss(no WPD difference):',' Mean: ', num2str(bias_mean),' STD:',num2str(bias_std)];
+    disp(Q);
+    
+    bias_mean=mean (bias2_radio(:,2))-wpd_d;
+%     bias_std=std(bias2_radio(:,2));
+
     Q=['**********wet PD of radiometer-gnss:',' Mean: ', num2str(bias_mean),' STD:',num2str(bias_std)];
     disp(Q);
     %% 
@@ -33,7 +39,7 @@ function [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis,loc)
     
     bias2_model=[ttt bias_model tim2];
 
-    bias_mean_m=mean (bias2_model(:,2));
+    bias_mean_m=mean (bias2_model(:,2))-wpd_d;
     bias_std_m=std(bias2_model(:,2));% std
 %     bias_std_m=rms(bias2_model(:,2));% rms. Choose `std` or `rms`?
     Q=['**********wet PD of model-gnss:',' Mean: ', num2str(bias_mean_m),' STD:',num2str(bias_std_m),'  No:',num2str(length(bias_model))];

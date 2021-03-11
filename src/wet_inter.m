@@ -57,7 +57,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         kouba=load('../data/era5/results/kouba_site_11_season.txt');      
     elseif  strcmp(loc,'jsly')
         kouba=load('../data/era5/results/kouba_site_7_season.txt');      
-    elseif  strcmp(loc,'zhwz')
+    elseif  strcmp(loc,'zjwz')
         kouba=load('../data/era5/results/kouba_site_8_season.txt');     
     elseif  strcmp(loc,'fjpt')
         kouba=load('../data/era5/results/kouba_site_9_season.txt');           
@@ -92,9 +92,12 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
     % Call Kouba function
                     
     % loop the comparison location `lat_compare`. This is to check the land
-    % comtamination where apprears.
+    % comtamination where apprears. Try different distances between GNSS 
+    % comparison point. `tmp` is the length of the matrix of `lat_compare`.
     for ii=1:tmp
-        lat3=lat_compare(ii);
+        lat3=lat_compare(ii);% This is the latitude of the comparison point.
+        % The longitude is not give by input and it is determined by the 
+        % interp1. 
         
         % Define the  names of the output files. These files will be called
         % by the sub-function `wet_cal_G_S.m`.
@@ -128,7 +131,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
                 tmp=strcat('_',temp31);
                 temp4= strcat(temp,temp3,tmp,'.txt'); % Full path
 
-            if exist(temp4,'file')
+            if exist(temp4,'file') % load the along track WPD for each cycle 
 
                 temp6=load (temp4); %load the SA wet PD file
                 aa=size(temp6);
@@ -229,7 +232,7 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         end 
         
         % Compare and get the orignal bais between GNSS and radiometer. May contain abnormal values
-        [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc);
+        [bias2,sig_g]=wet_cal_G_S(sat,dry,gnss_wet,z_delta,loc);% the `bias2` format is `cycle R-G(mm) time(s) M-G(mm) sigma_GNSS (mm)`
         % three sigma0 editting to remove the abnormal values. Save data to
         % file. Also give the trend estimation for both radiometer and
         % model.
@@ -237,22 +240,31 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         %% Compute the distance between GNSS sites and PCA points.
         % The distance is changing folowing the loop of the PCA points with
         % the latitude changing.
-        input=[lon_gps lat_gps];
-        order=strcat('mapproject -G',num2str(lon3),'/',num2str(lat3),'+i+uk -fg');
-        dis = gmt (order,input);
+        input=[lon_gps lat_gps]; % The GNSS sites coordinate
+        order=strcat('mapproject -G',num2str(lon3),'/',num2str(lat3),'+i+uk -fg'); % The PCA coordinate
+        dis = gmt (order,input);% Use GMT to calculate the distance in unit of km.
+       
         % 
         Q=['===========finish interp at latitude:', num2str(lat3),'; distance to GNSS site:============',num2str(dis.data(3))];
         disp(Q);
         dis_bias_r_g(ii)=dis.data(3); % This is the distance value.
         
-        % The `spa` is the  spatial rms.       
+        % The `spa` is the  spatial rms. It should be zero when the distance is close to 0.
+        % But due to the noise, it is not 0 (very close to 0).
         spa=myfit.a - myfit.b*exp(-dis_bias_r_g(ii)/myfit.c); % The myfit is from the input.
-        disp(['The spatial rms is estimated to be:',num2str(spa)])        
+        disp(['The spatial rms of the radiometer is estimated to be:',num2str(spa)])   
+        %% Compute the WPD difference due to the natural trend.
+         % The prepared WPD grid data was from ECMWF model using the RADS.
+         wpd_gps=gmt('grdtrack  -G../data/ecmwf/wpd.nc  ',input);
+         wpd_sa=gmt('grdtrack  -G../data/ecmwf/wpd.nc  ',[lon3 lat3]);
+         wpd_d=wpd_sa.data(3)-wpd_gps.data(3);% The wpd difference £¨SA-GPS£©
+         
         %% remove the outliers through 3 delta, 
         % Dispaly the KEY RESULT: mean bias and STD. 
-        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis_bias_r_g(ii),loc);
+        % Condisder the WDP difference `wpd_d` between GNSS and the SA.
+        [bias_std,bias_mean]=wet_filter_save(bias2,sat,min_cir,max_cir,dis_bias_r_g(ii),loc,wpd_d);
         sig_bias_r_g(ii)=bias_std; %  This is return value
-        mea_bias_r_g(ii)=bias_mean;  % As above. 
+        mea_bias_r_g(ii)=bias_mean;  
 
         [sig_r]=sigma_r(bias_std,sig_g,spa); % Estiamte the STD of the radiometer.
         % BE care, this method are not used now. 

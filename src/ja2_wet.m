@@ -23,7 +23,10 @@ plot_jason2_check_wet(pass_num,min_cir,max_cir,sat);
 % See https://forum.generic-mapping-tools.org/t/is-this-a-small-bug-in-matlab/1312
 %%
 % Step4: Analysis the final sigma of radiometer
-[myfit]=spatial_dec(pass_num,min_cir,max_cir,sat); % here we use the `153` as a constant pass number because the data are in open coean and are of good quality.
+[myfit]=spatial_dec(pass_num,min_cir,max_cir,sat); 
+% here we can use the `153` as a constant pass number because the data
+% are in open coean and are of good quality. Otherwise, just use the term
+% of `pass_num` given from input.
  
 
 % Step 5: interpolation of  the wet delay to the fixed point and compare the GNSS and radiometer.
