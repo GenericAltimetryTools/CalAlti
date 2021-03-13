@@ -22,11 +22,11 @@ if sat==1 || sat==4 %Jason2,3
          lat3=24.5:0.05:25.3;
     elseif  strcmp(loc,'hisy')
 %         lat3=17.75; % 35km far from the mainland
-        lat3=16.0:0.05:17.8; % Loop to test my guess. The lowest RMS is not the beginning of the land contamination.   
+        lat3=17.0:0.05:18.2; % Loop to test my guess. The lowest RMS is not the beginning of the land contamination.   
     elseif  strcmp(loc,'yong')
-        lat3=14.1:0.05:19.4; % 
+        lat3=15.1:0.05:19.4; % 
     elseif  strcmp(loc,'yong2')
-        lat3=14.1:0.05:19.4; % 
+        lat3=15.1:0.05:19.4; % 
     elseif  strcmp(loc,'gdzh')
         lat3=19.5:0.05:22.0; %   
     elseif  strcmp(loc,'gdst')
@@ -38,7 +38,7 @@ if sat==1 || sat==4 %Jason2,3
     elseif  strcmp(loc,'zjwz')
         lat3=25.2:0.05:27.9; %     
     elseif  strcmp(loc,'zmw')
-        lat3=38.5:0.05:39.8; %      
+        lat3=38.5:0.05:39.99; %      
     elseif  strcmp(loc,'qly')
         lat3=35.0:0.05:36.5; %    
     elseif  strcmp(loc,'twtf')
@@ -61,9 +61,9 @@ if sat==3 % HY-2B
 %         lat3=17.9; %  
         lat3=15.2:0.05:18.0;        
     elseif  strcmp(loc,'yong2') 
-        lat3=14.1:0.05:19.9; %      
+        lat3=15.1:0.05:19.9; %      
     elseif  strcmp(loc,'yong')
-        lat3=14.1:0.05:19.1; %    
+        lat3=15.1:0.05:19.1; %    
     elseif  strcmp(loc,'sdrc') 
         lat3=35.1:0.05:37.0; %       
     elseif  strcmp(loc,'sdrc2')

@@ -42,12 +42,12 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
     elseif  strcmp(loc,'lndd')
         kouba=load('../data/era5/results/kouba_site_2_season.txt');
 
-    elseif  strcmp(loc,'lnjz')
+    elseif  strcmp(loc,'lnjz')||strcmp(loc,'lnjz2')
         kouba=load('../data/era5/results/kouba_site_3_season.txt');
 
     elseif  strcmp(loc,'sdyt')
         kouba=load('../data/era5/results/kouba_site_4_season.txt');
-    elseif  strcmp(loc,'sdrc')
+    elseif  strcmp(loc,'sdrc')||strcmp(loc,'sdrc2')
         kouba=load('../data/era5/results/kouba_site_5_season.txt');
     elseif  strcmp(loc,'sdqd')
         kouba=load('../data/era5/results/kouba_site_6_season.txt');    
@@ -63,17 +63,17 @@ function [bias_std,bias2,sig_g,dis]=wet_inter(min_cir,max_cir,pass_num,sat,loc,l
         kouba=load('../data/era5/results/kouba_site_9_season.txt');           
     elseif  strcmp(loc,'xiam')
         kouba=load('../data/era5/results/kouba_site_11_season.txt');         
-    elseif  strcmp(loc,'gdst')
+    elseif  strcmp(loc,'gdst')||strcmp(loc,'gdst2')
         kouba=load('../data/era5/results/kouba_site_12_season.txt');  
     elseif  strcmp(loc,'gdzh')
         kouba=load('../data/era5/results/kouba_site_13_season.txt');  
-    elseif  strcmp(loc,'gxbh')
+    elseif  strcmp(loc,'gxbh') ||strcmp(loc,'gxbh2')
         kouba=load('../data/era5/results/kouba_site_14_season.txt');  
-    elseif  strcmp(loc,'hisy')
+    elseif  strcmp(loc,'hisy')|| strcmp(loc,'hisy2')
         kouba=load('../data/era5/results/kouba_site_15_season.txt');  
-    elseif  strcmp(loc,'yong')
+    elseif  strcmp(loc,'yong')|| strcmp(loc,'yong2')
         kouba=load('../data/era5/results/kouba_site_16_season.txt');  
-    elseif  strcmp(loc,'zmw')|| strcmp(loc,'bzmw')
+    elseif  strcmp(loc,'zmw')|| strcmp(loc,'bzmw')||strcmp(loc,'bzmw2')
         kouba=load('../data/era5/results/kouba_site_17_season.txt');  
     elseif  strcmp(loc,'qly')|| strcmp(loc,'bqly')
         kouba=load('../data/era5/results/kouba_site_18_season.txt');  

@@ -55,8 +55,9 @@ path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 
 % calculate the sigma0 of radiometers
 % Jason-2
+% First, should remove the land contaminated data!!
 dwidth=20;
-namelist = ls(fullfile('..\test\ja2_check','jason_2_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
+namelist = ls(fullfile('..\temp\result_j2','jason_2_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
 figure (12345)
@@ -65,7 +66,9 @@ for nm=1:file_num
 %     Q=['Jason-2 :',namelist(nm,:)];
 %     disp(Q);
     
-    filepath=strcat('..\test\ja2_check\',namelist(nm,:));
+    filepath=strcat('..\temp\result_j2\',namelist(nm,:));
+%     disp(['The file is :',namelist(nm,:)]);
+
     sigma0_dist=load (filepath);
     plot(sigma0_dist(:,1),sigma0_dist(:,3));hold on;
     length_sig=length(sigma0_dist);
@@ -78,8 +81,8 @@ figure (1235)
 output2=sortrows(output,1);
 plot(output2(:,1),output2(:,3));
 % Do fitting
-x=output2(1:k,1);
-y=output2(1:k,3);
+x=output2(1:343,1);% 350 is the index of the 200km.
+y=output2(1:343,3);
 y2 = fillmissing(y,'movmedian',3);
 y = low_pass_filter(y2, 2,dwidth,1);
 
@@ -105,16 +108,20 @@ plot(x,myfit_value)
 save ..\test\ja2_check\distance_sig_fit.txt out -ASCII % 保存结果数据
 
 % % J3
-namelist = ls(fullfile('..\test\ja3_check','jason_3_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
+namelist = ls(fullfile('..\temp\result_j3','jason_3_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
 figure (12345)
 k=0;
+output=[];
+x=[];
+y=[];
 for nm=1:file_num
 %     Q=['Jason-3 :',namelist(nm,:)];
 %     disp(Q);
     
-    filepath=strcat('..\test\ja3_check\',namelist(nm,:));
+    filepath=strcat('..\temp\result_j3\',namelist(nm,:));
+%     disp(['The file is :',namelist(nm,:)]);    
     sigma0_dist=load (filepath);
     plot(sigma0_dist(:,1),sigma0_dist(:,3));hold on;
     length_sig=length(sigma0_dist);
@@ -127,8 +134,9 @@ figure (1235)
 output2=sortrows(output,1);
 plot(output2(:,1),output2(:,3));
 % Do fitting
-x=output2(1:k,1);
-y=output2(1:k,3);
+
+x=output2(1:440,1);
+y=output2(1:440,3);
 % y = fillmissing(y,'movmedian',3);
 y2 = fillmissing(y,'movmedian',3);
 y = low_pass_filter(y2, 2,dwidth,1);
@@ -155,21 +163,27 @@ save ..\test\ja3_check\distance_sig_fit.txt out -ASCII % 保存结果数据
 
 
 % HY-2B
-namelist = ls(fullfile('..\test\hy2_check','hy2_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
+namelist = ls(fullfile('..\temp\result_hy2','hy2_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
 temp=size(namelist);
 file_num=temp(1);
 figure (12345)
 k=0;
+
+output=[];
+x=[];
+y=[];
 for nm=1:file_num
 %     Q=['HY2-B :',namelist(nm,:)];
 %     disp(Q);
     
-    filepath=strcat('..\test\hy2_check\',namelist(nm,:));
+    filepath=strcat('..\temp\result_hy2\',namelist(nm,:));
     sigma0_dist=load (filepath);
     plot(sigma0_dist(:,1),sigma0_dist(:,3));hold on;
     length_sig=length(sigma0_dist);
-    output(k+1:k+length_sig,1:3)=sigma0_dist; % store the sigma0 of all sites. Sigma0 vs distance
-    k=k+length_sig;
+%     if sigma0_dist(2)<1e10
+        output(k+1:k+length_sig,1:3)=sigma0_dist; % store the sigma0 of all sites. Sigma0 vs distance
+        k=k+length_sig;
+%     end
 end
 hold off
 
@@ -179,7 +193,11 @@ plot(output2(:,1),output2(:,3));
 % Do fitting
 x=output2(2:k-1,1);
 y=output2(2:k-1,3);
+z=find(~isnan(y));
+y=y(z);
+x=x(z);
 y2 = fillmissing(y,'movmedian',3);
+
 y = low_pass_filter(y2, 2,dwidth,1);
 myfittype = fittype('a - b*exp(-x/c)',...
     'dependent',{'y'},'independent',{'x'},...
@@ -224,4 +242,17 @@ save ..\test\hy2_check\distance_sig_fit.txt out -ASCII % 保存结果数据
 % 
 % gmt('psconvert ../temp/dist_sigma.ps -P -Tf -A')
 
+% mean bias of wpd difference between GNSS and radiometer
+% Jason2
+a=[1 12 9 18 9 -8 10 -3 -4 -3 6 0 1];
+mean(a)
+b=[5 16 7 17 5 10 4 1 2 3 12 -1 -2];
+mean(b)
+% Jason3
+c=[18 1 -6 3 15 -13 -2 -7 -6 -5 -5 -2 -5];
+mean(c)
+d=[23 5 -7 2 11 3 -7 -3 0 1 1 -9 -6];
+mean(d)
+
+sqrt(9^2/2)
 

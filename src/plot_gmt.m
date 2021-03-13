@@ -231,7 +231,7 @@ gmt(order);
 %% output the second order derivative and the distance to coastline
 
 % Track the distance nc file to get the distance value
-outfile_name=strcat('../temp/',loc,'dist_sec_order.txt');
+outfile_name=strcat('../temp/',num2str(sat),'_',loc,'dist_sec_order.txt');
 order=['grdtrack  -G../temp/file.nc > ', outfile_name]; % calculate the distance from grid points to coastline
 gmt(order,slope_group); % Here is the Bug for some locations.
 % the outfile format is : lon lat derivative distance
