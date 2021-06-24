@@ -10,6 +10,7 @@ clear
 gnss_wet_CMO=load ('..\test\gnss_wet\troXIAM.d3'); % tro from CMONOC site
 gnss_wet_IGS=load ('..\test\gnss_wet\trokmnm.d3'); % tro from IGS site
 gnss_wet_CNG=load ('..\test\gnss_wet\troDXMN.d');  % tro from IGS site
+gnss_wet_CNG=load ('..\test\gnss_wet\troDXMN_net_sol.d');  % tro from IGS site
 
 % Be attention that three data set have different formats.
 
@@ -212,7 +213,7 @@ std(g_wet_d_igs_cmo_height_toCMO)
 figure('Name','GNSS wet of IGS and CMO','NumberTitle','off');
 plot(tm_2018_igs,g_wet_IGS_era5_height_toCMO);hold on
 plot(tm_2018_igs,g_wet_CMO_era5_2018);hold on
-out=[tm_2018_igs g_wet_IGS_era5_height_toCMO g_wet_CMO_era5_2018];
+out=[tm_2018_igs g_wet_IGS_era5_height_toCMO' g_wet_CMO_era5_2018];
 save('../temp/igs_cmo.txt','out','-ascii');
 
 figure('Name','GNSS wet difference(IGS-CMO) with and without height correction ','NumberTitle','off');

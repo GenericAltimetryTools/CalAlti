@@ -44,4 +44,4 @@ gmt psxy -R -J -O  ja_t.d  -Sc0.01i -Gred  >> distribution.ps
 
 gmt psconvert distribution.ps -A -P -Tg
 gmt psconvert crossover.ps -A -P -Tg
-rm *.hist* order*.dat out* ja_t*
+# rm *.hist* order*.dat out* ja_t*

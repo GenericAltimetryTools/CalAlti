@@ -218,10 +218,19 @@ gmt(order,outdis.data); % the distance line 50km
 gmt(order,outdis50.data); % the distance line 50km 
 order=['psxy ../test/gnssinfo/points_latlon.txt2 -R -J -Sa0.4c -Glightgray -K -O >> ',psname];
 gmt(order);% GNSS sites
+
+
 % order=['pswiggle  -R -J  -Z1 -W2p,yellow  -O -K >>  ',psname];
 % gmt(order, slopes); % slope (first order derivative) 
 order=['pswiggle  -R -J  -Z0.1 -W2p,24/75/167,  -O -K -DjBR+w0.02+o0.2i+lmm/km^2 >> ',psname];
 gmt(order, slope_group) % second order derivative
+
+if strcmp(loc,'qly')
+    order=['psxy ../test/gnssinfo/qly -R -J -Sa0.2c -Gred -K -O >> ',psname];
+    gmt(order);% GNSS sites
+    order=['pstext  ../test/gnssinfo/qly -R -J -F+f7p,black+jTL -O -K -Gwhite -D0.2/0.1 >> ',psname];
+    gmt(order)
+end
 order=['pstext  ../test/gnssinfo/points_latlon.txt2 -R -J -F+f7p,black+jTL -O  -Gwhite -D0.2/0.1 >> ',psname];
 gmt(order)
 %% convert PS to PDF
