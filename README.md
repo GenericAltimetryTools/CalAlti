@@ -10,9 +10,9 @@ CalAlt is developed and maintained by [The First Institute of Oceanography](http
 
 This program has been tested under Matlab 2018b Window. 
 
-Download the zip and run one of the main program `cal_*.m` (SSH calibration,* means the satellite name) or `*_wet.m` (radiometer calibration, * means satellite name). 
+Download the codes and run one of the main program `cal_*.m` (SSH calibration,* means the satellite name) or `*_wet.m` (radiometer calibration, * means satellite name). 
 
-Without in situ data or GNSS wet delay, the program will not be run properly. The in situ tide data are provided by the National Marine Data Center [NMDC](http://mds.nmdis.org.cn/pages/aboutUs.html) and the GNSS wet delay could be achieved from GNSS data product service platform of China Earthquake Administration (http://cgps.ac.cn). 
+Without in situ data or GNSS wet delay, the program will not be run properly. The in situ tide data are provided by the National Marine Data Center [NMDC](http://mds.nmdis.org.cn/pages/aboutUs.html) and the GNSS wet delay could be achieved from GNSS data product service platform of China Earthquake Administration (http://cgps.ac.cn).  If the site of `cgps` was broken, the wet delay data could also be downloaded through:https://pan.baidu.com/s/1-8tt1oxoG38VWYqx_aozMQ (password:ieee).
 
 The potential contribution of the program to users may be the program design and functions. It can be easily modified to load user's own in situ data (set the pass number, satellite ID, tide gauge file, GNSS wet dely, etc.) and get the altimeter bias.
 

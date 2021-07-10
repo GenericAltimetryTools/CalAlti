@@ -16,6 +16,7 @@ test/hy2_check/*.d
 test/ja2_check/*.d
 test/ja3_check/*.d
 test/s3a_check
+test/gnss_wet
 test/hy2_checkbias_last_hy2.txt
 src/statis.m
 src/add_noise.m
