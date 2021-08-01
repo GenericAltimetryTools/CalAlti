@@ -56,6 +56,7 @@ path(oldpath,'C:\programs\gmt6exe\bin'); % Add GMT path
 % calculate the sigma0 of radiometers
 % Jason-2
 % First, should remove the land contaminated data!!
+
 dwidth=20;
 namelist = ls(fullfile('..\temp\result_j2','jason_2_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换
 temp=size(namelist);
@@ -90,9 +91,10 @@ myfittype = fittype('a - b*exp(-x/c)',...
     'dependent',{'y'},'independent',{'x'},...
     'coefficients',{'a','b','c'});
 myfit = fit(x,y,myfittype,'StartPoint',[1 1 200]);
-
+temp=linspace(0,200,201);
+fitdata=myfit(temp);
 figure (124)
-plot(myfit,x,y);
+plot(temp,fitdata,x(10:length(x)),y(10:length(y)));
 
 % calculate the sigma(0) at the 0 km, which is the radiometer RMS
 spa=myfit.a - myfit.b*exp(-0/myfit.c);
@@ -105,7 +107,10 @@ figure (125)
 plot(x,y,'.');hold on;
 plot(x,myfit_value)
 
-save ..\test\ja2_check\distance_sig_fit.txt out -ASCII % 保存结果数据
+save ..\test\ja2_check\distance_sig_fit_ja2.txt out -ASCII % 保存结果数据
+out2=[temp' fitdata];
+save ..\test\ja2_check\distance_sig_fit.txt out2 -ASCII % 保存结果数据
+
 
 % % J3
 namelist = ls(fullfile('..\temp\result_j3','jason_3_bias_wet_dis_function_*.txt'));% 这里ls可以和dir替换

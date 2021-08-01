@@ -30,8 +30,9 @@ for nm=1:length(namelist)
 %      for n=1:file_num
         t1=str2double(namelist(nm,13:15));
         tmp=['cycle: ',num2str(t1)];
-        disp(tmp)        
-        if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
+%         disp(tmp)        
+        if ((t1>=min_cir) && (t1<=max_cir)) % here is pass which you need to output data;009;147
+            disp(tmp)
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
             lat=netcdf.getVar(nc,3);%10-6¶È

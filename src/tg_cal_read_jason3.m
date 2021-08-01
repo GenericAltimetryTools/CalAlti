@@ -29,7 +29,7 @@ for nm=1:length(namelist)
 %     file_num=temp(1);
 %     for n=1:file_num
         t1=str2double(namelist(nm,13:15));
-        if ((t1>min_cir) && (t1<max_cir)) % here is pass which you need to output data;009;147
+        if ((t1>=min_cir) && (t1<=max_cir)) % here is pass which you need to output data;009;147
             filepath=strcat(dir_nm,namelist(nm,1:54));
             nc=netcdf.open(filepath,'NC_NOWRITE');
             lat=netcdf.getVar(nc,3);%10-6¶È

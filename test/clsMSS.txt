@@ -1,0 +1,7 @@
+   0    3   'LatLon'  
+   1    0 'NbLatitudes'  
+   2    1 'NbLongitudes'  
+   3    3 'LatLonMin'  
+   4    3 'LatLonStep'  
+   5    0      'mss'  
+   6    0  'mss_err'  
