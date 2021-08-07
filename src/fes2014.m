@@ -135,7 +135,7 @@ end
 
 %%
 % Tide simulation by FES2014
-[nameu,fu]=textread('..\fes2014\fu.txt','%s%f');
+[nameu,fu]=textread('..\fes2014\fu.txt','%s%f'); % This is the frequency of tidal consstituents.For Ex of S2: 1/0.0805=12.42h
 nameu=char(nameu);
 tidecon(29,4)=0;
 

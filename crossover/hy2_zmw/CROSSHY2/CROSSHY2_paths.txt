@@ -1,0 +1,4 @@
+# Directories with data files for TAG CROSSHY2
+# The current directory is always searched first.
+# Add full paths to search additional directories
+data

@@ -29,8 +29,8 @@ gmt psxy -R -J -O  order*.dat  -Sc0.01i -Gblack -K >> crossover.ps
 gmt psxy -R -J -O  out*.txt  -Sc0.03i -Gred  >> crossover.ps
 
 # make plot
-awk ' NR>4 && $11>-259200*3 && $11< 259200*3 && $2>-50 && $2<50 && $13>-0.5 && $13<0.5 {print $1,$2,$13}' outs.txt > ja_t.d
-awk ' NR>4 && $11>-259200*3 && $11< 259200*3 && $2>-50 && $2<50  && $13>-0.5 && $13<0.5 {print $1,$2,$13}' outn.txt >> ja_t.d
+awk ' NR>4 && $11>-259200 && $11< 259200 && $2>-50 && $2<50 && $13>-0.3 && $13<0.3 {print $1,$2,$13}' outs.txt > ja_t.d
+awk ' NR>4 && $11>-259200 && $11< 259200 && $2>-50 && $2<50  && $13>-0.3 && $13<0.3 {print $1,$2,$13}' outn.txt >> ja_t.d
 
 gmt gmtmath ja_t.d -Sl -Ca MEAN  = 
 gmt gmtmath ja_t.d -Sl -Ca STD  = 
@@ -44,4 +44,4 @@ gmt psxy -R -J -O  ja_t.d  -Sc0.01i -Gred  >> distribution.ps
 
 gmt psconvert distribution.ps -A -P -Tg
 gmt psconvert crossover.ps -A -P -Tg
-# rm *.hist* order*.dat out* ja_t*
+rm *.hist* order*.dat  ja_t*
