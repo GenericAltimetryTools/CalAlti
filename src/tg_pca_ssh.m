@@ -1,18 +1,21 @@
+%% Introduction
 % This Fuction  aims to calculate SSH of Tide Gauge at the PCA time of
 % satellite altimetry. Then the bias of SA could be easily estimated by
 % make SSH difference between tide gauge and SA (after adding corrections) 
 % The SA time unit is second, and the reference time for SA is 2000-1-1
 % 00:00:00.
+
 % The tide gauge data is provided from China Oceanic Information Network.
-% Here the QianLiYan or Wanshan in situ TG data is the input data. The
-% Qianliyan, Zhimaowan data are not opened to public due to the Chinese
-% data restriction. The Wanshan data are free available.
+% Here the QianLiYan/Zhimaowan or Wanshan in situ TG data is the input data.
+% The Qianliyan, Zhimaowan data are not opened to public due to the Chinese
+% data restriction. The Wanshan data are freely available.
+
 % The output of the tide model of NAOjb, a fortran program, is used here for
 % correcting tide difference between different location. Alternitively, the
 % FES2014 could be used as a global model.
 
-% This program is wrote by YangLei at FIO,MNR of China.
-
+% This program is wrote by Yang Lei at FIO,MNR of China.
+%%
 % Basic steps:
 % 1,Read TG data
 % 2,Read PCA time of the satellite altimter (unit s, refer to 2000-1-1 00:00:00)
@@ -369,7 +372,7 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
 %     tg_pca_ssh2=tg_pca_ssh';    
 
 %%
-    disp('Begin NAO file loading and correction')  
+    disp('Begin tide difference correction')  
     if tmodel==1
         [tg_dif]=nao_dif(sat,loc);% Tide coorection.
     elseif tmodel==2
@@ -390,20 +393,23 @@ function [bias2]=tg_pca_ssh(sat,fre,loc,tmodel)
     disp('Begain calculate the bias of SA by adding NAO and MSS correction')
 %     disp('The parameters size are:')
 %     whos
-    
+%%
+dac_diff_value=dac_dif(sat);
+% dac_diff_value=dac_diff_value*0;
+%% 
+% Datum unification.
     if strcmp(loc,'zhws') % the reference ellipsoid height difference between WGS and TP. BY wgs_tp.m
-        wgs_tp=0.699917949844327;
+        wgs_tp=0.6999;
     elseif strcmp(loc,'bqly') || strcmp(loc,'qly') || strcmp(loc,'zmw')|| strcmp(loc,'bzmw') || strcmp(loc,'bzmw2')|| strcmp(loc,'bxmd') % for zmw and qly this value is very close.
         wgs_tp=0.7179;        
     end
-%     whos
     
     if sat==5
-        bias=ssh_ali-(tg_pca_ssh')+mss_correction-tg_dif/100;
+        bias=ssh_ali-(tg_pca_ssh')+mss_correction-tg_dif/100-dac_diff_value';
 %       Sentinel-3 height reference is WGS-84,which is not the same with
 %       other SA missions. The unit of bias is m
     else
-        bias=ssh_ali-(tg_pca_ssh')-wgs_tp+mss_correction-tg_dif/100; 
+        bias=ssh_ali-(tg_pca_ssh')-wgs_tp+mss_correction-tg_dif/100-dac_diff_value'; 
 %         Height reference for other SA missions is T/P which has a 0.7179m
 %         transtorm difference with WGS-84 (TG reference). This value could
 %         be calculated by program wgs_tp.m.
