@@ -36,7 +36,7 @@ function hy2b_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc)
                             fprintf(fid4,'%12.6f %12.6f %12.6f %12.6f %3d\n',lat3,lon3,tim_pca,pca_ssh,i);% 保存
                         end
                     elseif  strcmp(loc,'zhws') % Do not use the PCA because of the land contamination.
-                        lat3=21.916666; % 这个数值和Jason-2的数据质量有关系，可以适当的调整。
+                        lat3=21.8333; % 这个数值和Jason-2的数据质量有关系，可以适当的调整。
                         pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');
                         tim_pca=interp1(temp6(:,2),temp6(:,3),lat3,'PCHIP');
                         lon3=interp1(temp6(:,2),temp6(:,1),lat3,'PCHIP');

@@ -85,7 +85,7 @@ for nm=min_cir:max_cir
                  if (((lat(i))<max_lat &&(lat(i))> min_lat) && ((alt(i)-r_ku(i))>-1300000 && (alt(i)-r_ku(i)) < 1000000) && ...
                          (-25000<=dry(i) && dry(i)<=-19000)&& (-5000<=wet(i)&&wet(i)<=-10) ) %&& (0<=ssh&&ssh<=100)
 
-                    fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,time(i),ssh_i,ssh,sla);
+                    fprintf(fid2,'%12.6f %12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n',double(lon(i))/1E6,double(lat(i))/1E6,time(i),ssh_i,ssh,sla,double(r_ku(i))/10000);
                     fprintf(fid1,'%12.6f %12d\n',double(lat(i))/1E6,nm);
                     k=k+1;% statistic of valid point number 
                  end
