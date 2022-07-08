@@ -111,7 +111,100 @@ noise=sqrt(90*(1/2/6.4));% HY-2B
 out=[ff1 pp1 ff2 pp2 ff3 pp3];
 save psd.txt out -ascii
 %% calculate the error budget.
-error=sqrt(2.9^2+0.3^2+2^2+0.7^2+0.8^2+1^2);
+error=sqrt(2.6^2+0.3^2+2^2+0.7^2+1.2^2+1^2);
 
-sqrt(3.5^2+2^2);
+noise_cal=sqrt(4.8^2-(0.3^2+2^2+0.7^2+1.3^2+1^2)-0.5^2);
+noise_cal=sqrt(2.8^2-(0.3^2+2^2+0.7^2+1.2^2+1^2)-0.5^2);
+noise_cal=sqrt(3.4^2-(0.3^2+2^2+0.7^2+1.3^2+1^2)-0.5^2);
+
+sqrt(4.7^2+5.5^2+4.1^2+3.6^2)/2;
+noise_cal=sqrt(4.2^2-(0.3^2+2^2+0.7^2+1.1^2+1^2)-0.5);
+
+mean(0.4+0.1-1.2+1.2)
+mean(-0.1+0.1-0.4+1.1)
+a=[5.1,8.3,5.5,3.9];rms(a)
+a=[4.7,4.9,4.1,3.6];rms(a)
+load C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_hy2_zhws.txt
+load C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_hy2_zmw1.txt
+load C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_hy2_zmw2.txt
+load C:\Users\yangleir\Documents\jianguoyun\Documents\reseach\J-STARS\figures\bias\bias_last_hy2_qly.txt
+
+hy2=[bias_last_hy2_qly; bias_last_hy2_zhws; bias_last_hy2_zmw2; bias_last_hy2_zmw1];
+std(hy2(:,4))
+mean(hy2(:,4))
+
+bias_last_hy2_zhws(:,4)=bias_last_hy2_zhws(:,4)-mean(bias_last_hy2_zhws(:,4));
+bias_last_hy2_zmw1(:,4)=bias_last_hy2_zmw1(:,4)-mean(bias_last_hy2_zmw1(:,4));
+bias_last_hy2_zmw2(:,4)=bias_last_hy2_zmw2(:,4)-mean(bias_last_hy2_zmw2(:,4));
+bias_last_hy2_qly(:,4)=bias_last_hy2_qly(:,4)-mean(bias_last_hy2_qly(:,4));
+hy2=[bias_last_hy2_qly; bias_last_hy2_zhws; bias_last_hy2_zmw2; bias_last_hy2_zmw1];
+std(hy2(:,4));
+
+hy2new=sortrows(hy2,5);
+plot(hy2new(:,5),hy2new(:,4));
+temp=[hy2new(:,5),hy2new(:,4)];
+
+Sx = dat2spec(temp,64);
+plot(1./(Sx.w/2/pi)/(365*24*3600),Sx.S*2*pi,'red'); 
+
+
+a=[3.0,3.5,4.0,4.6,4.3,4.5,4.0,3.9,3.7,4.0,4.1,3.8,3.6,3.4,3.4,3.7];rms(a)
+a=[3.3,2.9,3.3,3.2,3.3,2.4,2.4,2.8,2.5];b=rms(a)
+noise_cal=sqrt(b^2-(0.3^2+2^2+0.7^2+1.4^2+1^2)-0.5^2)
+
+%% estimate the noise level of TDdata. Try
+clear
+tg=load ('..\tg_xinxizx\zmw\zmw.oneyear');
+tmp000=tg;
+tmp1=tmp000(:,1); %yyyymmddHHMM
+tmp=num2str(tmp1);
+yyyy=str2num(tmp(:,1:4));
+mm=str2num(tmp(:,5:6));
+dd=str2num(tmp(:,7:8));
+hh=str2num(tmp(:,9:10));
+ff=str2num(tmp(:,11:12));
+ss(1:length(ff))=0;
+ss=ss';
+ssh=tmp000(:,2)/100;
+date_yj = [yyyy  mm dd hh ff ss];
+
+t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%
+tm2=round(t3*86400);
+data=[tm2 ssh];
+
+Sx = dat2spec(data(1:2000,:),64);
+loglog(Sx.w/2/pi,Sx.S*2*pi,'red'); 
+
+sqrt(0.16*1/(600*2));% Noise of ZMW. Close to 1cm
+sqrt(0.011*0.0016);% Noise of ZMW. Close to 1cm
+
+sqrt(0.01*1/(300*2));% Noise of ZMW. For 5 min, close to 0.5 cm
+
+%
+clear
+tg=load ('..\tg_xinxizx\qly\QLY_2011_2018_clean.txt');
+tmp000=tg;
+tmp1=tmp000(:,1); %yyyymmddHHMM
+tmp=num2str(tmp1);
+yyyy=str2num(tmp(:,1:4));
+mm=str2num(tmp(:,5:6));
+dd=str2num(tmp(:,7:8));
+hh=str2num(tmp(:,9:10));
+ff=str2num(tmp(:,11:12));
+ss(1:length(ff))=0;
+ss=ss';
+ssh=tmp000(:,2)/100;
+date_yj = [yyyy  mm dd hh ff ss];
+
+t3=((datenum(date_yj)-datenum('2000-01-1 00:00:00'))-8/24);%
+tm2=round(t3*86400);
+data=[tm2 ssh];
+
+Sx = dat2spec(data,64);
+loglog(Sx.w/2/pi,Sx.S*2*pi,'red'); 
+
+sqrt(0.11*1/(600*2));% Noise of QLY. Close to 1cm
+
+
+
 

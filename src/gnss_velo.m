@@ -283,8 +283,8 @@ plot(days(800:length(zz)-1),trend_year(800:length(zz)-1))
 %-=========================
 % clc;
 % clear;
-% filename = '..\tg_xinxizx\gnss\LNHL.ios_gamit_raw.neu';
-filename = '..\tg_xinxizx\gnss\LNHL.ios_bernese_raw.neu';
+filename = '..\tg_xinxizx\gnss\LNHL.ios_gamit_raw.neu';
+% filename = '..\tg_xinxizx\gnss\LNHL.ios_bernese_raw.neu';
 
 % YYYY.DECM YYYY DOY     N(m)      E(m)      U(m)   sig_n(m)   sig_e(m)  sig_u(m)  
 

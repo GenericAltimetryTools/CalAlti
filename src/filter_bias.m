@@ -18,6 +18,13 @@ function [bias]=filter_bias(sat,bias2,loc)
        Locate=find(tmpp*100<-50); 
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
+    elseif strcmp(loc,'qly') && sat==1
+       Locate=find(tmpp*100>12); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-12); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];         
     elseif strcmp(loc,'bqly') && sat==3
        Locate=find(tmpp*100>15); 
        tmpp(Locate)=[]; 
@@ -26,12 +33,19 @@ function [bias]=filter_bias(sat,bias2,loc)
        tmpp(Locate)=[]; 
        ttt(Locate)=[]; 
     elseif strcmp(loc,'bzmw2') && sat==3
-       Locate=find(tmpp*100>50); 
+       Locate=find(tmpp*100>50); % cm
        tmpp(Locate)=[]; 
        ttt(Locate)=[];  
-       Locate=find(tmpp*100<-50); 
+       Locate=find(tmpp*100<-15); 
        tmpp(Locate)=[]; 
-       ttt(Locate)=[];        
+       ttt(Locate)=[];     
+    elseif strcmp(loc,'bzmw') && sat==3
+       Locate=find(tmpp*100>15); % cm
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];  
+       Locate=find(tmpp*100<-15); 
+       tmpp(Locate)=[]; 
+       ttt(Locate)=[];            
     end
     
     [tmpp,ttt]=three_sigma_delete(tmpp,ttt);

@@ -77,5 +77,6 @@ function dac_diff_value=dac_dif(sat)
     dac_dif_std=std(dac_diff_value);
     Q=['Mean of DAC diff=',num2str(dac_dif_mean),' + - ',num2str(dac_dif_std)];
     disp(Q)
-    
+    out = [time_pca dac_diff_value'];
+    save ('../temp/dac.txt','out','-ascii')
 return

@@ -24,22 +24,22 @@ c      Set lpmode = 1 to use long-period ocean tide map of Takanezawa
 c                 = 2 to use equilibrium tide (Valid for itmode = 1,2)	
 c	
 c Station location	
-      x       =114.2047     ! East longitude in degree	
-      y       =21.8333     ! North latitude in degree	
+      x       =121.1783     ! East longitude in degree	
+      y       =36.204     ! North latitude in degree	
 c	
 c Start epoch	
-      iyear1  =2020 ! year	
-      imon1  =11 ! month	
-      iday1  =20 ! iday1	
-      ihour1  =10 ! ihour1	
-      imin1  =11 ! imin1	
+      iyear1  =2018 ! year	
+      imon1  =27 ! month	
+      iday1  =08 ! iday1	
+      ihour1  =09 ! ihour1	
+      imin1  =27 ! imin1	
 c	
 c End epoch	
-      iyear2  =2020 ! year	
-      imon2  =11 ! month	
-      iday2  =20 ! iday1	
-      ihour2  =10 ! ihour1	
-      imin2  =11 ! imin1	
+      iyear2  =2018 ! year	
+      imon2  =27 ! month	
+      iday2  =08 ! iday1	
+      ihour2  =09 ! ihour1	
+      imin2  =27 ! imin1	
 c	
 c Output data interval in minute	
       dt      = 10d0           ! in minute	

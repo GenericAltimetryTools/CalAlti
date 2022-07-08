@@ -27,7 +27,7 @@ function ja3_pca_ssh(min_cir,max_cir,pass_num,lat_gps,lon_gps,loc)
             if aa(1)>len_mean % 
                 if strcmp(loc,'zmw') % Do not use the PCA because of the land contamination.
 %                     [lat3,lon3,tim_pca]=pca(temp4,lat_gps,lon_gps); % 调用函数，计算PCA
-                    lat3=39.8333; % %39.8666(15km)39.8333(21km)39.9166(10km) This value is related to data quaity and can be adjusted.
+                    lat3=39.8666; % %39.8666(15km)39.8333(21km)39.9166(10km) This value is related to data quaity and can be adjusted.
                     pca_ssh=interp1(temp6(:,2),temp6(:,4),lat3,'PCHIP');
                     tim_pca=interp1(temp6(:,2),temp6(:,3),lat3,'liner');
                     lon3=interp1(temp6(:,2),temp6(:,1),lat3,'liner');
